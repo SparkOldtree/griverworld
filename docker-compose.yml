@@ -1,0 +1,58 @@
+services:
+  # ============================================
+  # Next.js 应用服务（仅内网可访问）
+  # ============================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: griverworld-app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
+    volumes:
+      # SQLite 数据库持久化
+      - ./data:/app/data
+      # 文章 Markdown 文件持久化
+      - ./content/articles:/app/content/articles
+      # 视频 Markdown 文件持久化
+      - ./content/videos:/app/content/videos
+      # 上传文件持久化
+      - ./public/uploads:/app/public/uploads
+    networks:
+      - site-network
+
+  # ============================================
+  # Nginx 反向代理
+  # ============================================
+  nginx:
+    image: nginx:alpine
+    container_name: griverworld-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # Nginx 配置
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      # SSL 证书（Let's Encrypt）
+      - /etc/letsencrypt/live/griverworld.com:/etc/letsencrypt/live/griverworld.com:ro
+      - /etc/letsencrypt/archive/griverworld.com:/etc/letsencrypt/archive/griverworld.com:ro
+      # 静态资源代理
+      - static-data:/app/_next/static
+    depends_on:
+      - app
+    networks:
+      - site-network
+
+# ============================================
+# 网络 & 数据卷
+# ============================================
+networks:
+  site-network:
+    driver: bridge
+
+volumes:
+  static-data:
