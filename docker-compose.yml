@@ -35,24 +35,19 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      # Nginx 配置
+      # Nginx 配置（只读）
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      # SSL 证书（Let's Encrypt）
-      - /etc/letsencrypt/live/griverworld.com:/etc/letsencrypt/live/griverworld.com:ro
-      - /etc/letsencrypt/archive/griverworld.com:/etc/letsencrypt/archive/griverworld.com:ro
-      # 静态资源代理
-      - static-data:/app/_next/static
+      # SSL 证书（Let's Encrypt，只读）
+      - /etc/letsencrypt/live/griver.world:/etc/letsencrypt/live/griver.world:ro
+      - /etc/letsencrypt/archive/griver.world:/etc/letsencrypt/archive/griver.world:ro
     depends_on:
       - app
     networks:
       - site-network
 
 # ============================================
-# 网络 & 数据卷
+# 网络
 # ============================================
 networks:
   site-network:
     driver: bridge
-
-volumes:
-  static-data:
