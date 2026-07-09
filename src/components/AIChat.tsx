@@ -1,21 +1,15 @@
 'use client';
 
-import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useChat } from '@ai-sdk/react';
-import { DefaultChatTransport } from 'ai';
 
 export default function AIChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const transport = useMemo(
-    () => new DefaultChatTransport({ api: '/api/chat' }),
-    [],
-  );
-
   const { messages, sendMessage, status, error } = useChat({
-    transport,
+    api: '/api/chat',
   });
 
   const isLoading = status === 'submitted' || status === 'streaming';

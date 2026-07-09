@@ -1,5 +1,10 @@
-import { openai } from '@ai-sdk/openai';
+import { createOpenAI } from '@ai-sdk/openai';
 import { generateText } from 'ai';
+
+const openai = createOpenAI({
+  baseURL: process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1',
+  apiKey: process.env.OPENAI_API_KEY || process.env.DASHSCOPE_API_KEY,
+});
 
 export async function POST(req: Request) {
   try {
@@ -16,7 +21,7 @@ export async function POST(req: Request) {
     const truncatedContent = content.slice(0, 4000);
 
     const { text } = await generateText({
-      model: openai('gpt-4o-mini'),
+      model: openai('qwen-plus'),
       system:
         '你是一个文章摘要生成助手。请根据提供的文章内容生成一段简洁的中文摘要，100字以内，' +
         '直接返回摘要文本，不要加任何前缀、说明或格式标记。',

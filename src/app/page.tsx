@@ -8,7 +8,7 @@ export default function Home() {
     <div className="mx-auto w-full max-w-3xl px-4 py-16">
       {/* 个人介绍 */}
       <section className="mb-16">
-        <h1 className="mb-4 text-4xl font-bold tracking-tight">
+        <h1 className="mb-4 text-2xl font-bold tracking-tight">
           你好，我是 Griver 👋
         </h1>
         <p className="max-w-xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
@@ -34,7 +34,7 @@ export default function Home() {
       {/* 最新文章 */}
       <section>
         <div className="mb-8 flex items-center justify-between">
-          <h2 className="text-2xl font-bold">最新文章</h2>
+          <h2 className="text-lg font-bold">最新文章</h2>
           {articles.length > 0 && (
             <Link
               href="/blog"
@@ -54,7 +54,7 @@ export default function Home() {
             {articles.map((article) => (
               <article key={article.slug} className="group">
                 <Link href={`/blog/${article.slug}`}>
-                  <h3 className="mb-1 text-lg font-semibold transition-colors group-hover:text-zinc-500 dark:group-hover:text-zinc-400">
+                  <h3 className="mb-1 text-base font-semibold transition-colors group-hover:text-zinc-500 dark:group-hover:text-zinc-400">
                     {article.frontmatter.title}
                   </h3>
                   <p className="mb-2 text-sm text-zinc-500 dark:text-zinc-400">

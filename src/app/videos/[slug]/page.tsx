@@ -44,7 +44,7 @@ export default async function VideoPage({ params }: PageProps) {
 
       {/* 视频头信息 */}
       <header className="mb-6">
-        <h1 className="mb-3 text-2xl font-bold leading-tight">
+        <h1 className="mb-3 text-lg font-bold leading-tight">
           {video.frontmatter.title}
         </h1>
         <div className="flex flex-wrap items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">

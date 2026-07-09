@@ -46,7 +46,7 @@ export default async function ArticlePage({ params }: PageProps) {
 
       {/* 文章头 */}
       <header className="mb-10">
-        <h1 className="mb-4 text-3xl font-bold leading-tight">
+        <h1 className="mb-4 text-xl font-bold leading-tight">
           {article.frontmatter.title}
         </h1>
         <div className="flex flex-wrap items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">

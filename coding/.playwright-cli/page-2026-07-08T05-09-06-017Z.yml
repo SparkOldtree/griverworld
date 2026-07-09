@@ -1,0 +1,58 @@
+- generic [active] [ref=f1e1]:
+  - banner [ref=f1e2]:
+    - navigation [ref=f1e3]:
+      - link "GriverWorld" [ref=f1e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f1e5]:
+        - link "首页" [ref=f1e6] [cursor=pointer]:
+          - /url: /
+        - link "文章" [ref=f1e7] [cursor=pointer]:
+          - /url: /blog
+        - link "视频" [ref=f1e8] [cursor=pointer]:
+          - /url: /videos
+        - link "关于" [ref=f1e9] [cursor=pointer]:
+          - /url: /about
+        - button "切换暗色模式" [ref=f1e45]:
+          - img [ref=f1e46]
+  - main [ref=f1e10]:
+    - generic [ref=f1e11]:
+      - generic [ref=f1e12]:
+        - heading "你好，我是 Griver 👋" [level=1] [ref=f1e13]
+        - paragraph [ref=f1e14]: 热爱技术、写作与分享。这里记录了我的思考、学习和创作。 欢迎来到我的个人空间。
+        - generic [ref=f1e15]:
+          - link "阅读文章" [ref=f1e16] [cursor=pointer]:
+            - /url: /blog
+          - link "了解更多" [ref=f1e17] [cursor=pointer]:
+            - /url: /about
+      - generic [ref=f1e18]:
+        - generic [ref=f1e19]:
+          - heading "最新文章" [level=2] [ref=f1e20]
+          - link "查看全部 →" [ref=f1e21] [cursor=pointer]:
+            - /url: /blog
+        - article [ref=f1e23]:
+          - link "Hello, Griver World! 2026-07-02随笔 这是我的第一篇博客文章，记录了这个个人网站的搭建历程与初心。" [ref=f1e24] [cursor=pointer]:
+            - /url: /blog/hello-griver-world
+            - heading "Hello, Griver World!" [level=3] [ref=f1e25]
+            - paragraph [ref=f1e26]: 2026-07-02随笔
+            - paragraph [ref=f1e27]: 这是我的第一篇博客文章，记录了这个个人网站的搭建历程与初心。
+          - generic [ref=f1e28]:
+            - link "随笔" [ref=f1e29] [cursor=pointer]:
+              - /url: /blog?tag=%E9%9A%8F%E7%AC%94
+            - link "入门" [ref=f1e30] [cursor=pointer]:
+              - /url: /blog?tag=%E5%85%A5%E9%97%A8
+  - contentinfo [ref=f1e31]:
+    - generic [ref=f1e32]: © 2026 GriverWorld. All rights reserved.
+  - button "Open Next.js Dev Tools" [ref=f1e41] [cursor=pointer]:
+    - img [ref=f1e42]
+  - alert [ref=f1e48]
+  - generic [ref=f1e49]:
+    - generic [ref=f1e50]:
+      - generic [ref=f1e51]:
+        - generic [ref=f1e52]: AI
+        - generic [ref=f1e53]: AI 助手
+      - button "关闭" [ref=f1e54]:
+        - img [ref=f1e55]
+    - generic [ref=f1e65]: 你好
+    - generic [ref=f1e61]:
+      - textbox "输入消息..." [ref=f1e62]
+      - button "发送" [disabled] [ref=f1e63]

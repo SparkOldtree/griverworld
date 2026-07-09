@@ -47,7 +47,7 @@ function BlogContent() {
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-16">
-      <h1 className="mb-8 text-3xl font-bold">文章</h1>
+      <h1 className="mb-8 text-xl font-bold">文章</h1>
 
       {/* 标签筛选 */}
       {allTags.length > 0 && (
@@ -88,7 +88,7 @@ function BlogContent() {
           {filteredArticles.map((article) => (
             <article key={article.slug} className="group">
               <Link href={`/blog/${article.slug}`}>
-                <h2 className="mb-1 text-xl font-semibold transition-colors group-hover:text-zinc-500 dark:group-hover:text-zinc-400">
+                <h2 className="mb-1 text-base font-semibold transition-colors group-hover:text-zinc-500 dark:group-hover:text-zinc-400">
                   {article.frontmatter.title}
                 </h2>
                 <p className="mb-2 text-sm text-zinc-500 dark:text-zinc-400">
