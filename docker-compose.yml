@@ -38,8 +38,8 @@ services:
       # Nginx 配置（只读）
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       # SSL 证书（Let's Encrypt，只读）
-      - /etc/letsencrypt/live/griver.world:/etc/letsencrypt/live/griver.world:ro
-      - /etc/letsencrypt/archive/griver.world:/etc/letsencrypt/archive/griver.world:ro
+      - /etc/letsencrypt/live/www.griver.world:/etc/letsencrypt/live/www.griver.world:ro
+      - /etc/letsencrypt/archive/www.griver.world:/etc/letsencrypt/archive/www.griver.world:ro
     depends_on:
       - app
     networks:
