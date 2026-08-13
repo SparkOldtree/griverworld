@@ -38,8 +38,9 @@ services:
       # Nginx 配置（只读）
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       # SSL 证书（Let's Encrypt，只读）
-      - /etc/letsencrypt/live/www.griver.world:/etc/letsencrypt/live/www.griver.world:ro
-      - /etc/letsencrypt/archive/www.griver.world:/etc/letsencrypt/archive/www.griver.world:ro
+      # 挂载整个 /etc/letsencrypt 目录：live 下的证书是符号链接，指向 archive 目录，
+      # 分开挂载会导致容器内符号链接断裂（nginx 报 fullchain.pem not found）
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - app
     networks:
