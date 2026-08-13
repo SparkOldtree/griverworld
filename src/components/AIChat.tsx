@@ -8,9 +8,7 @@ export default function AIChat() {
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { messages, sendMessage, status, error } = useChat({
-    api: '/api/chat',
-  });
+  const { messages, sendMessage, status, error } = useChat();
 
   const isLoading = status === 'submitted' || status === 'streaming';
 
