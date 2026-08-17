@@ -87,4 +87,4 @@ tags:
 
 ## AI Agent 动态
 
-**DeepSeek Harness（dsh）** 8月13日以 MIT 协议开源，"一切皆插件"，可自由组合模型、工具与技能，对标 OpenAI Codex 与 Claude Code，是本周热度最高的开源 Agent 框架。
+**DeepSeek Harness** 刚以 MIT 协议开源，"一切皆插件"，可自由组合模型、工具与技能，对标 OpenAI Codex 与 Claude Code，本周社区热度最高。
