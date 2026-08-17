@@ -3,7 +3,7 @@ title: "测试01"
 date: "2026-06-24"
 tags: ["标签1", "标签2"]
 category: "分类名"
-cover: "/images/文章封面图文件名.jpg"
+cover: "/images/logo2.png"
 summary: "文章摘要，显示在列表页，100字以内"
 draft: false
 ---

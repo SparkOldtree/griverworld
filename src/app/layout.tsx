@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header";
-import AIChat from "@/components/AIChat";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -50,7 +49,6 @@ export default function RootLayout({
               </div>
             </div>
           </footer>
-          <AIChat />
         </ThemeProvider>
       </body>
     </html>
