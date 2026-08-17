@@ -6,11 +6,10 @@ import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
 const navLinks = [
-  { href: '/', label: '首页' },
-  { href: '/blog', label: '文章' },
-  { href: '/videos', label: '视频' },
   { href: '/news', label: '资讯' },
+  { href: '/blog', label: '文章' },
   { href: '/indicators', label: '指标' },
+  { href: '/videos', label: '视频' },
   { href: '/about', label: '关于' },
 ];
 
