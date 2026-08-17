@@ -19,6 +19,8 @@ services:
       - ./content/articles:/app/content/articles
       # 视频 Markdown 文件持久化
       - ./content/videos:/app/content/videos
+      # 资讯 Markdown 文件持久化
+      - ./content/news:/app/content/news
       # 上传文件持久化
       - ./public/uploads:/app/public/uploads
     networks:
