@@ -1,5 +1,5 @@
 ---
-title: "每日资讯 2026-08-17"
+title: "每日AI资讯 2026-08-17"
 date: "2026-08-17"
 summary: "一个 CLAUDE.md 引爆 67K star 的 Karpathy AI 编程四原则；结构化提示词五要素模板；MatrAIx 用 83 亿模拟用户重构 AI 产品评估；DeepSeek V4-Pro 正式版与 Harness 开源、Gemini 3.7 Flash、Qwen3.8 开源旗舰"
 tags:
