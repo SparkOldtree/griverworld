@@ -9,7 +9,8 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # 安装所有依赖（含 devDependencies，构建需要）
-RUN npm ci
+# 使用国内镜像源（npmmirror 阿里云），--replace-registry-host 强制替换 lock 文件中的 registry.npmjs.org 下载地址
+RUN npm ci --registry=https://registry.npmmirror.com --replace-registry-host=always
 
 # 复制源码
 COPY . .
