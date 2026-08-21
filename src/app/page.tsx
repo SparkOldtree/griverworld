@@ -1,38 +1,56 @@
 import Link from "next/link";
 import { getAllArticles } from "@/lib/articles";
+import { getAllNews } from "@/lib/news";
 
 export default function Home() {
-  const articles = getAllArticles().slice(0, 5);
+  const newsItems = getAllNews().slice(0, 3);
+  const articles = getAllArticles().slice(0, 3);
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-16">
-      {/* 个人介绍 */}
+      {/* 最新资讯 */}
       <section className="mb-16">
-        <h1 className="mb-4 text-2xl font-bold tracking-tight">
-          你好，我是 Griver 👋
-        </h1>
-        <p className="max-w-xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
-          热爱技术、写作与分享。这里记录了我的思考、学习和创作。
-          欢迎来到我的个人空间。
-        </p>
-        <div className="mt-6 flex gap-3">
-          <Link
-            href="/blog"
-            className="inline-flex items-center rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
-          >
-            阅读文章
-          </Link>
-          <Link
-            href="/about"
-            className="inline-flex items-center rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
-          >
-            了解更多
-          </Link>
+        <div className="mb-8 flex items-center justify-between">
+          <h2 className="text-lg font-bold">最新资讯</h2>
+          {newsItems.length > 0 && (
+            <Link
+              href="/news"
+              className="text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            >
+              查看全部 &rarr;
+            </Link>
+          )}
         </div>
+
+        {newsItems.length === 0 ? (
+          <p className="text-zinc-500 dark:text-zinc-400">
+            暂无资讯，敬请期待。
+          </p>
+        ) : (
+          <div className="space-y-8">
+            {newsItems.map((item) => (
+              <article key={item.slug} className="group">
+                <Link href={`/news/${item.slug}`}>
+                  <h3 className="mb-1 text-base font-semibold transition-colors group-hover:text-zinc-500 dark:group-hover:text-zinc-400">
+                    {item.frontmatter.title}
+                  </h3>
+                  <p className="mb-2 text-sm text-zinc-500 dark:text-zinc-400">
+                    {item.frontmatter.date}
+                  </p>
+                  {item.frontmatter.summary && (
+                    <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                      {item.frontmatter.summary}
+                    </p>
+                  )}
+                </Link>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* 最新文章 */}
-      <section>
+      <section className="mb-16">
         <div className="mb-8 flex items-center justify-between">
           <h2 className="text-lg font-bold">最新文章</h2>
           {articles.length > 0 && (
@@ -89,6 +107,11 @@ export default function Home() {
           </div>
         )}
       </section>
+
+      {/* 关注公众号 */}
+      <p className="mt-16 text-center text-blue-900 italic">
+        欢迎关注个人公众号：老树之见
+      </p>
     </div>
   );
 }
