@@ -84,9 +84,9 @@ export default async function ArticlePage({ params }: PageProps) {
         </ReactMarkdown>
       </article>
 
-      {/* Giscus 评论 */}
+      {/* 评论 */}
       <hr className="my-12 border-zinc-200 dark:border-zinc-800" />
-      <Comments />
+      <Comments slug={article.slug} />
     </div>
   );
 }

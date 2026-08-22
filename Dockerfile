@@ -15,15 +15,6 @@ RUN npm ci --registry=https://registry.npmmirror.com --replace-registry-host=alw
 # 复制源码
 COPY . .
 
-# 接收 NEXT_PUBLIC_* 构建时环境变量（通过 --build-arg 或 docker-compose build.args 传入）
-# NEXT_PUBLIC_* 变量需要在构建阶段内联进客户端 bundle，运行时注入无效
-ARG NEXT_PUBLIC_GISCUS_REPO
-ARG NEXT_PUBLIC_GISCUS_REPO_ID
-ARG NEXT_PUBLIC_GISCUS_CATEGORY_ID
-ENV NEXT_PUBLIC_GISCUS_REPO=$NEXT_PUBLIC_GISCUS_REPO \
-    NEXT_PUBLIC_GISCUS_REPO_ID=$NEXT_PUBLIC_GISCUS_REPO_ID \
-    NEXT_PUBLIC_GISCUS_CATEGORY_ID=$NEXT_PUBLIC_GISCUS_CATEGORY_ID
-
 # 构建 Next.js（standalone 模式）
 RUN npm run build
 

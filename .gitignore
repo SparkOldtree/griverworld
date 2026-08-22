@@ -20,6 +20,9 @@
 # production
 /build
 
+# SQLite 数据库（评论等数据持久化，勿入库）
+/data
+
 # misc
 .DS_Store
 *.pem

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import VideoPlayer from '@/components/VideoPlayer';
+import Comments from '@/components/Comments';
 import { getVideoBySlug } from '@/lib/videos';
 
 interface PageProps {
@@ -93,6 +94,10 @@ export default async function VideoPage({ params }: PageProps) {
           </ReactMarkdown>
         </article>
       )}
+
+      {/* 评论 */}
+      <hr className="my-12 border-zinc-200 dark:border-zinc-800" />
+      <Comments slug={video.slug} />
     </div>
   );
 }

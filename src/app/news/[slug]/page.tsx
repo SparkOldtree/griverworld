@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import Comments from '@/components/Comments';
 import { getNewsBySlug } from '@/lib/news';
 
 interface PageProps {
@@ -71,6 +72,10 @@ export default async function NewsDetailPage({ params }: PageProps) {
           {newsItem.content}
         </ReactMarkdown>
       </article>
+
+      {/* 评论 */}
+      <hr className="my-12 border-zinc-200 dark:border-zinc-800" />
+      <Comments slug={newsItem.slug} />
     </div>
   );
 }
