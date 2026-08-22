@@ -31,6 +31,7 @@ function regionBadgeClass(region: string): string {
     英国: 'bg-sky-50 text-sky-600 ring-sky-200 dark:bg-sky-950/40 dark:text-sky-300 dark:ring-sky-900',
     法国: 'bg-violet-50 text-violet-600 ring-violet-200 dark:bg-violet-950/40 dark:text-violet-300 dark:ring-violet-900',
     德国: 'bg-emerald-50 text-emerald-600 ring-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:ring-emerald-900',
+    韩国: 'bg-teal-50 text-teal-600 ring-teal-200 dark:bg-teal-950/40 dark:text-teal-300 dark:ring-teal-900',
   };
   return map[region] ?? 'bg-zinc-50 text-zinc-600 ring-zinc-200 dark:bg-zinc-900 dark:text-zinc-400 dark:ring-zinc-800';
 }

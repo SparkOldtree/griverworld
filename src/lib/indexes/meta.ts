@@ -131,6 +131,16 @@ export const INDEX_META: IndexMeta[] = [
     decimals: 2,
     note: 'DAX 指数，法兰克福证交所市值最大的 40 家公司，德国股市基准。',
   },
+  {
+    code: 'KR_KOSPI',
+    name: '韩国 KOSPI 指数',
+    region: '韩国',
+    exchange: '韩国交易所',
+    source: 'cnbc',
+    quoteSymbol: '.KS11',
+    decimals: 2,
+    note: 'KOSPI 综合指数，覆盖韩国交易所全部上市公司，韩国股市最具代表性的基准。',
+  },
 ];
 
 export const metaByIndexCode = new Map(INDEX_META.map((m) => [m.code, m]));
