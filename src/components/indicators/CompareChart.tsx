@@ -11,6 +11,7 @@ import {
   MarkLineComponent,
 } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
+import type { EChartsCoreOption } from 'echarts/core';
 import type { ThemeSeriesDto } from '@/lib/indicators/types';
 import { THEME_ANALYSIS } from '@/lib/indicators/analysis';
 
@@ -79,7 +80,7 @@ function RegionChart({ series, colors, emptyText }: RegionChartProps) {
     series.forEach((s) => s.data.forEach(([d]) => dateSet.add(d)));
     const dates = [...dateSet].sort();
 
-    const option: echarts.EChartsOption = {
+    const option: EChartsCoreOption = {
       animationDuration: 400,
       color: colors,
       legend: {
