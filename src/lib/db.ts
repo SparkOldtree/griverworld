@@ -29,7 +29,7 @@ try {
       slug TEXT NOT NULL,
       name TEXT NOT NULL,
       content TEXT NOT NULL,
-      created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
     CREATE INDEX IF NOT EXISTS idx_comments_slug ON comments(slug);
   `);

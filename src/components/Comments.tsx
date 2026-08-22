@@ -16,6 +16,20 @@ interface CommentsProps {
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
 
+// 评论时间统一以 UTC 存储（datetime('now')），此处转换为访客本地时区显示
+function formatDate(utc: string): string {
+  const date = new Date(utc.replace(' ', 'T') + 'Z');
+  if (Number.isNaN(date.getTime())) return utc;
+  return date.toLocaleString('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+}
+
 export default function Comments({ slug }: CommentsProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -127,7 +141,7 @@ export default function Comments({ slug }: CommentsProps) {
                   className="text-xs text-zinc-500 dark:text-zinc-400"
                   dateTime={comment.created_at}
                 >
-                  {comment.created_at}
+                  {formatDate(comment.created_at)}
                 </time>
               </div>
               <p className="whitespace-pre-wrap text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
