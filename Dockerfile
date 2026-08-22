@@ -1,7 +1,8 @@
 # ============================================
 # Stage 1: Builder - 安装依赖 & 构建
+# （node:24 默认启用 node:sqlite，无需 --experimental-sqlite 标志）
 # ============================================
-FROM node:22-alpine AS builder
+FROM node:24-alpine AS builder
 
 WORKDIR /app
 
@@ -21,7 +22,7 @@ RUN npm run build
 # ============================================
 # Stage 2: Runner - 生产运行（最小化镜像）
 # ============================================
-FROM node:22-alpine AS runner
+FROM node:24-alpine AS runner
 
 WORKDIR /app
 
