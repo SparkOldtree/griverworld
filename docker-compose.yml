@@ -15,6 +15,9 @@ services:
     volumes:
       # SQLite 数据库持久化
       - ./data:/app/data
+      # 采集脚本与源码（保持宿主机最新，更新后无需重建镜像）
+      - ./scripts:/app/scripts
+      - ./src:/app/src
       # 文章 Markdown 文件持久化
       - ./content/articles:/app/content/articles
       # 视频 Markdown 文件持久化
