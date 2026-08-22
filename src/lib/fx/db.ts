@@ -18,23 +18,36 @@ try {
 let db: DatabaseSync | null = null;
 try {
   db = new DatabaseSync(DB_PATH);
+
+  // 迁移：旧版本 fx_series 使用 (code, month, avg) 月度均值结构，
+  // 检测到即删除旧表，重建为日度结构（数据为派生数据，采集时全量重拉）
+  try {
+    const cols = db.prepare('PRAGMA table_info(fx_series)').all() as { name: string }[];
+    if (cols.length > 0 && cols.some((c) => c.name === 'month')) {
+      db.exec('DROP TABLE IF EXISTS fx_series; DROP TABLE IF EXISTS fx_latest;');
+      console.warn('[fx] 检测到旧版月度均值表结构，已重建为日度结构');
+    }
+  } catch {
+    /* 表不存在则跳过迁移 */
+  }
+
   db.exec(`
-    -- 汇率最新月度读数
+    -- 汇率最新日度读数
     CREATE TABLE IF NOT EXISTS fx_latest (
       code TEXT PRIMARY KEY,
-      avg REAL,
-      prev_avg REAL,
+      close REAL,
+      prev_close REAL,
       change_pct REAL,
-      month TEXT,
+      trade_date TEXT,
       updated_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
 
-    -- 汇率月度均值序列（YYYY-MM）
+    -- 汇率日度收盘序列（YYYY-MM-DD）
     CREATE TABLE IF NOT EXISTS fx_series (
       code TEXT NOT NULL,
-      month TEXT NOT NULL,
-      avg REAL,
-      PRIMARY KEY (code, month)
+      trade_date TEXT NOT NULL,
+      close REAL,
+      PRIMARY KEY (code, trade_date)
     );
 
     -- 采集日志
@@ -46,7 +59,7 @@ try {
       fetched_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
 
-    CREATE INDEX IF NOT EXISTS idx_fx_series_code_month ON fx_series(code, month);
+    CREATE INDEX IF NOT EXISTS idx_fx_series_code_date ON fx_series(code, trade_date);
   `);
 } catch (e) {
   console.error('[fx] 数据库初始化失败:', e);
@@ -64,50 +77,50 @@ function assertDb(): DatabaseSync {
 
 export interface FxLatestRow {
   code: string;
-  avg: number | null;
-  prev_avg: number | null;
+  close: number | null;
+  prev_close: number | null;
   change_pct: number | null;
-  month: string | null;
+  trade_date: string | null;
   updated_at: string;
 }
 
 export interface FxSeriesRow {
   code: string;
-  month: string;
-  avg: number | null;
+  trade_date: string;
+  close: number | null;
 }
 
 // ---------------- 写入（采集脚本用） ----------------
 
 export function upsertFxLatest(
   code: string,
-  avg: number | null,
-  prevAvg: number | null,
+  close: number | null,
+  prevClose: number | null,
   changePct: number | null,
-  month: string | null
+  tradeDate: string | null
 ): void {
   assertDb()
     .prepare(
-      `INSERT INTO fx_latest (code, avg, prev_avg, change_pct, month, updated_at)
+      `INSERT INTO fx_latest (code, close, prev_close, change_pct, trade_date, updated_at)
        VALUES (?, ?, ?, ?, ?, datetime('now'))
        ON CONFLICT(code) DO UPDATE SET
-         avg = excluded.avg,
-         prev_avg = excluded.prev_avg,
+         close = excluded.close,
+         prev_close = excluded.prev_close,
          change_pct = excluded.change_pct,
-         month = excluded.month,
+         trade_date = excluded.trade_date,
          updated_at = datetime('now')`
     )
-    .run(code, avg, prevAvg, changePct, month);
+    .run(code, close, prevClose, changePct, tradeDate);
 }
 
-export function upsertFxSeries(code: string, month: string, avg: number | null): void {
+export function upsertFxSeries(code: string, tradeDate: string, close: number | null): void {
   assertDb()
     .prepare(
-      `INSERT INTO fx_series (code, month, avg)
+      `INSERT INTO fx_series (code, trade_date, close)
        VALUES (?, ?, ?)
-       ON CONFLICT(code, month) DO UPDATE SET avg = excluded.avg`
+       ON CONFLICT(code, trade_date) DO UPDATE SET close = excluded.close`
     )
-    .run(code, month, avg);
+    .run(code, tradeDate, close);
 }
 
 export function logFxFetch(code: string, status: string, message = ''): void {
@@ -116,27 +129,27 @@ export function logFxFetch(code: string, status: string, message = ''): void {
     .run(code, status, message);
 }
 
-/** 清空某汇率的历史序列（数据源重拉时用） */
+/** 清空某汇率的日度序列（数据源重拉时用） */
 export function clearFxSeries(code: string): void {
   assertDb().prepare('DELETE FROM fx_series WHERE code = ?').run(code);
 }
 
 // ---------------- 读取（API 用） ----------------
 
-/** 全部最新月度读数 */
+/** 全部最新日度读数 */
 export function getFxLatestAll(): Record<string, FxLatestRow> {
   const rows = assertDb()
-    .prepare('SELECT code, avg, prev_avg, change_pct, month, updated_at FROM fx_latest')
+    .prepare('SELECT code, close, prev_close, change_pct, trade_date, updated_at FROM fx_latest')
     .all() as unknown as FxLatestRow[];
   const map: Record<string, FxLatestRow> = {};
   for (const r of rows) map[r.code] = r;
   return map;
 }
 
-/** 某汇率月度序列（按时间正序） */
+/** 某汇率日度序列（按时间正序） */
 export function getFxSeries(code: string): FxSeriesRow[] {
   const rows = assertDb()
-    .prepare('SELECT code, month, avg FROM fx_series WHERE code = ? ORDER BY month ASC')
+    .prepare('SELECT code, trade_date, close FROM fx_series WHERE code = ? ORDER BY trade_date ASC')
     .all(code) as unknown as FxSeriesRow[];
   return rows;
 }

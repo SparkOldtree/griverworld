@@ -30,13 +30,13 @@ export async function GET() {
       note: meta.note,
       latest: latest
         ? {
-            avg: latest.avg,
-            prevAvg: latest.prev_avg,
+            close: latest.close,
+            prevClose: latest.prev_close,
             changePct: latest.change_pct,
-            month: latest.month,
+            tradeDate: latest.trade_date,
           }
         : null,
-      series: rows.map((r) => ({ month: r.month, avg: r.avg })),
+      series: rows.map((r) => ({ date: r.trade_date, close: r.close })),
     };
   });
 

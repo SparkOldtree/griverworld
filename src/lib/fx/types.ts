@@ -1,17 +1,17 @@
 // 投资页「全球货币价值跟踪」数据传输类型
 
 export interface FxPointDto {
-  /** YYYY-MM */
-  month: string;
-  /** 月度均值（当月交易日汇率算术平均） */
-  avg: number | null;
+  /** YYYY-MM-DD */
+  date: string;
+  /** 当日收盘汇率（1 美元 = X 本币） */
+  close: number | null;
 }
 
 export interface FxLatestDto {
-  avg: number | null;
-  prevAvg: number | null;
+  close: number | null;
+  prevClose: number | null;
   changePct: number | null;
-  month: string | null;
+  tradeDate: string | null;
 }
 
 export interface FxDto {
@@ -23,7 +23,7 @@ export interface FxDto {
   decimals: number;
   note: string;
   latest: FxLatestDto | null;
-  /** 近 3 年月度均值，时间正序 */
+  /** 近 3 年日度值，时间正序 */
   series: FxPointDto[];
 }
 

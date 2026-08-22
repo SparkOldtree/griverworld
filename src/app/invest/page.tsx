@@ -203,19 +203,19 @@ export default function InvestPage() {
     });
   }, [indexData, days]);
 
-  /** 汇率卡片：以最新月为基准做月频切片，与指数共用同一时间窗口 */
+  /** 汇率卡片：以最新交易日为基准做日频切片，与指数共用同一时间窗口 */
   const fxCards = useMemo(() => {
     if (!fxData) return [];
     return fxData.items.map((it) => {
       const s = it.series;
       if (s.length === 0) return { ...it, points: [] as { date: string; value: number | null }[] };
-      const newest = s[s.length - 1].month;
-      const cutoff = new Date(`${newest}-01T00:00:00`);
+      const newest = s[s.length - 1].date;
+      const cutoff = new Date(newest);
       cutoff.setDate(cutoff.getDate() - days);
-      const cutoffStr = `${cutoff.getFullYear()}-${String(cutoff.getMonth() + 1).padStart(2, '0')}`;
+      const cutoffStr = cutoff.toISOString().slice(0, 10);
       const points = s
-        .filter((p) => p.month >= cutoffStr)
-        .map((p) => ({ date: p.month, value: p.avg }));
+        .filter((p) => p.date >= cutoffStr)
+        .map((p) => ({ date: p.date, value: p.close }));
       return { ...it, points };
     });
   }, [fxData, days]);
@@ -234,7 +234,7 @@ export default function InvestPage() {
     });
   }, [indexData]);
 
-  const rangeNote = `${RANGE_OPTIONS.find((o) => o.key === range)?.label ?? '6M'} · 指数按交易日切片 / 汇率按月度均值切片`;
+  const rangeNote = `${RANGE_OPTIONS.find((o) => o.key === range)?.label ?? '6M'} · 指数按交易日切片 / 汇率按交易日切片`;
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 pb-16 pt-8 sm:px-6">
@@ -244,7 +244,7 @@ export default function InvestPage() {
         </h1>
         <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
           全球核心股指走势与主要货币对美元汇率跟踪。指数数据来源：腾讯（A股指数）+ CNBC（海外指数），日频采集；
-          汇率数据来源：ECB 参考汇率（Frankfurter），月度均值口径，时间窗口与指数对齐。
+          汇率数据来源：ECB 参考汇率（Frankfurter），日频采集，时间窗口与指数对齐。
           {updatedAt && <span className="ml-2 text-zinc-400 dark:text-zinc-500">最近更新：{updatedAt}</span>}
         </p>
       </div>
@@ -385,7 +385,7 @@ export default function InvestPage() {
           </h2>
           <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
             主要货币对美元汇率（ECB 参考汇率，统一为「1 美元 = X 本币」直接标价）。
-            以月度均值作为数据点（当月交易日汇率算术平均，最新月为当月至今均值），时间窗口与上方指数对齐。
+            以每日收盘汇率作为数据点（当日 ECB 参考汇率），日度值与上方指数对齐，时间窗口保持一致。
             数值上行代表美元走强、本币相对走弱。
           </p>
         </div>
@@ -404,15 +404,15 @@ export default function InvestPage() {
         {!loading && !error && (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {fxCards.map((fx) => {
-              const latest = fx.latest?.avg ?? null;
+              const latest = fx.latest?.close ?? null;
               const changePct = fx.latest?.changePct ?? null;
               const up =
                 changePct != null ? changePct >= 0 : latest != null && fx.points.length > 0
                   ? latest >= (fx.points[fx.points.length - 1].value ?? latest)
                   : true;
               const tickColor = up ? 'text-rose-600 dark:text-rose-400' : 'text-blue-600 dark:text-blue-400';
-              const firstMonth = fx.points[0]?.date;
-              const lastMonth = fx.points[fx.points.length - 1]?.date;
+              const firstDate = fx.points[0]?.date;
+              const lastDate = fx.points[fx.points.length - 1]?.date;
 
               return (
                 <div
@@ -432,7 +432,7 @@ export default function InvestPage() {
                         </span>
                       </div>
                       <p className="mt-0.5 text-[11px] text-zinc-400 dark:text-zinc-500">
-                        {fx.pairLabel} · 1 美元兑 {fx.currency}（月度均值）
+                        {fx.pairLabel} · 1 美元兑 {fx.currency}（日度值）
                       </p>
                     </div>
                     <div className="text-right">
@@ -449,15 +449,15 @@ export default function InvestPage() {
                     points={fx.points}
                     decimals={fx.decimals}
                     latest={latest}
-                    ariaLabel={`${fx.name}对美元汇率月度均值趋势`}
+                    ariaLabel={`${fx.name}对美元汇率日度趋势`}
                   />
 
                   <div className="flex items-center justify-between text-[10px] text-zinc-400 dark:text-zinc-500">
-                    <span>{firstMonth ? `自 ${firstMonth}` : '--'}</span>
+                    <span>{firstDate ? `自 ${firstDate}` : '--'}</span>
                     <span className="font-medium tabular-nums">
-                      {fx.points.length > 0 ? `${fx.points.length} 个月度均值` : '暂无数据'}
+                      {fx.points.length > 0 ? `${fx.points.length} 个交易日` : '暂无数据'}
                     </span>
-                    <span>{lastMonth ?? '--'}</span>
+                    <span>{lastDate ?? '--'}</span>
                   </div>
                 </div>
               );
