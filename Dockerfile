@@ -42,6 +42,10 @@ COPY --from=builder /app/public ./public
 # 复制 content 目录（Markdown 文章/视频数据）
 COPY --from=builder /app/content ./content
 
+# 复制数据采集脚本与 lib（服务器容器内执行 fetch-indexes.mjs / fetch-indicators.mjs）
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/src/lib ./src/lib
+
 # 切换到非 root 用户
 USER nextjs
 
