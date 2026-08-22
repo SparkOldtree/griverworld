@@ -47,6 +47,7 @@ export async function GET(req: Request) {
       prev,
       reportDate: row?.report_date ?? null,
       change: value !== null && prev !== null ? Math.round((value - prev) * 100) / 100 : null,
+      spark: getSeries(m.code, 12),
     };
   });
 

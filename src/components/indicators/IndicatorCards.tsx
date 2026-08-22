@@ -1,5 +1,6 @@
 'use client';
 
+import { useId } from 'react';
 import type { IndicatorDto } from '@/lib/indicators/types';
 import { changeInfo, formatValue } from './chart-utils';
 
@@ -80,6 +81,10 @@ export default function IndicatorCards({ indicators }: Props) {
               {dto.lag && !isPending && ` · ${dto.lag}`}
             </p>
 
+            {!isPending && dto.spark && dto.spark.length > 0 && (
+              <Sparkline points={dto.spark} change={dto.change} direction={dto.direction} />
+            )}
+
             <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
               {dto.definition}
             </p>
@@ -90,6 +95,76 @@ export default function IndicatorCards({ indicators }: Props) {
           </div>
         );
       })}
+    </div>
+  );
+}
+
+/** 卡片内小趋势图：近 12 期走势（SVG，无外部依赖） */
+function Sparkline({
+  points,
+  change,
+  direction,
+}: {
+  points: { value: number | null }[];
+  change: number | null;
+  direction: 'up_good' | 'down_good' | 'neutral';
+}) {
+  const uid = useId();
+  const vals = points.map((p) => p.value).filter((v): v is number => v !== null);
+  if (vals.length < 2) return null;
+
+  // 颜色与涨跌文本一致：利好红、利空蓝、持平灰（currentColor 适配暗色模式）
+  const up = (change ?? 0) > 0;
+  const good =
+    direction === 'neutral' ? null : up === (direction === 'up_good');
+  const colorCls =
+    good === null
+      ? 'text-zinc-400'
+      : good
+        ? 'text-red-600 dark:text-red-400'
+        : 'text-blue-600 dark:text-blue-400';
+
+  const w = 120;
+  const h = 36;
+  const pad = 4;
+  const min = Math.min(...vals);
+  const max = Math.max(...vals);
+  const range = max - min || 1;
+  const stepX = (w - pad * 2) / (vals.length - 1);
+  const pts = vals.map((v, i) => {
+    const x = pad + i * stepX;
+    const y = pad + (1 - (v - min) / range) * (h - pad * 2);
+    return { x, y };
+  });
+  const line = pts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+  const last = pts[pts.length - 1];
+  const area = `${pad},${h - pad} ${line} ${w - pad},${h - pad}`;
+
+  return (
+    <div className={`mt-3 ${colorCls}`}>
+      <svg
+        viewBox={`0 0 ${w} ${h}`}
+        className="h-9 w-full"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id={`spark-${uid}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" style={{ stopColor: 'currentColor', stopOpacity: 0.2 }} />
+            <stop offset="100%" style={{ stopColor: 'currentColor', stopOpacity: 0 }} />
+          </linearGradient>
+        </defs>
+        <polygon points={area} fill={`url(#spark-${uid})`} />
+        <polyline
+          points={line}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+        <circle cx={last.x} cy={last.y} r="2.2" fill="currentColor" />
+      </svg>
     </div>
   );
 }

@@ -6,6 +6,8 @@ export interface IndicatorDto extends IndicatorMeta {
   prev: number | null;
   reportDate: string | null;
   change: number | null;
+  /** 近 12 期历史序列（卡片趋势图用，时间正序） */
+  spark: { report_date: string; value: number | null }[];
 }
 
 /** 主题对比序列 */
