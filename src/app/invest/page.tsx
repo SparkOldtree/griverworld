@@ -208,7 +208,7 @@ export default function InvestPage() {
           投资
         </h1>
         <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-          全球主要股指日度收盘走势，数据来源：东方财富（日频采集，本机网络不可达时由服务器任务采集）。
+          全球主要股指日度收盘走势，数据来源：腾讯（A股指数）+ CNBC（海外指数），日频采集，本机网络不可达时由服务器任务采集。
           {updatedAt && <span className="ml-2 text-zinc-400 dark:text-zinc-500">最近更新：{updatedAt}</span>}
         </p>
       </div>
