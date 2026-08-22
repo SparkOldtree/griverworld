@@ -10,8 +10,10 @@ export interface IndexMeta {
   region: string;
   /** 交易所 */
   exchange: string;
-  /** 东方财富行情 secid（push2his kline 接口） */
-  secid: string;
+  /** 数据源：tencent（A股指数，web.ifzq.gtimg.cn）/ cnbc（海外指数，ts-api.cnbc.com） */
+  source: 'tencent' | 'cnbc';
+  /** 数据源行情代码：腾讯 sh000001 / sz399001；CNBC .DJI / .IXIC 等 */
+  quoteSymbol: string;
   /** 点位显示小数位 */
   decimals: number;
   /** 点位展示精度说明（用于 tooltip/说明） */
@@ -24,7 +26,8 @@ export const INDEX_META: IndexMeta[] = [
     name: '上证指数',
     region: '中国',
     exchange: '上海证券交易所',
-    secid: '1.000001',
+    source: 'tencent',
+    quoteSymbol: 'sh000001',
     decimals: 2,
     note: '上证综合指数，覆盖上交所全部 A 股与 B 股，中国股市最具代表性的基准。',
   },
@@ -33,7 +36,8 @@ export const INDEX_META: IndexMeta[] = [
     name: '深证成指',
     region: '中国',
     exchange: '深圳证券交易所',
-    secid: '0.399001',
+    source: 'tencent',
+    quoteSymbol: 'sz399001',
     decimals: 2,
     note: '深证成份指数，选取深交所 500 家有代表性的上市公司，反映深市整体表现。',
   },
@@ -42,7 +46,8 @@ export const INDEX_META: IndexMeta[] = [
     name: '道琼斯指数',
     region: '美国',
     exchange: '纽约证券交易所',
-    secid: '100.DJIA',
+    source: 'cnbc',
+    quoteSymbol: '.DJI',
     decimals: 2,
     note: '道琼斯工业平均指数，30 家美国大型蓝筹公司，历史最悠久的美国市场指标。',
   },
@@ -51,7 +56,8 @@ export const INDEX_META: IndexMeta[] = [
     name: '纳斯达克指数',
     region: '美国',
     exchange: '纳斯达克交易所',
-    secid: '100.NDX',
+    source: 'cnbc',
+    quoteSymbol: '.IXIC',
     decimals: 2,
     note: '纳斯达克综合指数，覆盖纳斯达克全部上市公司，科技成长股占比高。',
   },
@@ -60,7 +66,8 @@ export const INDEX_META: IndexMeta[] = [
     name: '日经 225 指数',
     region: '日本',
     exchange: '东京证券交易所',
-    secid: '100.N225',
+    source: 'cnbc',
+    quoteSymbol: '.N225',
     decimals: 2,
     note: '日经平均指数，选取东京证交所 225 家有代表性的上市公司，日本市场风向标。',
   },
@@ -69,7 +76,8 @@ export const INDEX_META: IndexMeta[] = [
     name: '英国富时 100 指数',
     region: '英国',
     exchange: '伦敦证券交易所',
-    secid: '100.FTSE',
+    source: 'cnbc',
+    quoteSymbol: '.FTSE',
     decimals: 2,
     note: '富时 100 指数，伦敦证交所市值最大的 100 家公司，英国蓝筹股基准。',
   },
@@ -78,7 +86,8 @@ export const INDEX_META: IndexMeta[] = [
     name: '法国 CAC 40 指数',
     region: '法国',
     exchange: '巴黎证券交易所',
-    secid: '100.FCHI',
+    source: 'cnbc',
+    quoteSymbol: '.FCHI',
     decimals: 2,
     note: 'CAC 40 指数，巴黎证交所市值最大的 40 家公司，法国股市基准。',
   },
@@ -87,7 +96,8 @@ export const INDEX_META: IndexMeta[] = [
     name: '德国 DAX 指数',
     region: '德国',
     exchange: '法兰克福证券交易所',
-    secid: '100.GDAXI',
+    source: 'cnbc',
+    quoteSymbol: '.GDAXI',
     decimals: 2,
     note: 'DAX 指数，法兰克福证交所市值最大的 40 家公司，德国股市基准。',
   },
