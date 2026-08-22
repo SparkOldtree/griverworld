@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getComments, addComment, deleteComment } from '@/lib/db';
+import {
+  getComments,
+  addComment,
+  deleteComment,
+  getDbInitError,
+} from '@/lib/db';
 
 // 显式使用 Node.js runtime（依赖 node:sqlite）
 export const runtime = 'nodejs';
@@ -95,7 +100,15 @@ export function GET(req: NextRequest) {
   if (!slug.trim() || slug.trim().length > 100) {
     return NextResponse.json({ ok: false, error: '参数无效' }, { status: 400 });
   }
-  return NextResponse.json({ ok: true, comments: getComments(slug.trim()) });
+  try {
+    return NextResponse.json({ ok: true, comments: getComments(slug.trim()) });
+  } catch (e) {
+    // 数据库初始化失败等内部错误（含详细原因便于排查）
+    return NextResponse.json(
+      { ok: false, error: (e as Error).message },
+      { status: 500 }
+    );
+  }
 }
 
 // POST /api/comments —— 新增评论（昵称 + 内容）
@@ -144,7 +157,15 @@ export async function POST(req: NextRequest) {
   }
   recentMap.set(ip, { content, at: now });
 
-  const comment = addComment(slug, name, content);
+  let comment;
+  try {
+    comment = addComment(slug, name, content);
+  } catch (e) {
+    return NextResponse.json(
+      { ok: false, error: (e as Error).message },
+      { status: 500 }
+    );
+  }
   return NextResponse.json({ ok: true, comment }, { status: 201 });
 }
 

@@ -21,4 +21,7 @@ jobs:
             set -e
             cd /root/opt/griverworld/app
             git pull origin main
+            # 评论数据库目录：容器内以 nextjs 用户(uid 1001)运行，需保证 data 目录可写
+            mkdir -p data
+            chown -R 1001:1001 data
             docker compose up -d --build
