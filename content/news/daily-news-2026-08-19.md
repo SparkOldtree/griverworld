@@ -1,7 +1,7 @@
 ---
 title: "每日AI资讯 2026-08-19"
 date: "2026-08-19"
-summary: "你最该关注的最新AI动态、skill、工具、新闻及创新论文"
+summary: "OpenAI 首次因'太强'暂停 Astra 训练，Anthropic 信贷扩至百亿美元，苹果牵手阿里，宇树科创板上市；论文用 MoE 内部信号做免费幻觉检测；分享大文档分块总结技巧与中文 Skill 合集。"
 tags:
   - AI技巧
   - AI论文

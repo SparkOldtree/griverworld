@@ -1,7 +1,7 @@
 ---
 title: "每日AI资讯 2026-08-22"
 date: "2026-08-22"
-summary: "你最该关注的最新AI动态、skill、工具、新闻及创新论文"
+summary: "OpenAI 推 750 tokens/s 极速推理，谷歌 122 亿美元对赌 Marvell 锁产能，Vera Rubin 进入生产，阿里战略重组，Claude 宕机泄露下一代模型；论文揭示思维链可被窃取；分享 CoT 正确用法与 agency-agents 人格库；GUI Agent 成最热方向。"
 tags:
   - AI技巧
   - AI论文

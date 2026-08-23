@@ -1,7 +1,7 @@
 ---
 title: "每日AI资讯 2026-08-21"
 date: "2026-08-21"
-summary: "你最该关注的最新AI动态、skill、工具、新闻及创新论文"
+summary: "OpenAI 开源 Codex Harness，谷歌发布 Gemma 4，智谱 GLM 5.3 登顶开源第一，宇树上市首日涨 629%；Claude 联手数学家证伪百年 Carathéodory 猜想；分享 Markdown 外置记忆技巧与 DeepSeek Harness；Agent 开始学会花钱。"
 tags:
   - AI技巧
   - AI论文

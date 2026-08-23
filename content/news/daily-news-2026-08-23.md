@@ -1,7 +1,7 @@
 ---
 title: "每日AI资讯 2026-08-23"
 date: "2026-08-23"
-summary: "你最该关注的最新AI动态、skill、工具、新闻及创新论文"
+summary: "Anthropic 挖角谷歌'TPU 之父'自研芯片，微软 Maia 300 将发布，英伟达 70 亿美元收购 Poolside，欧盟裁定 AI 生成内容不享版权；吴恩达分享四个关键 AI 技能；推荐 prime-agent 与伪代码提示词技巧；论文 OmniScientist 打造全学科 AI 科学家。"
 tags:
   - AI技巧
   - AI论文
