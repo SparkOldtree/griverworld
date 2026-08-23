@@ -1,5 +1,17 @@
 # Automation 执行记录
 
+## 2026-08-23（每日资讯生成）
+- 任务：生成 2026-08-23 每日AI资讯（5 板块）
+- 产出：content/news/daily-news-2026-08-23.md，已提交并推送 GitHub main（commit e92e82c）
+- 板块内容要点：
+  - 行业动态：Anthropic 挖角谷歌 TPU 之父 Amir Salek 自研芯片+与三星联合设计（冲刺 2 万亿 IPO）、微软 Maia 300 最快 9 月发布（台积电 2027 交 30 万颗）、英伟达 70 亿美元收购 Poolside 模型工厂、欧盟裁定 AI 生成内容不享版权
+  - 论文：OmniScientist（NUS+牛津，全模态全学科 AI 科学家，36 案例 5 学科跑通，感知版 vs 盲版胜率 85%）
+  - 工具技巧：伪代码式提示词（把任务写成 IF/条件分支流程）
+  - GitHub Skill：PrimeIntellect-AI/prime-agent（1.6 万星，RLM 递归语言模型+Persistent Harness 自改进 Agent）
+  - X 大V动态：Andrew Ng（四技能：提示工程/Agentic/Evals/编码 Agent）、苏姿丰（回应马斯克，AMD 占 40% 份额）、Ken Griffin（40 亿美元削减 Situational Awareness 敞口）、唐杰（算力决定智能）
+- 声音多样性核对：5 人覆盖 4 类（研究者 Ng / 高管苏姿丰、纳德拉 / 投资人 Griffin / 中国唐杰），未用 Karpathy
+- 去重检查：已读取 8/18-8/22 历史文件（尤其 8/22 覆盖 Ultrafast/谷歌×Marvell/Vera Rubin/阿里重组/Fable/CoT/agency-agents/Stealing Traces），本次主题与人物均无重复
+
 ## 2026-08-22（每日资讯生成）
 - 任务：生成 2026-08-22 每日AI资讯（5 板块）
 - 产出：content/news/daily-news-2026-08-22.md，已提交并推送 GitHub main（commit fccdbb6）
