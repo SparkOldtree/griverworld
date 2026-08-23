@@ -1,7 +1,7 @@
 ---
 title: "每日AI资讯 2026-08-17"
 date: "2026-08-17"
-summary: "DeepSeek V4-Pro 正式转正并开源 Harness 框架，谷歌发布 Gemini 3.7 Flash，阿里开源 Qwen3.8 旗舰，Hassabis 转任董事长；论文用 83 亿模拟用户重构 AI 产品评测；分享结构化提示词五要素与 Karpathy 的 AI 编程四原则。"
+summary: "DeepSeek V4-Pro 转正并开源 Harness，谷歌发 Gemini 3.7，阿里开源 Qwen3.8；论文用 83 亿模拟用户重构 AI 评测；附结构化提示词与编程四原则。"
 tags:
   - AI技巧
   - AI论文

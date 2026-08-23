@@ -1,7 +1,7 @@
 ---
 title: "每日AI资讯 2026-08-23"
 date: "2026-08-23"
-summary: "Anthropic 挖角谷歌'TPU 之父'自研芯片，微软 Maia 300 将发布，英伟达 70 亿美元收购 Poolside，欧盟裁定 AI 生成内容不享版权；吴恩达分享四个关键 AI 技能；推荐 prime-agent 与伪代码提示词技巧；论文 OmniScientist 打造全学科 AI 科学家。"
+summary: "Anthropic 挖角 TPU 之父自研芯片，英伟达 70 亿收购 Poolside；附 prime-agent、伪代码技巧；论文 OmniScientist 全学科科学家。"
 tags:
   - AI技巧
   - AI论文

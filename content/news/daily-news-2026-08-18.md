@@ -1,7 +1,7 @@
 ---
 title: "每日AI资讯 2026-08-18"
 date: "2026-08-18"
-summary: "Anthropic 筹备超 2 万亿美元 IPO，Stripe 70 亿美元收购 OpenRouter，阿里 Qwen 下载量全球登顶；论文 AI4AI 让强模型测试时带飞小模型；分享 Few-shot 范例技巧与 diagram-design 图表技能；Agent 安全成舆论焦点。"
+summary: "Anthropic 筹备 2 万亿 IPO，Stripe 70 亿收购 OpenRouter，阿里 Qwen 登顶；论文 AI4AI 让强模型带飞小模型；附 Few-shot 范例与图表设计技能。"
 tags:
   - AI技巧
   - AI论文
