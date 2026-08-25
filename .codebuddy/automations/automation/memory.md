@@ -1,5 +1,18 @@
 # Automation 执行记录
 
+## 2026-08-25（每日资讯生成）
+- 任务：生成 2026-08-25 每日AI资讯（5 板块）
+- 产出：content/news/daily-news-2026-08-25.md，已提交并推送 GitHub main
+- 板块内容要点：
+  - 行业动态：OpenAI 暂停 Astra 模型 RL 训练（触发关键网络安全门槛）、Inherent Faraday 智能体（270亿参数 Qwen 3.6 击败 Claude Opus 4.8/GPT-5.5，5000万美元种子轮）、Harvey 基于 Kimi K3 训练法律 AI 模型、高盛"Agent 执行时代"报告（按结果收费，90% 推理 Token 流向开源）、DeepSeek 周末统一低谷价
+  - 论文：Google EnvHarness（arXiv:2608.19880，给静态训练环境套可编程 harness，WebArena 38.7→41.6/SWE-bench 47.7→52.6/ALFWorld 61.7→68.3，EnvRigger 自动出题）
+  - 工具技巧：挑 API 低谷时段调用省钱（错峰定价，分批/分流/缓存）
+  - GitHub Skill：obra/superpowers（27万+星，SKILL.md 技能生态，20+ 可组合技能）
+  - X 大V动态：Boris Cherny（Claude Code 之父，capability overhang 能力过剩论）、马斯克（Grok 4.6 发布 + Grok Bot 企业代理 + 600亿美元收 Anysphere）、Edward Hughes（Inherent 联合创始人，小模型+强推理做研究自动化）
+- 声音多样性核对：3 人覆盖 4 类（研究者 Cherny / 高管马斯克 / 创业者 Hughes，中国声音融入行业动态 DeepSeek/Harvey×Kimi）
+- 去重检查：已读取 8/21-8/24 历史文件（近 7 天已用黄仁勋/Jeff Dean/Sutton/王兴兴/Ng/苏姿丰/Griffin/唐杰/Hassabis/Karpathy/LeCun/Altman/贝佐斯/李开复/梁文锋等），本次人物全部不重复；技巧（API 低谷价）与近 5 天（结构化提示词/Few-shot/分块总结/挑刺/外置记忆/CoT/伪代码/自我一致性）不重复
+- summary 校验：95 字（≤100）
+
 ## 2026-08-24（每日资讯生成）
 - 任务：生成 2026-08-24 每日AI资讯（5 板块）
 - 产出：content/news/daily-news-2026-08-24.md，已提交并推送 GitHub main（commit 7c85d49）
