@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Comments from '@/components/Comments';
 import { getArticleBySlug, getReadingTime } from '@/lib/articles';
+import { getPageViews } from '@/lib/analytics';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -18,6 +19,7 @@ export default async function ArticlePage({ params }: PageProps) {
   }
 
   const readingTime = getReadingTime(article.content);
+  const views = await getPageViews(`/blog/${slug}`);
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-16">
@@ -55,6 +57,8 @@ export default async function ArticlePage({ params }: PageProps) {
           </time>
           <span>·</span>
           <span>{readingTime} 分钟阅读</span>
+          <span>·</span>
+          <span>{views} 次阅读</span>
           {article.frontmatter.category && (
             <>
               <span>·</span>

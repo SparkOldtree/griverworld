@@ -50,6 +50,16 @@ export default function RootLayout({
             </div>
           </footer>
         </ThemeProvider>
+
+        {/* Umami 访问统计埋点（自托管，无 cookie，仅在有配置时启用） */}
+        {process.env.UMAMI_WEBSITE_ID && (
+          <script
+            async
+            src="/analytics/script.js"
+            data-website-id={process.env.UMAMI_WEBSITE_ID}
+            data-domains="griver.world,www.griver.world"
+          />
+        )}
       </body>
     </html>
   );

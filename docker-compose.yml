@@ -8,6 +8,7 @@ services:
       dockerfile: Dockerfile
     container_name: griverworld-app
     restart: unless-stopped
+    mem_limit: 768m
     environment:
       - NODE_ENV=production
     env_file:
@@ -36,18 +37,57 @@ services:
     image: nginx:alpine
     container_name: griverworld-nginx
     restart: unless-stopped
+    mem_limit: 64m
     ports:
       - "80:80"
       - "443:443"
     volumes:
       # Nginx 配置（只读）
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      # basic auth 密码文件（只读）
+      - ./nginx/.htpasswd:/etc/nginx/.htpasswd:ro
       # SSL 证书（Let's Encrypt，只读）
       # 挂载整个 /etc/letsencrypt 目录：live 下的证书是符号链接，指向 archive 目录，
       # 分开挂载会导致容器内符号链接断裂（nginx 报 fullchain.pem not found）
       - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - app
+    networks:
+      - site-network
+
+  # ============================================
+  # Umami 访问统计 —— PostgreSQL 数据库
+  # ============================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: griverworld-postgres
+    restart: unless-stopped
+    mem_limit: 512m
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: umami
+    # 调低 PG 内存占用，避免峰值打满服务器
+    command: ["postgres", "-c", "shared_buffers=128MB", "-c", "max_connections=50"]
+    volumes:
+      - ./data/umami-postgres:/var/lib/postgresql/data
+    networks:
+      - site-network
+
+  # ============================================
+  # Umami 访问统计 —— 应用（面板 + 埋点 + 统计 API）
+  # ============================================
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    container_name: griverworld-umami
+    restart: unless-stopped
+    mem_limit: 384m
+    environment:
+      DATABASE_URL: postgresql://umami:umami@postgres:5432/umami
+      BASE_PATH: /analytics
+      DISABLE_TELEMETRY: 1
+    depends_on:
+      - postgres
     networks:
       - site-network
 
