@@ -6,6 +6,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        # 构建期注入，Next.js 在 layout.tsx 中静态求值（运行时 env_file 不参与静态渲染）
+        UMAMI_WEBSITE_ID: ${UMAMI_WEBSITE_ID}
     container_name: griverworld-app
     restart: unless-stopped
     mem_limit: 768m
@@ -77,14 +80,16 @@ services:
   # ============================================
   # Umami 访问统计 —— 应用（面板 + 埋点 + 统计 API）
   # ============================================
+  # 说明：镜像 griverworld-umami:3.3.1 需自定义构建（BASE_PATH 是构建期变量，运行时无效）：
+  #   git clone --depth 1 --branch v3.3.1 https://github.com/umami-software/umami.git umami-src
+  #   cd umami-src && docker build --build-arg BASE_PATH=/analytics -t griverworld-umami:3.3.1 .
   umami:
-    image: ghcr.io/umami-software/umami:postgresql-latest
+    image: griverworld-umami:3.3.1
     container_name: griverworld-umami
     restart: unless-stopped
     mem_limit: 384m
     environment:
       DATABASE_URL: postgresql://umami:umami@postgres:5432/umami
-      BASE_PATH: /analytics
       DISABLE_TELEMETRY: 1
     depends_on:
       - postgres

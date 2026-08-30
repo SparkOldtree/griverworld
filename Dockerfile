@@ -16,6 +16,10 @@ RUN npm ci --registry=https://registry.npmmirror.com --replace-registry-host=alw
 # 复制源码
 COPY . .
 
+# 构建时传入 UMAMI_WEBSITE_ID（Next.js 在 layout 中静态求值，须在构建期可见）
+ARG UMAMI_WEBSITE_ID
+ENV UMAMI_WEBSITE_ID=${UMAMI_WEBSITE_ID}
+
 # 构建 Next.js（standalone 模式）
 RUN npm run build
 
@@ -45,6 +49,9 @@ COPY --from=builder /app/content ./content
 # 复制数据采集脚本与 lib（服务器容器内执行 fetch-indexes.mjs / fetch-indicators.mjs）
 COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/src/lib ./src/lib
+
+# 创建可写的 Next.js 缓存目录（unstable_cache / prerender cache 需要，否则 EACCES）
+RUN mkdir -p /app/.next/cache && chown -R nextjs:nodejs /app/.next
 
 # 切换到非 root 用户
 USER nextjs

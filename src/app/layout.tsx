@@ -37,13 +37,8 @@ export default function RootLayout({
                   href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011202023034"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-1.5 transition-colors hover:text-zinc-900 hover:underline dark:hover:text-zinc-100"
+                  className="transition-colors hover:text-zinc-900 hover:underline dark:hover:text-zinc-100"
                 >
-                  <img
-                    src="https://beian.gov.cn/img/footer.png"
-                    alt="公安备案"
-                    className="h-4 w-4"
-                  />
                   沪公网安备31011202023034号
                 </a>
               </div>

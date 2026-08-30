@@ -68,14 +68,12 @@ async function fetchPageViews(pathname: string): Promise<number> {
       body: JSON.stringify({
         type: "breakdown",
         websiteId: UMAMI_WEBSITE_ID,
-        filters: { url: pathname },
+        filters: { path: pathname },
         parameters: {
           startDate: "1970-01-01T00:00:00.000Z",
           endDate: "2999-12-31T23:59:59.999Z",
           fields: ["path"],
-          dimension: "path",
         },
-        limit: 1,
       }),
       cache: "no-store",
       signal: controller.signal,

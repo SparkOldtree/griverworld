@@ -21,7 +21,8 @@ jobs:
             set -e
             cd /root/opt/griverworld/app
             git pull origin main
-            # 评论数据库目录：容器内以 nextjs 用户(uid 1001)运行，需保证 data 目录可写
+            # data 下的 *.db 是 app 容器(nextjs uid 1001)的 SQLite 数据库，需保证可写；
+            # 注意：只处理直接子文件，勿用 -R 递归——umami-postgres/ 属 postgres(uid 70)，递归 chown 会导致其无法读取数据而崩溃
             mkdir -p data
-            chown -R 1001:1001 data
+            find data -maxdepth 1 -type f -exec chown 1001:1001 {} +
             docker compose up -d --build
