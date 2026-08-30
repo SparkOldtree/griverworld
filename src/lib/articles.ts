@@ -87,10 +87,3 @@ export function getArticlesByTag(tag: string): Article[] {
     article.frontmatter.tags?.includes(tag)
   );
 }
-
-export function getReadingTime(content: string): number {
-  const wordsPerMinute = 200;
-  const text = content.replace(/[#*`~>\[\]()!|{}\-+=_.:;"'<>,]/g, '');
-  const wordCount = text.split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
-}

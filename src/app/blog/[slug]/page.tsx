@@ -3,7 +3,7 @@ import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Comments from '@/components/Comments';
-import { getArticleBySlug, getReadingTime } from '@/lib/articles';
+import { getArticleBySlug } from '@/lib/articles';
 import { getPageViews } from '@/lib/analytics';
 
 interface PageProps {
@@ -18,7 +18,6 @@ export default async function ArticlePage({ params }: PageProps) {
     notFound();
   }
 
-  const readingTime = getReadingTime(article.content);
   const views = await getPageViews(`/blog/${slug}`);
 
   return (
@@ -55,8 +54,6 @@ export default async function ArticlePage({ params }: PageProps) {
           <time dateTime={article.frontmatter.date}>
             {article.frontmatter.date}
           </time>
-          <span>·</span>
-          <span>{readingTime} 分钟阅读</span>
           <span>·</span>
           <span>{views} 次阅读</span>
           {article.frontmatter.category && (
