@@ -9,6 +9,9 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+// 动态渲染：新增资讯 slug 无需重建镜像即可访问
+export const dynamic = 'force-dynamic';
+
 export default async function NewsDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const newsItem = getNewsBySlug(slug);

@@ -11,6 +11,26 @@ jobs:
     timeout-minutes: 30
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect content-only change
+        id: changes
+        run: |
+          BEFORE="${{ github.event.before }}"
+          # event.before 为全零（新分支首推）时视为代码变更，走全量构建
+          if [ -z "$BEFORE" ] || echo "$BEFORE" | grep -q '^0*$'; then
+            echo "content_only=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if git diff --name-only "$BEFORE" "$GITHUB_SHA" | grep -v '^content/' | grep -q .; then
+            echo "content_only=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "content_only=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.2
         with:
@@ -25,4 +45,9 @@ jobs:
             # 注意：只处理直接子文件，勿用 -R 递归——umami-postgres/ 属 postgres(uid 70)，递归 chown 会导致其无法读取数据而崩溃
             mkdir -p data
             find data -maxdepth 1 -type f -exec chown 1001:1001 {} +
-            docker compose up -d --build
+            if [ "${{ steps.changes.outputs.content_only }}" = "true" ]; then
+              echo "纯内容变更（content/）：跳过镜像重建，动态渲染 + volume 挂载实时生效"
+            else
+              echo "代码变更：全量重建镜像"
+              docker compose up -d --build
+            fi
