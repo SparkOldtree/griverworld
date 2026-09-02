@@ -2,6 +2,10 @@ import Link from "next/link";
 import { getAllArticles } from "@/lib/articles";
 import { getAllNews } from "@/lib/news";
 
+// 内容文件（content/news/、content/articles/）通过 docker volume 实时挂载，
+// 动态渲染保证新增内容无需重建镜像即可出现在首页（与 /news 页保持一致）
+export const dynamic = 'force-dynamic';
+
 export default function Home() {
   const newsItems = getAllNews().slice(0, 3);
   const articles = getAllArticles().slice(0, 3);
