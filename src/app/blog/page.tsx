@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import PageBackground from '@/components/PageBackground';
 import type { Article } from '@/lib/articles';
 
 function BlogContent() {
@@ -39,101 +40,111 @@ function BlogContent() {
 
   if (loading) {
     return (
-      <div className="mx-auto w-full max-w-3xl px-4 py-16">
-        <p className="text-zinc-500">加载中...</p>
+      <div className="mx-auto w-full max-w-[57.6rem] px-4 py-16">
+        <div className="rounded-2xl bg-zinc-950/35 px-6 py-8 shadow-xl backdrop-blur-sm sm:px-10 sm:py-10">
+          <p className="text-white">加载中...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-16">
-      <h1 className="mb-8 text-xl font-bold">文章</h1>
+    <div className="mx-auto w-full max-w-[57.6rem] px-4 py-16">
+      {/* 悬浮深色内容面板：滚动时背景静止，面板浮于背景之上 */}
+      <div className="rounded-2xl bg-zinc-950/35 px-6 py-8 shadow-xl backdrop-blur-sm sm:px-10 sm:py-10">
+        <h1 className="mb-8 text-xl font-bold text-white">文章</h1>
 
-      {/* 标签筛选 */}
-      {allTags.length > 0 && (
-        <div className="mb-8 flex flex-wrap gap-2">
-          <button
-            onClick={() => handleTagClick('')}
-            className={`rounded-full px-3 py-1 text-sm transition-colors ${
-              !currentTag
-                ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900'
-                : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700'
-            }`}
-          >
-            全部
-          </button>
-          {allTags.map((tag) => (
+        {/* 标签筛选 */}
+        {allTags.length > 0 && (
+          <div className="mb-8 flex flex-wrap gap-2">
             <button
-              key={tag}
-              onClick={() => handleTagClick(tag)}
+              onClick={() => handleTagClick('')}
               className={`rounded-full px-3 py-1 text-sm transition-colors ${
-                currentTag === tag
-                  ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900'
-                  : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700'
+                !currentTag
+                  ? 'bg-white text-zinc-900'
+                  : 'bg-white/15 text-white hover:bg-white/25'
               }`}
             >
-              {tag}
+              全部
             </button>
-          ))}
-        </div>
-      )}
+            {allTags.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => handleTagClick(tag)}
+                className={`rounded-full px-3 py-1 text-sm transition-colors ${
+                  currentTag === tag
+                    ? 'bg-white text-zinc-900'
+                    : 'bg-white/15 text-white hover:bg-white/25'
+                }`}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        )}
 
-      {/* 文章列表 */}
-      {filteredArticles.length === 0 ? (
-        <p className="text-zinc-500 dark:text-zinc-400">
-          {currentTag ? `没有找到标签为「${currentTag}」的文章。` : '暂无文章。'}
-        </p>
-      ) : (
-        <div className="space-y-10">
-          {filteredArticles.map((article) => (
-            <article key={article.slug} className="group">
-              <Link href={`/blog/${article.slug}`}>
-                <h2 className="mb-1 text-base font-semibold transition-colors group-hover:text-zinc-500 dark:group-hover:text-zinc-400">
-                  {article.frontmatter.title}
-                </h2>
-                <p className="mb-2 text-sm text-zinc-500 dark:text-zinc-400">
-                  {article.frontmatter.date}
-                  {article.frontmatter.category && (
-                    <span className="ml-3">{article.frontmatter.category}</span>
-                  )}
-                </p>
-                {article.frontmatter.summary && (
-                  <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                    {article.frontmatter.summary}
+        {/* 文章列表 */}
+        {filteredArticles.length === 0 ? (
+          <p className="text-white">
+            {currentTag ? `没有找到标签为「${currentTag}」的文章。` : '暂无文章。'}
+          </p>
+        ) : (
+          <div className="space-y-10">
+            {filteredArticles.map((article) => (
+              <article key={article.slug} className="group">
+                <Link href={`/blog/${article.slug}`}>
+                  <h2 className="mb-1 text-base font-semibold text-white transition-opacity group-hover:opacity-75">
+                    {article.frontmatter.title}
+                  </h2>
+                  <p className="mb-2 text-sm text-white">
+                    {article.frontmatter.date}
+                    {article.frontmatter.category && (
+                      <span className="ml-3">{article.frontmatter.category}</span>
+                    )}
                   </p>
+                  {article.frontmatter.summary && (
+                    <p className="text-sm leading-relaxed text-white">
+                      {article.frontmatter.summary}
+                    </p>
+                  )}
+                </Link>
+                {article.frontmatter.tags && article.frontmatter.tags.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {article.frontmatter.tags.map((tag) => (
+                      <button
+                        key={tag}
+                        onClick={() => handleTagClick(tag)}
+                        className="rounded-full bg-white/15 px-2.5 py-0.5 text-xs text-white transition-colors hover:bg-white/25"
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
                 )}
-              </Link>
-              {article.frontmatter.tags && article.frontmatter.tags.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {article.frontmatter.tags.map((tag) => (
-                    <button
-                      key={tag}
-                      onClick={() => handleTagClick(tag)}
-                      className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs text-zinc-600 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
-                    >
-                      {tag}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </article>
-          ))}
-        </div>
-      )}
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
 export default function BlogPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="mx-auto w-full max-w-3xl px-4 py-16">
-          <p className="text-zinc-500">加载中...</p>
-        </div>
-      }
-    >
-      <BlogContent />
-    </Suspense>
+    <div>
+      <PageBackground />
+      <Suspense
+        fallback={
+          <div className="mx-auto w-full max-w-[57.6rem] px-4 py-16">
+            <div className="rounded-2xl bg-zinc-950/35 px-6 py-8 shadow-xl backdrop-blur-sm sm:px-10 sm:py-10">
+              <p className="text-white">加载中...</p>
+            </div>
+          </div>
+        }
+      >
+        <BlogContent />
+      </Suspense>
+    </div>
   );
 }
