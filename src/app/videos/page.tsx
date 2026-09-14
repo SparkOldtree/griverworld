@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getAllVideos } from '@/lib/videos';
 
+// 内容文件（content/videos/）通过 docker volume 实时挂载，
+// 动态渲染保证新增视频文件无需重建镜像即可出现在列表页
+export const dynamic = 'force-dynamic';
+
 function formatDuration(duration?: string) {
   if (!duration) return null;
   // 若已为 h:mm:ss 或 m:ss 格式则直接展示

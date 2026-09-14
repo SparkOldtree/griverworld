@@ -6,6 +6,10 @@ import VideoPlayer from '@/components/VideoPlayer';
 import Comments from '@/components/Comments';
 import { getVideoBySlug } from '@/lib/videos';
 
+// 内容文件（content/videos/）通过 docker volume 实时挂载，
+// 动态渲染保证新增视频无需重建镜像即可访问详情页
+export const dynamic = 'force-dynamic';
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
