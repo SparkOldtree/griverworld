@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useId, useMemo, useState } from 'react';
 import type { IndexesResponse } from '@/lib/indexes/types';
 import type { FxResponse } from '@/lib/fx/types';
+import type { GoldOilResponse, GoldOilItemDto } from '@/lib/goldoil/types';
 
 const RANGE_OPTIONS = [
   { key: '1M', label: '1M', days: 30 },
@@ -147,10 +148,67 @@ function TrendChart({
   );
 }
 
+/** 黄金/原油指标卡片（与指数卡片同构：名称 + 单位口径 + 最新值 + 趋势图） */
+function GoldOilCard({ item }: { item: GoldOilItemDto & { points: { date: string; value: number | null }[] } }) {
+  const latest = item.latest?.close ?? null;
+  const changePct = item.latest?.changePct ?? null;
+  const up =
+    changePct != null ? changePct >= 0 : latest != null && item.points.length > 0
+      ? latest >= (item.points[item.points.length - 1].value ?? latest)
+      : true;
+  const tickColor = up ? 'text-rose-600 dark:text-rose-400' : 'text-blue-600 dark:text-blue-400';
+  const firstDate = item.points[0]?.date;
+  const lastDate = item.points[item.points.length - 1]?.date;
+
+  return (
+    <div className="flex flex-col gap-3 rounded-2xl bg-white p-4 ring-1 ring-zinc-200 transition-shadow hover:shadow-md dark:bg-zinc-900 dark:ring-zinc-800">
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+              {item.name}
+            </h3>
+            <span className="rounded-full bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium text-amber-700 ring-1 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-900">
+              {item.unit}
+            </span>
+          </div>
+          <p className="mt-0.5 line-clamp-1 text-[11px] text-zinc-400 dark:text-zinc-500" title={item.note}>
+            {item.note}
+          </p>
+        </div>
+        <div className="text-right">
+          <div className={`text-lg font-bold tabular-nums ${tickColor}`}>
+            {fmtNum(latest, item.decimals)}
+          </div>
+          <div className={`text-xs font-medium tabular-nums ${tickColor}`}>
+            {fmtPct(changePct)}
+          </div>
+        </div>
+      </div>
+
+      <TrendChart
+        points={item.points}
+        decimals={item.decimals}
+        latest={latest}
+        ariaLabel={`${item.name}日度趋势`}
+      />
+
+      <div className="flex items-center justify-between text-[10px] text-zinc-400 dark:text-zinc-500">
+        <span>{firstDate ? `自 ${firstDate}` : '--'}</span>
+        <span className="font-medium tabular-nums">
+          {item.points.length > 0 ? `${item.points.length} 个交易日` : '暂无数据'}
+        </span>
+        <span>{lastDate ?? '--'}</span>
+      </div>
+    </div>
+  );
+}
+
 export default function InvestPage() {
   const [range, setRange] = useState<RangeKey>('6M');
   const [indexData, setIndexData] = useState<IndexesResponse | null>(null);
   const [fxData, setFxData] = useState<FxResponse | null>(null);
+  const [goldOilData, setGoldOilData] = useState<GoldOilResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -158,18 +216,23 @@ export default function InvestPage() {
     setLoading(true);
     setError(null);
     try {
-      const [ir, fr] = await Promise.all([
+      const [ir, fr, gr] = await Promise.all([
         fetch('/api/indexes', { cache: 'no-store' }),
         fetch('/api/fx', { cache: 'no-store' }),
+        fetch('/api/goldoil', { cache: 'no-store' }),
       ]);
       if (!ir.ok) throw new Error(`指数接口请求失败 HTTP ${ir.status}`);
       if (!fr.ok) throw new Error(`汇率接口请求失败 HTTP ${fr.status}`);
+      if (!gr.ok) throw new Error(`黄金原油接口请求失败 HTTP ${gr.status}`);
       const ij = (await ir.json()) as IndexesResponse;
       const fj = (await fr.json()) as FxResponse;
+      const gj = (await gr.json()) as GoldOilResponse;
       if (ij.dbError) throw new Error(`指数数据库不可用：${ij.dbError}`);
       if (fj.dbError) throw new Error(`汇率数据库不可用：${fj.dbError}`);
+      if (gj.dbError) throw new Error(`黄金原油数据库不可用：${gj.dbError}`);
       setIndexData(ij);
       setFxData(fj);
+      setGoldOilData(gj);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
@@ -219,6 +282,31 @@ export default function InvestPage() {
       return { ...it, points };
     });
   }, [fxData, days]);
+
+  /** 黄金/原油卡片：以各自最新交易日为基准做日频切片，与指数共用同一时间窗口 */
+  const goldOilCards = useCallback((items: GoldOilItemDto[]) => {
+    return items.map((it) => {
+      const s = it.series;
+      if (s.length === 0) return { ...it, points: [] as { date: string; value: number | null }[] };
+      const newest = s[s.length - 1].date;
+      const cutoff = new Date(newest);
+      cutoff.setDate(cutoff.getDate() - days);
+      const cutoffStr = cutoff.toISOString().slice(0, 10);
+      const points = s
+        .filter((p) => p.date >= cutoffStr)
+        .map((p) => ({ date: p.date, value: p.close }));
+      return { ...it, points };
+    });
+  }, [days]);
+
+  const goldCards = useMemo(
+    () => (goldOilData ? goldOilCards(goldOilData.gold) : []),
+    [goldOilData, goldOilCards],
+  );
+  const oilCards = useMemo(
+    () => (goldOilData ? goldOilCards(goldOilData.oil) : []),
+    [goldOilData, goldOilCards],
+  );
 
   const updatedAt = useMemo(() => {
     if (!indexData?.updatedAt) return null;
@@ -462,6 +550,91 @@ export default function InvestPage() {
                 </div>
               );
             })}
+          </div>
+        )}
+      </section>
+
+      {/* 第三部分：全球黄金市场跟踪 */}
+      <section aria-labelledby="gold-section-title" className="mt-12">
+        <div className="mb-4">
+          <h2
+            id="gold-section-title"
+            className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-100"
+          >
+            全球黄金市场跟踪
+          </h2>
+          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+            伦敦金现货、上海金、美债实际/名义利率与金银比。数据源：新浪期货行情 + 美国财政部官方收益率曲线，日度采集。
+          </p>
+        </div>
+
+        {!loading && !error && (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {goldCards.map((item) => (
+              <GoldOilCard key={item.code} item={item} />
+            ))}
+
+            {/* 全球黄金 ETF 持仓（WGC，手动维护） */}
+            <div className="flex flex-col gap-3 rounded-2xl bg-white p-4 ring-1 ring-zinc-200 transition-shadow hover:shadow-md dark:bg-zinc-900 dark:ring-zinc-800">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                      全球黄金 ETF 持仓
+                    </h3>
+                    <span className="rounded-full bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium text-amber-700 ring-1 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-900">
+                      吨
+                    </span>
+                  </div>
+                  <p className="mt-0.5 text-[11px] text-zinc-400 dark:text-zinc-500" title={goldOilData?.etf.source ?? ''}>
+                    {goldOilData?.etf.source ?? 'WGC Goldhub'}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <div className="text-lg font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
+                    {goldOilData?.etf.tonnes != null ? fmtNum(goldOilData.etf.tonnes, 1) : '--'}
+                  </div>
+                  <div className="text-xs text-zinc-400 dark:text-zinc-500">
+                    {goldOilData?.etf.asOf ? `截至 ${goldOilData.etf.asOf}` : '待更新'}
+                  </div>
+                </div>
+              </div>
+              <div className="flex h-[104px] flex-col items-center justify-center rounded-lg bg-gradient-to-br from-amber-50 to-zinc-50 text-center dark:from-amber-950/30 dark:to-zinc-900">
+                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                  世界黄金协会（WGC）周度数据
+                </span>
+                <span className="mt-1 text-[10px] text-zinc-400 dark:text-zinc-500">
+                  手动维护 · {goldOilData?.etf.note ?? ''}
+                </span>
+              </div>
+              <div className="flex items-center justify-between text-[10px] text-zinc-400 dark:text-zinc-500">
+                <span>全球黄金 ETF 合计持仓（吨）</span>
+                <span>周度更新</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* 第四部分：全球原油市场跟踪 */}
+      <section aria-labelledby="oil-section-title" className="mt-12">
+        <div className="mb-4">
+          <h2
+            id="oil-section-title"
+            className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-100"
+          >
+            全球原油市场跟踪
+          </h2>
+          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+            Brent、WTI 与上海原油三大基准。数据源：新浪期货行情，日度采集。
+          </p>
+        </div>
+
+        {!loading && !error && (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {oilCards.map((item) => (
+              <GoldOilCard key={item.code} item={item} />
+            ))}
           </div>
         )}
       </section>
