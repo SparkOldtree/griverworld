@@ -44,11 +44,14 @@ function regionBadgeClass(region: string): string {
 function TrendChart({
   points,
   decimals,
+  tickDecimals,
   latest,
   ariaLabel = '趋势',
 }: {
   points: { date: string; value: number | null }[];
   decimals: number;
+  /** 纵轴刻度值精度（默认与数据精度一致；指数/原油/金银取整、汇率 2 位） */
+  tickDecimals?: number;
   latest: number | null;
   ariaLabel?: string;
 }) {
@@ -141,7 +144,7 @@ function TrendChart({
   }
 
   // 刻度值去掉千分位分隔符，保证窄幅纵轴放得下
-  const fmtTick = (v: number) => fmtNum(v, decimals).replace(/,/g, '');
+  const fmtTick = (v: number) => fmtNum(v, tickDecimals ?? decimals).replace(/,/g, '');
   const maxLabel = `高 ${fmtNum(valid[geom.maxIdx].value, decimals)}`;
   const minLabel = `低 ${fmtNum(valid[geom.minIdx].value, decimals)}`;
 
@@ -265,6 +268,9 @@ function TrendChart({
 function GoldOilCard({ item }: { item: GoldOilItemDto & { points: { date: string; value: number | null }[] } }) {
   const latest = item.latest?.close ?? null;
   const changePct = item.latest?.changePct ?? null;
+  // 纵轴刻度精度：伦敦金/上海金/三大原油取整；TIPS/美债/金银比沿用数据精度
+  const INT_TICK_CODES = ['XAU_USD', 'AU9999', 'BRENT', 'WTI', 'SC'];
+  const tickDecimals = INT_TICK_CODES.includes(item.code) ? 0 : item.decimals;
   const up =
     changePct != null ? changePct >= 0 : latest != null && item.points.length > 0
       ? latest >= (item.points[item.points.length - 1].value ?? latest)
@@ -302,6 +308,7 @@ function GoldOilCard({ item }: { item: GoldOilItemDto & { points: { date: string
       <TrendChart
         points={item.points}
         decimals={item.decimals}
+        tickDecimals={tickDecimals}
         latest={latest}
         ariaLabel={`${item.name}日度趋势`}
       />
@@ -557,6 +564,7 @@ export default function InvestPage() {
                   <TrendChart
                     points={idx.points}
                     decimals={idx.decimals}
+                    tickDecimals={0}
                     latest={latest}
                     ariaLabel={`${idx.name}指数收盘价趋势`}
                   />
@@ -649,6 +657,7 @@ export default function InvestPage() {
                   <TrendChart
                     points={fx.points}
                     decimals={fx.decimals}
+                    tickDecimals={2}
                     latest={latest}
                     ariaLabel={`${fx.name}对美元汇率日度趋势`}
                   />
