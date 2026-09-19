@@ -40,7 +40,7 @@ function regionBadgeClass(region: string): string {
   return map[region] ?? 'bg-zinc-50 text-zinc-600 ring-zinc-200 dark:bg-zinc-900 dark:text-zinc-400 dark:ring-zinc-800';
 }
 
-/** 趋势折线图（纯 SVG，渐变面积 + 涨跌着色；指数日频 / 汇率月频通用） */
+/** 趋势折线图（纯 SVG，渐变面积 + 涨跌着色 + 纵轴 10 刻度 + 区间最值标注；指数/汇率/黄金原油通用） */
 function TrendChart({
   points,
   decimals,
@@ -55,9 +55,12 @@ function TrendChart({
   const rawId = useId();
   const gradId = `ig-${rawId.replace(/[^a-zA-Z0-9]/g, '')}`;
   const w = 320;
-  const h = 104;
-  const padX = 6;
-  const padY = 12;
+  const h = 128;
+  const padL = 42; // 左侧留给纵轴刻度值
+  const padR = 6;
+  const padT = 14; // 顶部留给最大值标签
+  const padB = 16; // 底部留给最小值标签
+  const TICK_COUNT = 10;
 
   const valid = points.filter((p) => p.value != null && Number.isFinite(p.value)) as {
     date: string;
@@ -75,10 +78,10 @@ function TrendChart({
       max += 1;
     }
     const range = max - min;
-    const x = (i: number) =>
-      padX + (i / (valid.length - 1)) * (w - padX * 2);
-    const y = (v: number) =>
-      padY + (1 - (v - min) / range) * (h - padY * 2);
+    const plotW = w - padL - padR;
+    const plotH = h - padT - padB;
+    const x = (i: number) => padL + (i / (valid.length - 1)) * plotW;
+    const y = (v: number) => padT + (1 - (v - min) / range) * plotH;
 
     let line = '';
     let area = '';
@@ -88,18 +91,42 @@ function TrendChart({
       line += `${i === 0 ? 'M' : 'L'}${px.toFixed(2)},${py.toFixed(2)}`;
       area += `${i === 0 ? 'M' : 'L'}${px.toFixed(2)},${py.toFixed(2)}`;
     });
-    area += `L${x(valid.length - 1).toFixed(2)},${h - padY}L${padX},${h - padY}Z`;
+    area += `L${x(valid.length - 1).toFixed(2)},${h - padB}L${padL},${h - padB}Z`;
+
+    // 纵轴刻度：自上而下 max → min 均分 10 档
+    const ticks = Array.from({ length: TICK_COUNT }, (_, k) => {
+      const t = k / (TICK_COUNT - 1);
+      return { value: max - t * range, y: padT + t * plotH };
+    });
+
+    // 观察期最值点（取首次出现位置）
+    let maxIdx = 0;
+    let minIdx = 0;
+    valid.forEach((p, i) => {
+      if (p.value > valid[maxIdx].value) maxIdx = i;
+      if (p.value < valid[minIdx].value) minIdx = i;
+    });
+
     return {
       line,
       area,
       min,
       max,
+      ticks,
+      maxIdx,
+      minIdx,
+      maxX: x(maxIdx),
+      maxY: y(valid[maxIdx].value),
+      minX: x(minIdx),
+      minY: y(valid[minIdx].value),
+      maxIsLast: maxIdx === valid.length - 1,
+      minIsLast: minIdx === valid.length - 1,
       first: valid[0],
       last: valid[valid.length - 1],
       lastY: y(valid[valid.length - 1].value),
       lastX: x(valid.length - 1),
     };
-  }, [valid, w, h, padX, padY]);
+  }, [valid, w, h, padL, padR, padT, padB]);
 
   const up = latest != null && valid.length > 0 && latest >= valid[valid.length - 1].value;
   const stroke = up ? '#e11d48' : '#2563eb';
@@ -107,16 +134,33 @@ function TrendChart({
 
   if (!geom) {
     return (
-      <div className="flex h-[104px] items-center justify-center text-xs text-zinc-400 dark:text-zinc-500">
+      <div className="flex h-[128px] items-center justify-center text-xs text-zinc-400 dark:text-zinc-500">
         暂无趋势数据
       </div>
     );
   }
 
+  // 刻度值去掉千分位分隔符，保证窄幅纵轴放得下
+  const fmtTick = (v: number) => fmtNum(v, decimals).replace(/,/g, '');
+  const maxLabel = `高 ${fmtNum(valid[geom.maxIdx].value, decimals)}`;
+  const minLabel = `低 ${fmtNum(valid[geom.minIdx].value, decimals)}`;
+
+  /** 最值标签锚点：防止文字溢出绘图区左右边界 */
+  const anchorAt = (px: number, label: string): 'start' | 'middle' | 'end' => {
+    const half = label.length * 2.4 + 3;
+    if (px - half < padL) return 'start';
+    if (px + half > w - padR) return 'end';
+    return 'middle';
+  };
+
+  // 最大值默认标在点上方；若最大值恰为最新点（与最新值标签同位），改标在点下方
+  const maxYText = geom.maxIsLast ? geom.maxY + 13 : geom.maxY - 6;
+  const minYText = geom.minY + 12;
+
   return (
     <svg
       viewBox={`0 0 ${w} ${h}`}
-      className="h-[104px] w-full"
+      className="h-[128px] w-full"
       role="img"
       aria-label={ariaLabel}
     >
@@ -126,6 +170,37 @@ function TrendChart({
           <stop offset="100%" stopColor={stroke} stopOpacity="0.02" />
         </linearGradient>
       </defs>
+
+      {/* 纵轴网格线 + 10 个刻度值 */}
+      {geom.ticks.map((t, k) => (
+        <g key={k}>
+          <line
+            x1={padL}
+            x2={w - padR}
+            y1={t.y}
+            y2={t.y}
+            className="stroke-zinc-200 dark:stroke-zinc-800"
+            strokeWidth="1"
+          />
+          <text
+            x={padL - 4}
+            y={t.y + 2.6}
+            textAnchor="end"
+            className="fill-zinc-400 text-[8px] tabular-nums dark:fill-zinc-500"
+          >
+            {fmtTick(t.value)}
+          </text>
+        </g>
+      ))}
+      <line
+        x1={padL}
+        x2={padL}
+        y1={padT - 2}
+        y2={h - padB + 2}
+        className="stroke-zinc-300 dark:stroke-zinc-700"
+        strokeWidth="1"
+      />
+
       <path d={geom.area} fill={`url(#${gradId})`} />
       <path
         d={geom.line}
@@ -135,6 +210,44 @@ function TrendChart({
         strokeLinejoin="round"
         strokeLinecap="round"
       />
+
+      {/* 观察期最大值标注 */}
+      <circle
+        cx={geom.maxX}
+        cy={geom.maxY}
+        r="3"
+        fill="#f59e0b"
+        stroke="rgba(255,255,255,0.85)"
+        strokeWidth="1"
+      />
+      <text
+        x={geom.maxX}
+        y={maxYText}
+        textAnchor={anchorAt(geom.maxX, maxLabel)}
+        className="fill-amber-600 text-[8px] font-semibold tabular-nums dark:fill-amber-400"
+      >
+        {maxLabel}
+      </text>
+
+      {/* 观察期最小值标注 */}
+      <circle
+        cx={geom.minX}
+        cy={geom.minY}
+        r="3"
+        fill="#10b981"
+        stroke="rgba(255,255,255,0.85)"
+        strokeWidth="1"
+      />
+      <text
+        x={geom.minX}
+        y={minYText}
+        textAnchor={anchorAt(geom.minX, minLabel)}
+        className="fill-emerald-600 text-[8px] font-semibold tabular-nums dark:fill-emerald-400"
+      >
+        {minLabel}
+      </text>
+
+      {/* 最新值 */}
       <circle cx={geom.lastX} cy={geom.lastY} r="2.6" fill={stroke} />
       <text
         x={geom.lastX - 4}
