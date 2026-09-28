@@ -6,6 +6,14 @@
  *   node .codebuddy/scripts/publish-wechat.mjs 2026-09-12
  *   node .codebuddy/scripts/publish-wechat.mjs 2026-09-12 --force      # 删掉当天旧草稿重推
  *   node .codebuddy/scripts/publish-wechat.mjs 2026-09-12 --dry-run    # 只生成微信版文件，不推送
+ *   node .codebuddy/scripts/publish-wechat.mjs 2026-09-12 --direct    # 调试用：直连微信 API，不走服务器转发
+ *
+ * ── 出口 IP 说明（2026-09-28 改造） ─────────────────────
+ * 本地宽带出口 IP 每日漂移（浙江电信动态出口，一周内出现过 7 个地址），微信白名单
+ * 按请求出口 IP 判定，导致频繁 40164。现在所有微信 API 调用经 SSH 转发到阿里云
+ * 服务器（griverworld-app 容器）执行，出口固定为服务器公网 IP 120.26.33.18 ——
+ * 只需在微信后台加白该 IP 一次。转发器：scripts/wechat-relay.mjs（服务器路径
+ * /root/opt/griverworld/app/scripts/，容器内 /app/scripts/）。
  *
  * ── 输入契约 ──────────────────────────────────────────────
  * 1. content/news/daily-news-<date>.md        必需。正文来源（网站版，本脚本只读不改）
@@ -68,6 +76,7 @@ const argv = process.argv.slice(2);
 const date = argv.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a));
 const force = argv.includes('--force');
 const dryRun = argv.includes('--dry-run');
+const useDirect = argv.includes('--direct'); // 直连微信 API（调试用，默认走服务器转发）
 const optOf = (flag) => {
   const i = argv.indexOf(flag);
   return i >= 0 ? argv[i + 1] : undefined;
@@ -121,7 +130,13 @@ if (!digest) console.warn('⚠️  摘要为空，微信会退回"自动抓取�
 
 // ---------- 生成微信版 md ----------
 // 去掉正文开头的 H1 —— 它和 title 重复，微信正文里再顶一遍很难看
-const mainBody = raw.slice(fm[0].length).replace(/^\s*#\s+.*\n+/, '').trim();
+let mainBody = raw.slice(fm[0].length).replace(/^\s*#\s+.*\n+/, '');
+// 去掉文末"信息来源"等引用部分，压缩公众号文章长度（2026-09-20 用户指示；源文件保留，仅微信版裁掉）
+const srcCut = mainBody.search(/\n##\s*(信息来源|参考来源|来源|References?)\s*\n/);
+if (srcCut >= 0) {
+  mainBody = mainBody.slice(0, srcCut).trimEnd();
+  console.log('✂️  已裁掉文末信息来源部分（仅微信版）');
+}
 const composed = briefBody ? `${briefBody}\n\n---\n\n${mainBody}` : mainBody;
 
 mkdirSync(DRAFT_DIR, { recursive: true });
@@ -175,15 +190,53 @@ try {
 const html = rendered.slice(rendered.indexOf('<section'));
 if (!html.startsWith('<section')) die('❌ 渲染结果异常，未找到 <section> 根节点');
 
+// ---------- 微信 API 请求层：经阿里云服务器固定出口转发 ----------
+// 背景：本地出口 IP 每日漂移导致 40164；改经 SSH 在服务器容器内执行请求，
+// 出口固定为服务器公网 IP，微信后台只需加白一次。
+const SSH_KEY = path.join(ROOT, 'griverworld.pem');
+const SSH_TARGET = 'root@120.26.33.18';
+const RELAY_CMD = 'docker exec -i griverworld-app node scripts/wechat-relay.mjs';
+
+async function request(req) {
+  if (useDirect) {
+    // 调试模式：本地直连（协议同 relay 输入）
+    const init = { method: req.method ?? 'POST', headers: req.headers ?? {} };
+    if (req.body !== undefined) init.body = req.body;
+    if (req.form) {
+      const fd = new FormData();
+      for (const f of req.form.files ?? []) {
+        fd.append(
+          f.name,
+          new Blob([Buffer.from(f.dataBase64, 'base64')], { type: f.contentType }),
+          f.filename,
+        );
+      }
+      init.body = fd;
+    }
+    const res = await fetch(req.url, init);
+    return res.json();
+  }
+
+  const out = execFileSync(
+    'ssh',
+    ['-i', SSH_KEY, '-o', 'StrictHostKeyChecking=no', '-o', 'ConnectTimeout=20', SSH_TARGET, RELAY_CMD],
+    { input: JSON.stringify(req), encoding: 'utf8', maxBuffer: 128 * 1024 * 1024, timeout: 120000 },
+  );
+  const start = out.indexOf('{"ok"'); // SSH 的告警走 stderr，stdout 应只有转发器 JSON；兜底取首 个
+  if (start < 0) throw new Error(`转发器无响应: ${out.slice(0, 200)}`);
+  const r = JSON.parse(out.slice(start));
+  if (!r.ok) throw new Error(`转发失败: ${r.error}`);
+  return r.body;
+}
+
 // ---------- 稳定版 access_token ----------
 // 用 stable_token 而不是 cgi-bin/token：前者不会被其他调用顶掉，也不占用普通 token 的每日额度
 async function api(url, payload) {
-  const res = await fetch(url, {
-    method: 'POST',
+  const data = await request({
+    url,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
-  const data = await res.json();
   if (data.errcode && data.errcode !== 0) throw new Error(`${data.errcode}: ${data.errmsg}`);
   return data;
 }
@@ -202,9 +255,33 @@ if (!tok.access_token) {
 const token = tok.access_token;
 
 // ---------- 封面素材（按文件内容缓存，避免每天重复占用素材库额度） ----------
+// 优先使用当日 AI 生成封面（public/images/covers/daily-news-cover-<date>.png/.jpg），
+// 不存在时回退默认封面（public/images/daily-news-cover.png）。
 async function ensureCover() {
-  if (!existsSync(COVER)) die(`❌ 找不到封面图: ${COVER}`);
-  const buf = readFileSync(COVER);
+  const candidates = [
+    path.join(ROOT, 'public/images/covers', `daily-news-cover-${date}.png`),
+    path.join(ROOT, 'public/images/covers', `daily-news-cover-${date}.jpg`),
+    COVER,
+  ];
+  const coverPath = candidates.find((p) => existsSync(p));
+  if (!coverPath) die(`❌ 找不到封面图（含默认封面）: ${COVER}`);
+  if (coverPath !== COVER) console.log(`🖼️  使用当日封面: ${path.basename(coverPath)}`);
+
+  let buf = readFileSync(coverPath);
+  let mime = path.extname(coverPath) === '.png' ? 'image/png' : 'image/jpeg';
+  // 微信素材上限 10MB，超限时用 sips 压缩成 jpeg
+  if (buf.length > 9 * 1024 * 1024) {
+    const tmp = path.join(os.tmpdir(), `cover-compress-${Date.now()}.jpg`);
+    try {
+      execFileSync('sips', ['-s', 'format', 'jpeg', '-s', 'formatOptions', '82', coverPath, '--out', tmp]);
+      buf = readFileSync(tmp);
+      mime = 'image/jpeg';
+      console.log(`🗜️  封面超过 9MB，已压缩为 jpeg（${(buf.length / 1024 / 1024).toFixed(1)}MB）`);
+    } catch {
+      die(`❌ 封面图 ${(buf.length / 1024 / 1024).toFixed(1)}MB 超限且压缩失败: ${coverPath}`);
+    }
+  }
+
   const hash = createHash('md5').update(buf).digest('hex');
 
   if (state._cover?.hash === hash) {
@@ -212,13 +289,17 @@ async function ensureCover() {
     return state._cover.media_id;
   }
 
-  const form = new FormData();
-  form.append('media', new Blob([buf], { type: 'image/png' }), path.basename(COVER));
-  const res = await fetch(`${API}/material/add_material?access_token=${token}&type=image`, {
-    method: 'POST',
-    body: form,
-  });
-  const data = await res.json();
+  const form = {
+    files: [
+      {
+        name: 'media',
+        filename: path.basename(coverPath),
+        contentType: mime,
+        dataBase64: buf.toString('base64'),
+      },
+    ],
+  };
+  const data = await request(`${API}/material/add_material?access_token=${token}&type=image`, { form });
   if (!data.media_id) throw new Error(`封面素材上传失败: ${data.errcode} ${data.errmsg}`);
 
   state._cover = { hash, media_id: data.media_id, uploadedAt: new Date().toISOString() };
