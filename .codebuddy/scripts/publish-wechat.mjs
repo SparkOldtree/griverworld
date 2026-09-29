@@ -299,7 +299,10 @@ async function ensureCover() {
       },
     ],
   };
-  const data = await request(`${API}/material/add_material?access_token=${token}&type=image`, { form });
+  const data = await request({
+    url: `${API}/material/add_material?access_token=${token}&type=image`,
+    form,
+  });
   if (!data.media_id) throw new Error(`封面素材上传失败: ${data.errcode} ${data.errmsg}`);
 
   state._cover = { hash, media_id: data.media_id, uploadedAt: new Date().toISOString() };
