@@ -1,7 +1,7 @@
 ---
 title: "每日AI资讯 2026-10-10"
 date: "2026-10-10"
-summary: "Gemini 4 Argon 最快今日发布，谷歌同步推出可调用 Claude 的办公智能体；OpenAI 三名被解雇安全研究员发公开信；Anthropic 新规辱骂 Claude 将封号；"字节投毒实习生"田柯宇获 3000 万美元融资做世界模型；VoxMem 基准揭露音频大模型 32K 上下文全员记忆不及格。"
+summary: "Gemini 4 Argon 最快今日发布，谷歌同步推出可调用 Claude 的办公智能体；OpenAI 三名被解雇安全研究员发公开信；Anthropic 新规辱骂 Claude 将封号；“字节投毒实习生”田柯宇获 3000 万美元融资做世界模型；VoxMem 基准揭露音频大模型 32K 上下文全员记忆不及格。"
 tags:
   - AI技巧
   - AI论文
