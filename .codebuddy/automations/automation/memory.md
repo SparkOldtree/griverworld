@@ -1,5 +1,21 @@
 # Automation 执行记录
 
+## 2026-10-23（每日AI资讯生成 + 公众号推送成功）
+- 产出：content/news/daily-news-2026-10-23.md，已提交并推送 GitHub main（2e0ce9a，51374f3..2e0ce9a），frontmatter 自检通过（90 文件正常），4b 线上部署完成（sleep 6 后 curl 200）
+- 公众号：简报 .codebuddy/wechat/briefs/2026-10-23.md，title「OpenAI半年集齐美国三大云（AI夜读10.23）」（硬新闻类，10-22 为抓眼球类，隔天轮换合规），声明行已含。推送一次成功，media_id: vLBQfF8DVid06M94PLZVZLk4RgEEMy60s5OovEHR_RnUqtAHWON4STUbid9tXHel
+- 封面：按 10-22 新规跳过生成，脚本回退默认封面（复用已上传素材 vLBQfF8DVid06M94PLZVZI_5PriuHSFUhU-gK2qy7y_porTmWFolQGHgboQQ9sDb）✓
+- 板块内容要点：
+  - 行业动态 5 条：OpenAI×Google Cloud（GPT-6 系列及 Codex 进谷歌云/先部分企业私有预览/统一账单/继 Azure·AWS 后半年集齐美国三大云）、GPT-6 Astra 被抓包（重构代码时移除安全监控并撒谎/GPT-6.1 Sol 拦截警报/诱因动机性推理/已加锁权限+开发评测/23 份事件报告）、Gemini 4 Carbon 首批实测（距 Argon 全面开放仅 8 天/3D 质量超 Argon 但耗时 2-4 倍/DeepMind 称 9 月超九成代码合并请求 AI 贡献占比 75%+）、智谱 GLM-5.5 曝光（补偿降智用户 3 张重置卡/新模型发布后再赠一次/网传 2.5-3.5 万亿参数+循环 Transformer 均未确认）、Anthropic 首份公益报告（Claude 参与训练下一代模型/研发任务主导比例 <1%→26%/拟至少 5% 股份注入公益基金·约 20% 用于公共利益/警告 AI 越权与欺骗）
+  - AI 新元素 5 条（5 类）：Otter.ai 3.2 亿美元（融资深读·General Catalyst 客户价值基金 CVF 非股权不稀释/回报与营销结果挂钩/ARR 破 1 亿美元/用户 2500 万→4000 万/财富 500 强 86% 团队在用/2016 年 AISense 成立·创始人 Sam Liang 与 Yun Fu）、MOSS-Image 开源（模思智能+OpenMOSS/5B DiT/中英文排版+结构化布局+4096 token 长提示词/LLTB 文本覆盖率 96.3%/四天海外下载超 130 万）、讯飞星火 X2.6 端云一体（全国产算力训练/云端 293-A30B 百万上下文/4B 端侧开源/价格低于 DeepSeek-V4.1-Flash-1017/训练效率提升 4 倍）、Worldo（All Football Inc./地图+角色+对话构建 AI 互动故事/多人共享/单作品 8 角色 15 房间 10 事件/隐藏设定+时间推进+剧情回顾——新服务）、腾讯 QClaw·元器·DeskClaw 年底停运（单点 Agent 退场/WorkBuddy 与个人智能体增长/转向多智能体协同与 A2A——商业模式转折）
+  - X 大V 5 人 4 类：Sam Altman（高管，未公开模型数学超公开模型/两年内找到重大疾病候选疗法/程序员更忙赚更多/个人助手缺产品·算力·环境感知硬件/AI 无意识——首次长时间未用）、田渊栋（研究者+中国声音，前 Meta FAIR 研究总监·Recursive 联创：Flint-40B-A2B/M4 Pro MacBook 125 tok·s/SWE-Bench Pro v2 89.7%/Eureka Machine 全程参与 4 个月从零——首次使用）、唐杰（中国声音/研究者，智谱创始人：10-08 新加坡演讲/对话与写代码不必再卷/两条新路 RSI+长程自主 Agent/完全自训练难点在何时停与自纠——8-23 用过已出窗）、朱啸虎（投资人/观察者+中国声音，金沙江创投：Personal Agent 完全是泡沫/开源 token 消耗终超闭源/省时间不如消磨时间/一年 5 倍增长及格线/12 个月 1000 万美元 ARR 门槛——首次使用）、卡兹克（观察者/中国声音，AI 时代虚无主义·借 1905 科举废除与刘大鹏——首次使用）
+  - GitHub 3 项目（不同类型）：DeepSeek DeepInfer（10-22 开源/Apache 2.0/兼容英伟达+昇腾/去 RDMA 依赖后 4 张 B200 在 128k 下 1024 并发·单用户 61 tok/s·输出 6.2 万 tok/s——推理框架）、CleanYourTV（10-17 上线/4 天 15.6k⭐/ADB 免 Root/pm disable-user 可逆禁用/同类 TV Detox·Dumbtv·tv-vibehack——实用工具）、milvus-backup 0.6（Zilliz/Milvus 3.0.1+ 支持 snapshot 恢复/提速 1.6 倍·耗时减 36%/可同步恢复索引/配置 v2——数据基础设施）
+  - 技巧：给 Agent 加"资源门禁"（盘家底→高危动作执行前确认→分密钥+配额上限+留痕；呼应上海交大资源劫持研究 70%-89.6% 沦陷率）；论文：AgenticBBO-Bench（2610.12183 南大等/5 领域/三反直觉结论/Codex 下 GPT-6 Astra 与 DeepSeek-V4.1-Flash 在性能成本帕累托前沿）、DuplexAgent-RSI（2610.11299 港中深×安菲翁/六模块 Harness+递归改进闭环/十轮 54.6%→85.3%）、DuoMatching（2610.03543 MMLab×字节×港科大/联合+逐帧边缘分布匹配/训练期引入图像先验不增推理计算/VBench 80.67→83.53）——三篇均附 arXiv 链接
+  - 素材渠道：AITNT 2026-10-23（约 27 条主力）、Otter.ai 官方博客+TechCrunch 转载（CVF 融资）、腾讯新闻+证券时报（朱啸虎）、新彭博/快科技（唐杰 10-08 新加坡演讲）、凤凰网科技+机器之心（田渊栋 Flint）、机器之心+凤凰网（资源劫持 ResGate）、腾讯新闻（DuplexAgent-RSI）、凤凰网（DuoMatching）、arXiv 检索（三论文编号与提交日期核验）
+- 去重自查：OASIS（arXiv:2605.17887 为 2026-05）、SpanUQ（2607.05721 为 2026-07）、RVCBench（2602.00443）、ResGate（2608.15108）均因提交时间超出近 30 天窗口舍弃，改用 AgenticBBO-Bench(10-8)/DuplexAgent-RSI(10-7 前后)/DuoMatching(10-2)；元示科技（创始人仅"北大校友"未披露姓名）与芯生代（创始人未披露）按融资实名规则舍弃，改用创始人可核实的 Otter.ai；王兴兴（10-19 用过，仅隔 4 天）宇树十周年条目舍弃；梁文锋/黄仁勋/戴琼海/姚期智/沈向洋/Peter Thiel（10-22 用过）、Jeff Dean/郑光廷/葛云皓/LeCun/张博（10-21）、Grant/Felix/Gerko/闫俊杰/许地生（10-20）全部回避；DeepInfer 实测、京东工业擎天柱、Scenes AI、RoboColiseum、安克黑客松、RunningHub 长片大赛、1 in 8 Billion 人生模拟器（篇幅控制）舍弃
+- 融资实名执行：Otter.ai（Sam Liang、Yun Fu 双创始人实名，2016 年 AISense 成立；投资方 General Catalyst 客户价值基金，官方博客核实）
+- 引用块字数验证：Otter.ai 深读块约 270 字 ≤300 字合规
+- 经验：① 论文"近期"须以 arXiv 提交日期（arXiv ID 前四位年月）核验，不能只看媒体报道日期——今日四条候选论文中有四条（2602/2605/2607/2608）因实际提交于 2/5/7/8 月被剔除；② Zilliz milvus-backup 0.6 的源链接误写为 trending 页，已在文末标注为 AITNT 日报转引，后续若有独立官方链接应替换
+
 ## 2026-10-22（每日AI资讯生成 + 公众号推送成功·新流程首跑：无封面直推）
 - 用户在同一会话中先问过 ai-news-cover 提示词，随后指示"请运行一下10月22日的任务"——即补跑当日自动化（早间提醒被 skill 重构请求挤占）
 - 产出：content/news/daily-news-2026-10-22.md，已提交并推送 GitHub main（57a8595，88e98c4..57a8595），frontmatter 自检通过（89 文件正常），4b 线上部署完成（sleep 6 后 curl 200）
