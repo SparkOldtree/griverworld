@@ -5,10 +5,11 @@ import Link from 'next/link';
 
 const NAV_BUTTONS = [
   { label: '资讯', href: '/news' },
-  { label: '文章', href: '/blog' },
+  { label: '养料', href: '/videos' },
+  { label: '思索', href: '/blog' },
+  { label: '行动', href: '/action' },
   { label: '宏观', href: '/indicators' },
-  { label: '投资', href: '/invest' },
-  { label: '视频', href: '/videos' },
+  { label: '市场', href: '/invest' },
 ];
 
 export default function HomeHero() {

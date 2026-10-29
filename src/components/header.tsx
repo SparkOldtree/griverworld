@@ -7,10 +7,11 @@ import { useEffect, useState } from 'react';
 
 const navLinks = [
   { href: '/news', label: '资讯' },
-  { href: '/blog', label: '文章' },
+  { href: '/videos', label: '养料' },
+  { href: '/blog', label: '思索' },
+  { href: '/action', label: '行动' },
   { href: '/indicators', label: '宏观' },
-  { href: '/invest', label: '投资' },
-  { href: '/videos', label: '视频' },
+  { href: '/invest', label: '市场' },
   { href: '/about', label: '关于' },
 ];
 
