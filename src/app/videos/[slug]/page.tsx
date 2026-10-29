@@ -64,7 +64,11 @@ export default async function VideoPage({ params }: PageProps) {
           )}
           <span>·</span>
           <span className="inline-flex items-center rounded-md bg-zinc-100 px-2 py-0.5 text-xs dark:bg-zinc-800">
-            {video.frontmatter.platform === 'bilibili' ? 'Bilibili' : 'YouTube'}
+            {video.frontmatter.platform === 'bilibili'
+              ? 'Bilibili'
+              : video.frontmatter.platform === 'xiaoyuzhoufm'
+                ? '小宇宙播客'
+                : 'YouTube'}
           </span>
         </div>
         {video.frontmatter.tags && video.frontmatter.tags.length > 0 && (
@@ -87,6 +91,8 @@ export default async function VideoPage({ params }: PageProps) {
           platform={video.frontmatter.platform}
           bvid={video.frontmatter.bvid}
           youtubeId={video.frontmatter.youtubeId}
+          episodeId={video.frontmatter.episodeId}
+          cover={video.frontmatter.cover}
         />
       </div>
 

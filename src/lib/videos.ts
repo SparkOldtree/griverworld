@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-export type VideoPlatform = 'bilibili' | 'youtube';
+export type VideoPlatform = 'bilibili' | 'youtube' | 'xiaoyuzhoufm';
 
 export interface VideoFrontmatter {
   title: string;
@@ -10,6 +10,7 @@ export interface VideoFrontmatter {
   platform: VideoPlatform;
   bvid?: string;
   youtubeId?: string;
+  episodeId?: string;
   cover?: string;
   duration?: string;
   tags?: string[];

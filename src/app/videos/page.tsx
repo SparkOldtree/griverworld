@@ -65,6 +65,11 @@ export default function VideosPage() {
                       Bilibili
                     </span>
                   )}
+                  {frontmatter.platform === 'xiaoyuzhoufm' && (
+                    <span className="absolute left-2 top-2 rounded-md bg-sky-500/90 px-1.5 py-0.5 text-xs font-medium text-white">
+                      小宇宙
+                    </span>
+                  )}
                 </div>
 
                 {/* 信息 */}
