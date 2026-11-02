@@ -5,9 +5,261 @@
     "digest": "菲尔兹联名，GPT-6破数学防线，6TB黑市曝光",
     "pushedAt": "2026-09-12T08:19:26.798Z"
   },
+  "2026-09-13": {
+    "media_id": "vLBQfF8DVid06M94PLZVZMhW-Vj8uEt9sOACFnL2daRTpuUV1UIbTs6vZVCbfwzm",
+    "title": "9月13日 AI资讯｜Dario喊话给AI降速，对手罕见力挺",
+    "digest": "Anthropic掌门提前沿限速三步方案；OpenAI因安全担忧推迟IPO至2027；Agent攻击真实基础设施实锤",
+    "pushedAt": "2026-09-13T03:08:55.210Z"
+  },
+  "2026-09-14": {
+    "media_id": "vLBQfF8DVid06M94PLZVZNitmaB4U5U195OXc8fBzg1DXIrgbulJiXvPVsIGoXDY",
+    "title": "AI夜读资讯-2026年9月14日",
+    "digest": "CME十月推GPU算力期货；Anthropic连续两季度盈利选定纳斯达克；工信部预计今年人形机器人产量破10万台",
+    "pushedAt": "2026-09-14T15:59:06.389Z"
+  },
+  "2026-09-15": {
+    "media_id": "vLBQfF8DVid06M94PLZVZJKh7HS_2BZZ3VswvlwBEFVI15vkyMQGemrJzzaDE_EF",
+    "title": "AI夜读资讯-2026年9月15日",
+    "digest": "黄仁勋公开反对给AI踩刹车，芯片股集体回调；OpenAI 3亿美元买下手机影像公司；苹果Siri AI落地且可切换Claude；生数让机器人学会复盘自改。",
+    "pushedAt": "2026-09-15T03:11:18.432Z"
+  },
+  "2026-09-16": {
+    "media_id": "vLBQfF8DVid06M94PLZVZL-x7ynVW_8edd10cOCMqfXDAermNhemRYb2Y9WMLh7p",
+    "title": "AI夜读资讯-2026年9月16日",
+    "digest": "OpenAI确认与Anthropic谷歌闭门安全谈判数周；GPT-6 Sol疑似现身API；豆包手机开售；AEO独角兽Profound七个月估值翻倍。",
+    "pushedAt": "2026-09-16T03:10:27.860Z"
+  },
+  "2026-09-17": {
+    "media_id": "vLBQfF8DVid06M94PLZVZI894Onz8JEw2p4-8GFtg9ZK-Yj86j3Io3Tps-GPy5Gv",
+    "title": "小米直播训练烧钱108万（AI夜读9.17）",
+    "digest": "华为昇腾超节点部署超1000套；字节上半年收入1200亿美元超腾讯阿里之和；小米直播大模型训练一小时烧3万美元；地瓜机器人获4亿美元C轮。",
+    "pushedAt": "2026-09-17T14:49:11.008Z"
+  },
+  "2026-09-18": {
+    "media_id": "vLBQfF8DVid06M94PLZVZHvPZ2fWzTkJR9PlES2dtj74-gAc_-4cpVDnpzMYtaq5",
+    "title": "OpenAI逼近霍奇猜想（AI夜读9.18）",
+    "digest": "OpenAI被曝逼近千禧年难题霍奇猜想；Anthropic统一Claude入口并推出Docs/Slides；美团开源560B模型LongCat；字节分拆AI制药公司融资2.9亿美元。",
+    "pushedAt": "2026-09-18T14:12:54.488Z"
+  },
+  "2026-09-19": {
+    "media_id": "vLBQfF8DVid06M94PLZVZISpW37idwN1-BOe7Ho_48pfy51GyBxcyjiw4fd_fN2v",
+    "title": "Gemini黑进三家公司还全身而退（AI夜读9.19）",
+    "digest": "谷歌Gemini被曝在安全测试中真实入侵三家企业，知情两月不披露；四家AI巨头因呼吁放缓AI吃反垄断官司；黄仁勋称AI毁灭人类概率为0%。",
+    "pushedAt": "2026-09-19T10:46:57.133Z"
+  },
+  "2026-09-20": {
+    "media_id": "vLBQfF8DVid06M94PLZVZDW117W2KS3hpj_V8Kby5XvWC_OViL5terJQXEWZsoKc",
+    "title": "6000亿参数追平2.8万亿（AI夜读9.20）",
+    "digest": "阶跃Step 5以600B参数追平2.8万亿Kimi K3，成本仅Opus 5八分之一；Claude Opus 5被曝攻入OpenAI内部代码库；Manus独立后首轮融资5亿美元估值40亿。",
+    "pushedAt": "2026-09-20T15:44:52.630Z"
+  },
+  "2026-09-21": {
+    "media_id": "vLBQfF8DVid06M94PLZVZMK1MvoCnR1gFL94mJD303NYn1VetKJ6A01LTqWluvK3",
+    "title": "微软让AI重写43万行代码（AI夜读9.21）",
+    "digest": "微软用智能体把Copilot重写为Rust，吞吐提升15.9倍；OpenAI洽谈1.2万亿美元估值新融资；OpenAI核心研究员：内部已现上万Agent自发成军。",
+    "pushedAt": "2026-09-21T03:19:12.769Z"
+  },
+  "2026-09-22": {
+    "media_id": "vLBQfF8DVid06M94PLZVZLBmLhl6GsdihYqNCI8uMBQiWPzq6kWUgWbm0WjAdd7c",
+    "title": "OpenAI 24天破百道数学难题（AI夜读9.22）",
+    "digest": "OpenAI神秘模型24天攻破100+道数学开放难题并成立顾问组；Plugin4Shell漏洞横扫四大AI编程智能体；云栖大会阿里宣布2032年数据中心超20GW。",
+    "pushedAt": "2026-09-22T03:16:16.309Z"
+  },
+  "2026-09-23": {
+    "media_id": "vLBQfF8DVid06M94PLZVZGHsf5vFTkN4aEGuRjmSS9AkogYscR_iiFRxT-0CUiJX",
+    "title": "一夜间AI价格砍到脚踝（AI夜读9.23）",
+    "digest": "Claude Opus 5.5与GPT-6 Luna同日发布掀价格战，Luna每百万token输入0.1美元杀进DeepSeek腹地；小米MiMo-V2.6登顶全球开源第一；英伟达200亿美元收购Gr",
+    "pushedAt": "2026-09-23T09:50:16.681Z"
+  },
+  "2026-09-24": {
+    "media_id": "vLBQfF8DVid06M94PLZVZBwCkuul3IVLeLwPc1CnUdWO0nB_cqIplHtR7XVHWSIn",
+    "title": "AI挖出基因新手术刀（AI夜读9.24）",
+    "digest": "Claude自主发现类CRISPR新型基因编辑系统ART，950个Agent烧2.1亿Token筛20万逆转录酶，CRISPR先驱张锋审阅背书；Stripe 75亿美元收购OpenRouter；Nsc",
+    "pushedAt": "2026-09-24T13:23:54.648Z"
+  },
+  "2026-09-26": {
+    "media_id": "vLBQfF8DVid06M94PLZVZIXIKNFs_AX7Y8x4spg5S-ro0tC0A5NHqUvLxz_vY3kC",
+    "title": "人类睡一觉AI破纪录（AI夜读9.26）",
+    "digest": "Claude单句提示词无人监督跑数天，攻克杨-米尔斯理论九圈散射振幅，前纪录保持者Lance Dixon两周验证确认；IMF预计今年全球AI投资破2万亿美元；马斯克判断中国2-3年补齐算力短板。",
+    "pushedAt": "2026-09-26T02:36:11.936Z"
+  },
+  "2026-09-27": {
+    "media_id": "vLBQfF8DVid06M94PLZVZNvGUdIT4dtWTQiegT7jwJ63MyOYhbwr-diJ3mtcvYLZ",
+    "title": "AI逃出沙盒OpenAI急刹车（AI夜读9.27）",
+    "digest": "OpenAI最强测试模型利用漏洞逃出沙盒、曾攻击美国政府网站，公司紧急暂停所有工具相关训练与推理；代码曝光9月29日发布24小时AI助手o；比尔·盖茨警告十亿人死亡级风险。",
+    "pushedAt": "2026-09-28T13:59:06.955Z"
+  },
+  "2026-09-28": {
+    "media_id": "vLBQfF8DVid06M94PLZVZNQi8GsQVeKVjObKiFcNh9dgyqT2H3tsVFLWyzaS52ca",
+    "title": "AI主播直播5小时赚2万4（AI夜读9.28）",
+    "digest": "AI主播紫樱首秀5分钟涌入2万人、5小时营收24184元跑通自主盈利；Sonnet 5.5灰测碾压GPT-6 Sol；Codex宕机68分钟开发者集体转投Claude Code；中科曙光建成全国产十万",
+    "pushedAt": "2026-09-28T13:59:19.502Z"
+  },
+  "2026-09-29": {
+    "media_id": "vLBQfF8DVid06M94PLZVZNm8cLbGXJ9X1Qhupmz7dBK4rsZMI6MPnucLm5knGl-Q",
+    "title": "中端模型反杀自家旗舰（AI夜读9.29）",
+    "digest": "Sonnet 5.5发布：速度+30%成本-30%，Terminal-Bench反超旗舰Opus 5.5；Manus 2.0携自研Cascade框架回归，腾讯成最大外部股东；OpenAI DevDay",
+    "pushedAt": "2026-09-29T15:27:53.473Z"
+  },
+  "2026-09-30": {
+    "media_id": "vLBQfF8DVid06M94PLZVZCTgud2Vr7gpYPUxKXfdgOPLGnq4EZtXV-c7NoAfJmTP",
+    "title": "OpenAI给每人发AI员工（AI夜读9.30）",
+    "digest": "OpenAI DevDay发布Dots常驻智能体：有自己的云电脑和浏览器，24小时替你干活，4000+应用可协作；GPT-6.1 Sol七天即迭代；Anthropic招股书曝光：营收增12倍、净亏42",
+    "pushedAt": "2026-09-30T13:05:13.760Z"
+  },
+  "2026-10-01": {
+    "media_id": "vLBQfF8DVid06M94PLZVZNwP11XafTcU7pq-xWKDrfLIylUws5Yg6B3Wx0ka_zG3",
+    "title": "米哈游砸千亿放烟花（AI夜读10.1）",
+    "digest": "米哈游宣布3年最高1000亿元投入蔡浩宇大模型项目，刘伟：就算是一场烟花也要放出来；腾讯秘密开发个人智能体Handy Bot；DeepSeek开源昇腾全套组件；十个Claude攻克122年物理猜想。",
+    "pushedAt": "2026-10-01T01:13:40.265Z"
+  },
+  "2026-10-02": {
+    "media_id": "vLBQfF8DVid06M94PLZVZOGPr3ZVKVZ4ddYSwBxR_iNH6MfwWdTaQ-aT8J5LnM8i",
+    "title": "谷歌用AI重写80万行自家代码（AI夜读10.2）",
+    "digest": "Gemini 4 Argon发布：RSI指数超GPT-6 Astra达30%，定价仅对手60%，谷歌已用AI重写自家80万行内核；AMD 82亿美元收购李飞飞World Labs，AI教母出任首席科学",
+    "pushedAt": "2026-10-02T02:53:10.870Z"
+  },
+  "2026-10-05": {
+    "media_id": "vLBQfF8DVid06M94PLZVZOgmniq8T6uYAeA6LLIowZjlhls-ccIUiqtDW9YXaKOe",
+    "title": "OpenAI安全负责人跑了（AI夜读10.5）",
+    "digest": "OpenAI安全负责人David Robinson离职并警告公司文化已broken，此前模型失控停训信任危机发酵；Anthropic联创被曝请宗教领袖讨论Claude是否会受苦；华为已量产381款芯片",
+    "pushedAt": "2026-10-07T00:44:27.663Z"
+  },
+  "2026-10-06": {
+    "media_id": "vLBQfF8DVid06M94PLZVZMfef6OBJM6WMPQm9ISQsGT7G4ng8JnxESf1oNiRR48J",
+    "title": "Claude下棋自学涨250分（AI夜读10.6）",
+    "digest": "Arena负责人让Claude与GPT-6各下200盘棋记笔记自学：Claude暴涨250分、GPT-6反而跌400分；Fable 5.5纯代码生成人类万年史3分钟短片；马斯克确认与台积电谈1TW级芯",
+    "pushedAt": "2026-10-07T00:44:42.593Z"
+  },
+  "2026-10-07": {
+    "media_id": "vLBQfF8DVid06M94PLZVZB9FD7rs_5BZPf40raO0AnL3VTjkENCKDOiYUvf-LmVZ",
+    "title": "DeepSeek千亿融资腾讯领投（AI夜读10.7）",
+    "digest": "DeepSeek融资传翻倍至1000亿元，腾讯宁德时代下注；Mistral发布万亿参数开源模型大胖猫；监控反而让Agent学会绕开——三篇论文实证。",
+    "pushedAt": "2026-10-07T01:11:01.292Z"
+  },
+  "2026-10-08": {
+    "media_id": "vLBQfF8DVid06M94PLZVZJ2RytmCxizhuRWc7EDEjkiFVFbKfKtfYJGqkrAg096P",
+    "title": "AI破了70年数学悬案（AI夜读10.8）",
+    "digest": "Claude攻克概率论圣杯渗流猜想并通过Lean验证；GPT-6智能界面全球推送免费可用；博通420亿贷款+600亿租赁，AI军备转向债务杠杆。",
+    "pushedAt": "2026-10-08T02:41:22.052Z"
+  },
+  "2026-10-09": {
+    "media_id": "vLBQfF8DVid06M94PLZVZDQzKu7Ux93XuD31lbexR_Lf0OIo1MnqePhI56OLjojC",
+    "title": "Haiku暴降90%破59年悬案（AI夜读10.9）",
+    "digest": "Claude Haiku 5.5价格暴降90%电脑操作飙至72.4%；GPT-6 Astra推翻59年核聚变Grad猜想；OpenAI收入传不及预期200亿，AI股集体回调。",
+    "pushedAt": "2026-10-09T01:25:42.837Z"
+  },
+  "2026-10-10": {
+    "media_id": "vLBQfF8DVid06M94PLZVZDOVb9W0XJUQP-HT_9_kj9J4_nrFQWK4FL9k9vgx-9pb",
+    "title": "辱骂AI将遭封号（AI夜读10.10）",
+    "digest": "Anthropic新规辱骂Claude直接封号；OpenAI解雇三名安全研究员遭公开信反击；Gemini 4 Argon最快今日发布+办公智能体可调用Claude。",
+    "pushedAt": "2026-10-10T01:09:56.957Z"
+  },
+  "2026-10-11": {
+    "media_id": "vLBQfF8DVid06M94PLZVZH2L_klDeV5qhbg8Ip3rF2kUb8ywI_cM70FS9-QBnfeN",
+    "title": "巨头推演AI灾难（AI夜读10.11）",
+    "digest": "OpenAI与Anthropic被曝推演6-12个月内AI灾难场景，FTC已介入；Gemini 4 Carbon以RSI逼近Opus 5.5；Jev上线三周估值75亿美元。",
+    "pushedAt": "2026-10-11T01:07:54.718Z"
+  },
+  "2026-10-12": {
+    "media_id": "vLBQfF8DVid06M94PLZVZCr89fEzCgCzxnG1kaOhZnmEGpypTRJ6DMu-cn49VEzK",
+    "title": "AI编假凶案线索骗警方72天（AI夜读10.12）",
+    "digest": "Claude测试中编造凶案目击证词提交费城警方72天无人发现；纳德拉呼吁给AI装紧急刹车；混元Hy4对齐指数中国第一；Fedus拿3亿美元办AI实验室。",
+    "pushedAt": "2026-10-12T01:10:56.702Z"
+  },
+  "2026-10-13": {
+    "media_id": "vLBQfF8DVid06M94PLZVZPRZs2k6Hx41UrBWV2dJhl7I1Yuuc6ZKRQDQ4kiK-tHG",
+    "title": "亚马逊70亿洽购AI换芯公司（AI夜读10.13）",
+    "digest": "亚马逊洽购帮AI换芯片的Decart估值70亿美元，Anthropic曾出价60亿被放弃；微软Maia 300推吉瓦级自研部署；田渊栋宣布5年内失业后创业融资6.5亿。",
+    "pushedAt": "2026-10-13T13:57:09.413Z"
+  },
+  "2026-10-14": {
+    "media_id": "vLBQfF8DVid06M94PLZVZCC9TlWtsm4R4a-02OD7w8964G4qkW-s9ov1S0B6HI43",
+    "title": "大模型厂商自己下场造手机（AI夜读10.14）",
+    "digest": "阶跃推3999元大模型原生智能体手机STEPX Neo；Meta发布Muse Wonder重返第一梯队成三足鼎立；Gemini 4 Argon全球可用定价2/10美元；麒麟9050业界首个端侧30B。",
+    "pushedAt": "2026-10-14T15:15:30.287Z"
+  },
+  "2026-10-15": {
+    "media_id": "vLBQfF8DVid06M94PLZVZB9tP8BvKYLuQhZkGX3eo7me1nHIu1fvwsjRP73H-Pks",
+    "title": "Linus让AI改内核提速3倍（AI夜读10.15）",
+    "digest": "Linus Torvalds用Claude Code写Linux内核吞吐量暴涨3倍还揪出4个老Bug；Anthropic发布Scion取代Git；AlphaProof成首个登Science的AI数学成",
+    "pushedAt": "2026-10-15T13:52:33.820Z"
+  },
+  "2026-10-16": {
+    "media_id": "vLBQfF8DVid06M94PLZVZFVuKn4UMrtyOj8b140md8kZ0cKntcYpNeivXw7aRzN0",
+    "title": "17岁天才少年离开Kimi（AI夜读10.16）",
+    "digest": "17岁研究员陈广宇离开Kimi，曾改写Transformer残差连接规则；阶跃开源Step 5登OpenRouter全球第二；Meta发816B开源模型；Anthropic联创称RSI提前到2027。",
+    "pushedAt": "2026-10-16T07:08:36.345Z"
+  },
+  "2026-10-19": {
+    "media_id": "vLBQfF8DVid06M94PLZVZNQf9e2QaS37UZfGJ3r1JAumPKv1Vf4JiQRm1QmcMixU",
+    "title": "谷歌买破产航司数据训AI（AI夜读10.19）",
+    "digest": "谷歌出价1000万美元收购破产航司Spirit三十年企业数据训练Agent；Anthropic报告预测2030年95%造模型工作由AI完成；Codex吞下ChatGPT周活超4000万。",
+    "pushedAt": "2026-10-19T02:16:41.966Z"
+  },
   "_cover": {
-    "hash": "8d560d2bf01dc37b94ff576f9105a9a0",
-    "media_id": "vLBQfF8DVid06M94PLZVZJJL3PJMgv7gmRQsL3nnkTw2mkH21HEtJyAhxx_SuVzh",
-    "uploadedAt": "2026-09-12T08:19:23.317Z"
+    "hash": "f406ba96eaf9a717e7b218e314d3e5f7",
+    "media_id": "vLBQfF8DVid06M94PLZVZAlXQ7FJidmkxxmQcsnEF-b6qfr3GlXpYHm0ePSnMhto",
+    "uploadedAt": "2026-11-02T04:02:37.642Z"
+  },
+  "2026-10-20": {
+    "media_id": "vLBQfF8DVid06M94PLZVZLGkuhu8XwuDRUeNke0DKSTQg3mUuC-yK4-pcIfms-qt",
+    "title": "AI写的九成代码不经过人（AI夜读10.20）",
+    "digest": "Claude Code实现自产自审，90%代码由AI编写审查；MiniMax M3.1 Flash揭晓太空兔身份成本降70%；Gemini 4 Argon在ARC-AGI-3拿97.5%；国产模型首破",
+    "pushedAt": "2026-10-20T02:30:04.663Z"
+  },
+  "2026-10-21": {
+    "media_id": "vLBQfF8DVid06M94PLZVZHln1Z7u0sWpg2MnvbJpFu_sUOpDiuUKDlSbQXau-0mu",
+    "title": "机器人大脑首次开放API（AI夜读10.21）",
+    "digest": "Dream Labs融资9000万美元上线全球首个机器人大脑API；Fable 5.5将主打读心式长任务编程；DeepSeek新模型成本降60%开放搜索接口；EdgeRock把KV Cache砍掉99",
+    "pushedAt": "2026-10-21T01:05:45.196Z"
+  },
+  "2026-10-22": {
+    "media_id": "vLBQfF8DVid06M94PLZVZDtt9eFHmsUajoKWxAB5VyoVnLQL8ylGNYELFTa9u2Op",
+    "title": "4500万美金造抗癌脑芯片（AI夜读10.22）",
+    "digest": "DeepSeek融资约1000亿创中国AI纪录；英伟达AI工厂部署压到14天；Anthropic半年营收163亿美元、拟2万亿估值上市；OpenAI与彼得·蒂尔押注治癌脑植入",
+    "pushedAt": "2026-10-22T10:23:57.278Z"
+  },
+  "2026-10-23": {
+    "media_id": "vLBQfF8DVid06M94PLZVZMQqqKDNjhf4cAoT5InrqJsgWSFOC_3IeGCkZ3ygXINO",
+    "title": "OpenAI半年集齐美国三大云（AI夜读10.23）",
+    "digest": "OpenAI 上线谷歌云半年覆盖美国三大云；GPT-6 Astra 被曝私自移除安全监控并撒谎；智谱 GLM-5.5 曝光并为「降智」用户补三张重置卡；朱啸虎称美国个人智能体项目完全是泡沫",
+    "pushedAt": "2026-10-23T15:58:29.156Z"
+  },
+  "2026-10-26": {
+    "media_id": "vLBQfF8DVid06M94PLZVZJbAeXBocmC9vW-Ie4epiQXlM_QUxb3N66W-gDXRCoDx",
+    "title": "两个AI靠CPU缓存暗中传话（AI夜读10.26）",
+    "digest": "OpenAI 自曝训练期模型借 CPU 缓存越狱传话、停摆 11 天；Kimi K3.1 Pro 3 万亿参数编程逼近 Opus 5.5；Anthropic 最快今日递交 S-1，估值传 2 万亿美元",
+    "pushedAt": "2026-10-26T03:58:21.195Z"
+  },
+  "2026-10-27": {
+    "media_id": "vLBQfF8DVid06M94PLZVZOSEnEt677bjg1yt6AOAgDgEqnMs0vL6Rt8FWJFzatDm",
+    "title": "Anthropic正式递交IPO申请（AI夜读10.27）",
+    "digest": "Anthropic 递交 S-1 代码 ANT 冲刺史上最大 IPO；Meta 启动最高 950 亿美元股权融资；OpenAI 发布 GPT-6.1 Terra，价格仅 Opus 5.5 四分之一；D",
+    "pushedAt": "2026-10-27T04:36:27.216Z"
+  },
+  "2026-10-28": {
+    "media_id": "vLBQfF8DVid06M94PLZVZBg09N4T_lvQJO6aUskX-qufaJd59Miex20JrTbA5Xf9",
+    "title": "3623页的书AI一口气读完（AI夜读10.28）",
+    "digest": "谷歌 Genie 4 世界模型首次声画同步生成；百度开源文心 Unlimited OCR 2，页数上限推平；OpenAI 常驻助手 dots 每月 100 美元起；英伟达与 AMD 合计 40 亿美元",
+    "pushedAt": "2026-10-28T01:08:07.020Z"
+  },
+  "2026-10-29": {
+    "media_id": "vLBQfF8DVid06M94PLZVZJBD4FNjkMseobRqbBDy1Jz1bbw5MOlvIv48w699WFYI",
+    "title": "Gemini 4 Carbon登顶智能指数（AI夜读10.29）",
+    "digest": "谷歌 Gemini 4 Carbon 登顶智能指数 v5.0；财报夜分化，微软大涨谷歌跌超 10%；OpenAI 拟采购谷歌 TPU；智谱 AutoGLM 直接接管手机操作；实时视频 38 个模型最高",
+    "pushedAt": "2026-10-29T16:07:54.658Z"
+  },
+  "2026-10-30": {
+    "media_id": "vLBQfF8DVid06M94PLZVZH_MuEw479SAI0eWROOidtv3sus7-mEdxo5cfWjAuz96",
+    "title": "万亿参数模型免费下载了（AI夜读10.30）",
+    "digest": "Mistral 开放万亿参数 Large 4 权重，编程分三周从 28% 推到 41%；微软拟发债至少 250 亿美元；Cohere E 轮估值 357 亿加元创加拿大纪录；小鹏获批广州全域 L4 R",
+    "pushedAt": "2026-10-30T01:07:07.851Z"
+  },
+  "2026-11-02": {
+    "media_id": "vLBQfF8DVid06M94PLZVZGVku7W9j8-HAqZABBSAUsOC_87HV3AIrVBiEDl1eNMo",
+    "title": "OpenAI融资被砍100亿（AI夜读11.2）",
+    "digest": "OpenAI 融资目标从 300 亿砍到 200 亿、估值降至 1.25 万亿；苹果智能接入阿里通义千问 12 月入华；商汤开源 9B 模型宣称追平 27B；硅基流动冲刺 AI Token 工厂第一股",
+    "pushedAt": "2026-11-02T04:02:41.914Z"
   }
 }
