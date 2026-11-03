@@ -198,9 +198,9 @@
     "pushedAt": "2026-10-19T02:16:41.966Z"
   },
   "_cover": {
-    "hash": "f406ba96eaf9a717e7b218e314d3e5f7",
-    "media_id": "vLBQfF8DVid06M94PLZVZAlXQ7FJidmkxxmQcsnEF-b6qfr3GlXpYHm0ePSnMhto",
-    "uploadedAt": "2026-11-02T04:02:37.642Z"
+    "hash": "8d560d2bf01dc37b94ff576f9105a9a0",
+    "media_id": "vLBQfF8DVid06M94PLZVZKLMbSnMp0KQpbDh-M7suNBjZ14rA-DQsZRIkXhUh8__",
+    "uploadedAt": "2026-11-03T01:12:46.827Z"
   },
   "2026-10-20": {
     "media_id": "vLBQfF8DVid06M94PLZVZLGkuhu8XwuDRUeNke0DKSTQg3mUuC-yK4-pcIfms-qt",
@@ -261,5 +261,11 @@
     "title": "OpenAI融资被砍100亿（AI夜读11.2）",
     "digest": "OpenAI 融资目标从 300 亿砍到 200 亿、估值降至 1.25 万亿；苹果智能接入阿里通义千问 12 月入华；商汤开源 9B 模型宣称追平 27B；硅基流动冲刺 AI Token 工厂第一股",
     "pushedAt": "2026-11-02T04:02:41.914Z"
+  },
+  "2026-11-03": {
+    "media_id": "vLBQfF8DVid06M94PLZVZCh_0NyLqtjckmuYYWYUiFsEAJbHS_MdZaY1LXAc6161",
+    "title": "Anthropic承认AI进化快到看不清（AI夜读11.3）",
+    "digest": "Anthropic 修订版招股书：Q3 营收 170 亿美元，首次承认可能触及「AI 显著加速研发」红线；GDPx 基准里最强模型只做对 12%；Marvell 1150 亿美元买下光互联。",
+    "pushedAt": "2026-11-03T01:12:50.585Z"
   }
 }
