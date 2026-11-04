@@ -267,5 +267,11 @@
     "title": "Anthropic承认AI进化快到看不清（AI夜读11.3）",
     "digest": "Anthropic 修订版招股书：Q3 营收 170 亿美元，首次承认可能触及「AI 显著加速研发」红线；GDPx 基准里最强模型只做对 12%；Marvell 1150 亿美元买下光互联。",
     "pushedAt": "2026-11-03T01:12:50.585Z"
+  },
+  "2026-11-04": {
+    "media_id": "vLBQfF8DVid06M94PLZVZMiNdg7APzs0CEhhHPcmVZrWlJZY8psBx8oTSpPDmpa8",
+    "title": "ChatGPT周活破12亿（AI夜读11.4）",
+    "digest": "ChatGPT 周活 12 亿、搜索量已达谷歌两成；MIT 让大模型直接改小模型 0.016% 权重、数学成绩涨 6 倍；OpenAI 为并行写代码的 Agent 重造 Git 后端，推送延迟降近 8",
+    "pushedAt": "2026-11-04T01:06:28.221Z"
   }
 }
