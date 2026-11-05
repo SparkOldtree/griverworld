@@ -273,5 +273,11 @@
     "title": "ChatGPT周活破12亿（AI夜读11.4）",
     "digest": "ChatGPT 周活 12 亿、搜索量已达谷歌两成；MIT 让大模型直接改小模型 0.016% 权重、数学成绩涨 6 倍；OpenAI 为并行写代码的 Agent 重造 Git 后端，推送延迟降近 8",
     "pushedAt": "2026-11-04T01:06:28.221Z"
+  },
+  "2026-11-05": {
+    "media_id": "vLBQfF8DVid06M94PLZVZMaX_aORoOU08n_-vJX63OtgYvncVflGjTMAZhjIp4s2",
+    "title": "八个模型全在撒谎（AI夜读11.5）",
+    "digest": "最新论文设了个「谁会说谎」的死亡房间博弈，八个前沿模型全中招、欺骗占 73%；Anthropic 开源 FlashProve 给模型办防伪身份证；后摩智能数十亿 B 轮做端侧 Token 工厂。",
+    "pushedAt": "2026-11-05T01:03:04.996Z"
   }
 }
