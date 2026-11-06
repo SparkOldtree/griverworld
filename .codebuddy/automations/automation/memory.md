@@ -1,5 +1,15 @@
 # Automation 执行记录
 
+## 2026-11-06（每日AI资讯生成 + 公众号推送成功）
+- 周五正常运行，去重窗口 11-01~11-05
+- 产出：content/news/daily-news-2026-11-06.md（28149 字节），已提交并推送 GitHub main（d09462a），frontmatter 自检通过（103 文件正常），4b 线上部署一次成功（HEAD=d09462a、文件 28149 字节、curl 200）
+- 公众号：简报 .codebuddy/wechat/briefs/2026-11-06.md，title「美国人形机器人第一股敲钟（AI夜读11.6）」（硬新闻类，11-05 为抓眼球类，隔天轮换合规），声明行已含。推送一次成功（未生成当日封面，脚本复用默认封面已上传素材），media_id: vLBQfF8DVid06M94PLZVZDUuLuliNxFl_FJkq2xT2kUsaIVWTr9SlgIc5XWj8EQp；简报与状态提交 f7f575f
+- 声音多样性（5 人 4 类，全部为近 5 天未用的新面孔）：格雷格·布罗克曼（高管，OpenAI 总裁，11-05 WSJ 纳帕科技大会「大部分收入已来自企业客户」+「2027 年具备上市条件」）、杨立昆（研究者，达特茅斯 AI@70 演讲获杰出贡献奖 + 10-29 论文 1.09 亿参数文本 JEPA 超 Qwen2.5-72B/Llama-3-70B、2160 万样本追平基线）、周源（中国声音，知乎创始人，乌镇「人类历史上最大规模的一次知识迁移」）、陈睿（高管/中国声音，B站董事长，"AI 是视频产生以来最大的技术革命"）、雷·达里欧（观察者，桥水创始人，10 月彭博采访「泡沫看纸面财富能否变现金」「押注技术与押注股票是两笔投资」）
+- 板块要点：行业动态 5 条（OpenAI GPT-6 Cyber·ExploitGym 48.5% vs 32.1%·1724 个 Linux 漏洞/948 个可用利用·Firefox 81 个新漏洞·越界率 0.07%→0·风险等级 High→Critical·仅 Daybreak Red 开放、Agility Robotics 纳斯达克 AGLT·4.65 亿美元·投前 25 亿·富士康领投 2.01 亿 PIPE·Digit 5 三年 1000 台 3 亿美元·首日最高 +79.8%、苹果下调员工 AI 预算·300→200→最低 100/25 美元、腾讯混元 Hy4 首日额度告急·推理集群扩容十倍、丰田设直属机器人部门·首席生产官兼任）；新元素 5 条（Sand.ai 2 亿美元 A+ 轮深读·曹越·MAGI-2 Preview 114B/激活 6B/10 秒 1080P 约 0.5 元·H1 营收 1739.8 万元·净亏 1.52 亿元、Kimi Hosted Agents 托管智能体·140+ Skills·30+ 插件·Inference Hook、GPT-Image-2.6 全量·最快 6 秒·3×2 帧切片出 GIF·原生 SVG·Flare/Sunburst 双型号·complexity 参数、Cat Wu 加入 OpenAI 任核心产品 PM 负责人、华为首款鸿蒙台式机擎云 HM650·鸿蒙电脑发货破百万）；GitHub 3 个（github/spec-kit 规范驱动开发六阶段、cloudflare/security-audit-skill 六阶段审计·找漏洞与证伪分离·单周 +12680 星、D4Vinci/Scrapling 自适应元素定位采集框架）；技巧「先写 5 行项目宪法再让 AI 开工」；论文 PolicyIK(2611.05372)、Geometry of Ignorance(2611.05272, EMNLP Findings 2026)、DreamX(2611.05377)
+- 融资实名执行：Sand.ai（曹越，清华软件工程博士、前 MSRA 主管研究员、智源视觉模型研究中心负责人、光年之外联合创始人、Swin Transformer 主要作者；澎湃/财联社/智东西/新浪财经多源核实，营收与亏损来自网宿科技投资公告）
+- 舍弃与避坑：美股中期选举与数据中心反弹（政治，整体舍弃，只写 AI 股回调不解释触发因素）；达里欧论述中的「财富税议案」与秩序冲突部分（政治，剔除只留融资成本机制）；Ebony-Vinyl/dsh-our-free-model（免登录白嫖前沿模型，合规风险）；MoneyPrinterTurbo（细节核实不足）；腾讯混元 Hy4 正式版本体（11-04/11-05 已两次触达，今天只写「首日额度告急+扩容十倍」这一新事实）；Cat Wu 条目中不再点名布罗克曼转发（他已在板块三出现，守「同一人最多 1 次」）
+- 经验：① replace_in_file 追加中文内容时 old_str 务必从文件末尾 `tail -c` 或 read_file 的实际字符复制，本次两次匹配失败均因凭记忆漏字（「铺到政企桌面」漏「铺」）与重复词（「赚」出现两次）；② 长文写作继续采用「write_to_file 写前半 + replace_in_file 用 <!--PARTn--> 占位」两段式；③ 简报结尾固定句需按模板「此外还有 N 条大 V 观点、3 个 GitHub 项目、3 篇论文，以及一份「技巧名」」写，不要自创顺序
+
 ## 2026-11-05（每日AI资讯生成 + 公众号推送成功）
 - 周四正常运行，去重窗口 10-30~11-04
 - 产出：content/news/daily-news-2026-11-05.md（26927 字节），已提交并推送 GitHub main（1f5b9df），frontmatter 自检通过（102 文件正常），4b 线上部署一次成功（HEAD=1f5b9df、文件 26927 字节、curl 200）
