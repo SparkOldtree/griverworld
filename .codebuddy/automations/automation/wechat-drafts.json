@@ -197,11 +197,6 @@
     "digest": "谷歌出价1000万美元收购破产航司Spirit三十年企业数据训练Agent；Anthropic报告预测2030年95%造模型工作由AI完成；Codex吞下ChatGPT周活超4000万。",
     "pushedAt": "2026-10-19T02:16:41.966Z"
   },
-  "_cover": {
-    "hash": "8d560d2bf01dc37b94ff576f9105a9a0",
-    "media_id": "vLBQfF8DVid06M94PLZVZKLMbSnMp0KQpbDh-M7suNBjZ14rA-DQsZRIkXhUh8__",
-    "uploadedAt": "2026-11-03T01:12:46.827Z"
-  },
   "2026-10-20": {
     "media_id": "vLBQfF8DVid06M94PLZVZLGkuhu8XwuDRUeNke0DKSTQg3mUuC-yK4-pcIfms-qt",
     "title": "AI写的九成代码不经过人（AI夜读10.20）",
@@ -297,5 +292,16 @@
     "title": "史上最大IPO今天开始路演（AI夜读11.10）",
     "digest": "Anthropic 路演今日开启、估值最高 1.5 万亿美元，前一夜刚发 Fable 5.2 并降价两成；千个子智能体八天造出可启动操作系统；谷歌一次补齐两款 TPU。",
     "pushedAt": "2026-11-10T01:09:31.564Z"
+  },
+  "_cover": {
+    "hash": "8d560d2bf01dc37b94ff576f9105a9a0",
+    "media_id": "vLBQfF8DVid06M94PLZVZNiVqnHRhynBmcN_ZB3toflZckQB09mnePxNM4vQRgyJ",
+    "uploadedAt": "2026-11-11T01:02:29.026Z"
+  },
+  "2026-11-11": {
+    "media_id": "vLBQfF8DVid06M94PLZVZFJL__CRpw0hycHZbbw8i4bmbSXVIGu35Bsv9Gnng0kY",
+    "title": "最强模型上线，财报却先崩了（AI夜读11.11）",
+    "digest": "Anthropic 定发行价 70-78 美元、最高募资 643.5 亿；谷歌 Gemini 4 Carbon 全面开放却预告下月涨价一倍；阿里分拆平头哥赴港上市。",
+    "pushedAt": "2026-11-11T01:02:32.711Z"
   }
 }
