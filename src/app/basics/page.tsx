@@ -20,8 +20,8 @@ export default function BasicsPage() {
     <div>
       <PageBackground />
 
-      {/* 悬浮深色内容面板：滚动时背景静止，面板浮于背景之上（与资讯页同款） */}
-      <div className="mx-auto w-full max-w-3xl px-4 py-12">
+      {/* 悬浮深色内容面板：PC 端宽度在原 max-w-3xl 基础上增加 50%（max-w-6xl） */}
+      <div className="mx-auto w-full max-w-6xl px-4 py-12">
         <div className="rounded-2xl bg-zinc-950/35 px-6 py-8 shadow-xl backdrop-blur-sm sm:px-10 sm:py-10">
           <h1 className="mb-1 text-xl font-bold text-white">基础</h1>
           <p className="mb-8 text-sm text-zinc-200">

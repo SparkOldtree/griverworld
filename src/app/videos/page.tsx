@@ -25,8 +25,8 @@ export default function VideosPage() {
     <div>
       <PageBackground />
 
-      {/* 悬浮深色内容面板：滚动时背景静止，面板浮于背景之上（与资讯页同款） */}
-      <div className="mx-auto w-full max-w-3xl px-4 py-16">
+      {/* 悬浮深色内容面板：滚动时背景静止，面板浮于背景之上（与资讯页同款）；PC 端加宽至 max-w-6xl */}
+      <div className="mx-auto w-full max-w-6xl px-4 py-16">
         <div className="rounded-2xl bg-zinc-950/35 px-6 py-8 shadow-xl backdrop-blur-sm sm:px-10 sm:py-10">
           <h1 className="mb-3 text-xl font-bold text-white">视频</h1>
           <p className="mb-8 text-sm text-zinc-200">
@@ -36,7 +36,7 @@ export default function VideosPage() {
           {videos.length === 0 ? (
             <p className="text-zinc-200">暂无视频</p>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {videos.map((video) => {
                 const { frontmatter } = video;
                 return (

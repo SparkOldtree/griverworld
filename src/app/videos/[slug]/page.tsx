@@ -27,8 +27,8 @@ export default async function VideoPage({ params }: PageProps) {
     <div>
       <PageBackground />
 
-      {/* 悬浮深色内容面板：滚动时背景静止，面板浮于背景之上（与资讯页同款） */}
-      <div className="mx-auto w-full max-w-3xl px-4 py-16">
+      {/* 悬浮深色内容面板：滚动时背景静止，面板浮于背景之上（与资讯页同款）；PC 端加宽至 max-w-6xl */}
+      <div className="mx-auto w-full max-w-6xl px-4 py-16">
         <div className="rounded-2xl bg-zinc-950/35 px-6 py-8 shadow-xl backdrop-blur-sm sm:px-10 sm:py-10">
           {/* 返回链接 */}
           <Link
