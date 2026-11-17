@@ -12,7 +12,7 @@ const navLinks = [
   { href: '/action', label: '行动' },
   { href: '/indicators', label: '宏观' },
   { href: '/invest', label: '市场' },
-  { href: '/about', label: '关于' },
+  { href: '/basics', label: '基础' },
 ];
 
 export default function Header() {

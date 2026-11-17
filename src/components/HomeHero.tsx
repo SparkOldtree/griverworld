@@ -10,6 +10,7 @@ const NAV_BUTTONS = [
   { label: '行动', href: '/action' },
   { label: '宏观', href: '/indicators' },
   { label: '市场', href: '/invest' },
+  { label: '基础', href: '/basics' },
 ];
 
 export default function HomeHero() {

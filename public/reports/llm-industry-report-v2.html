@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大模型从开发到应用 · 产业链全景研报</title>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --surface2: #1c2333;
+    --border: #30363d; --text: #e6edf3; --text2: #8b949e;
+    --accent: #58a6ff; --accent2: #7ee787; --accent3: #d2a8ff;
+    --warn: #f0883e; --danger: #f85149;
+    --grad1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --grad2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --grad3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --grad4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    --grad5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --grad6: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* Hero */
+  .hero { position: relative; padding: 80px 0 60px; text-align: center; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 40%, rgba(88,166,255,0.08) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(126,231,135,0.06) 0%, transparent 50%); }
+  .hero h1 { font-size: 2.4em; font-weight: 800; letter-spacing: -0.02em; background: linear-gradient(135deg, #58a6ff, #7ee787, #d2a8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative; }
+  .hero .subtitle { color: var(--text2); font-size: 1.1em; margin-top: 12px; position: relative; }
+  .hero .meta { display: flex; gap: 24px; justify-content: center; margin-top: 20px; color: var(--text2); font-size: 0.85em; position: relative; }
+
+  /* TOC */
+  .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px 32px; margin: 40px 0; }
+  .toc h2 { font-size: 1.1em; color: var(--accent); margin-bottom: 16px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .toc ol { padding-left: 20px; }
+  .toc li { margin: 6px 0; }
+  .toc a { color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .toc a:hover { color: var(--accent); }
+
+  /* Section */
+  .section { margin: 56px 0; }
+  .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .section-num { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2em; color: #fff; flex-shrink: 0; }
+  .section-header h2 { font-size: 1.6em; font-weight: 700; }
+
+  /* Pipeline diagram */
+  .pipeline { display: flex; gap: 4px; margin: 32px 0; overflow-x: auto; padding-bottom: 8px; }
+  .pipe-node { flex: 1; min-width: 120px; padding: 16px 12px; border-radius: 10px; text-align: center; color: #fff; font-weight: 600; font-size: 0.85em; position: relative; cursor: default; transition: transform 0.2s; }
+  .pipe-node:hover { transform: translateY(-3px); }
+  .pipe-node .pipe-label { font-size: 0.75em; opacity: 0.85; margin-top: 4px; font-weight: 400; }
+  .pipe-arrow { display: flex; align-items: center; color: var(--text2); font-size: 1.2em; }
+
+  /* Cards */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 16px 0; transition: border-color 0.2s; }
+  .card:hover { border-color: var(--accent); }
+  .card h3 { font-size: 1.15em; margin-bottom: 12px; color: var(--accent); }
+  .card h4 { font-size: 1em; margin: 16px 0 8px; color: var(--accent3); }
+  .card p { color: var(--text); margin: 8px 0; }
+  .card .tag { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.75em; font-weight: 600; margin-right: 6px; }
+  .tag-core { background: rgba(88,166,255,0.15); color: var(--accent); }
+  .tag-opt { background: rgba(126,231,135,0.15); color: var(--accent2); }
+  .tag-app { background: rgba(210,168,255,0.15); color: var(--accent3); }
+
+  /* Callout */
+  .callout { border-left: 4px solid; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 0.92em; }
+  .callout-why { border-color: var(--accent); background: rgba(88,166,255,0.06); }
+  .callout-key { border-color: var(--accent2); background: rgba(126,231,135,0.06); }
+  .callout-warn { border-color: var(--warn); background: rgba(240,136,62,0.06); }
+  .callout strong { color: var(--text); }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.9em; }
+  th { background: var(--surface2); color: var(--accent); padding: 10px 14px; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border); }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: rgba(88,166,255,0.03); }
+
+  /* Comparison grid */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0; }
+  @media (max-width: 680px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+  /* Flow diagram */
+  .flow { display: flex; flex-direction: column; gap: 0; margin: 20px 0; }
+  .flow-step { display: flex; align-items: flex-start; gap: 16px; }
+  .flow-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8em; color: #fff; flex-shrink: 0; margin-top: 4px; }
+  .flow-line { width: 2px; background: var(--border); min-height: 20px; margin-left: 15px; }
+  .flow-content { flex: 1; padding-bottom: 20px; }
+  .flow-content h4 { font-size: 1em; margin-bottom: 4px; }
+  .flow-content p { font-size: 0.9em; color: var(--text2); }
+
+  /* Sources */
+  .sources { margin-top: 60px; padding-top: 32px; border-top: 1px solid var(--border); }
+  .sources h2 { font-size: 1.1em; color: var(--text2); margin-bottom: 16px; }
+  .sources a { color: var(--accent); font-size: 0.85em; display: block; margin: 6px 0; text-decoration: none; }
+  .sources a:hover { text-decoration: underline; }
+
+  /* Footer */
+  footer { text-align: center; padding: 40px 0; color: var(--text2); font-size: 0.8em; }
+
+  /* Progress bar */
+  .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--grad3); z-index: 1000; transition: width 0.1s; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="container">
+
+<!-- Hero -->
+<div class="hero">
+  <h1>大模型从开发到应用<br>产业链全景研报</h1>
+  <p class="subtitle">从算力基座到智能体：理解大模型产业的每一个关键环节</p>
+  <div class="meta">
+    <span>2026 年 11 月</span>
+    <span>综合多源研报与技术文献</span>
+    <span>阅读约 30 分钟</span>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#overview">产业全景：一张图看懂大模型产业链</a></li>
+    <li><a href="#infra">第一层：基础设施 — 算力、数据与工具链</a></li>
+    <li><a href="#pretrain">第二层：预训练 — 从数据到基座模型</a></li>
+    <li><a href="#finetune">第三层：微调与对齐 — 让模型「听话」</a></li>
+    <li><a href="#compress">第四层：模型压缩与推理优化 — 降本增效</a></li>
+    <li><a href="#deploy">第五层：部署与推理 — 从实验室到生产环境</a></li>
+    <li><a href="#app">第六层：应用层 — RAG、Function Calling 与 Agent</a></li>
+    <li><a href="#ecosystem">产业生态与商业模式</a></li>
+    <li><a href="#timeline">全球大模型进化时间线（2020~2026）</a></li>
+    <li><a href="#references">参考来源</a></li>
+  </ol>
+</div>
+
+<!-- ===== Section 1: Overview ===== -->
+<div class="section" id="overview">
+  <div class="section-header">
+    <div class="section-num" style="background: var(--grad1);">1</div>
+    <h2>产业全景：一张图看懂大模型产业链</h2>
+  </div>
+
+  <p>大模型（Large Language Model, LLM）的产业链可以类比为一座「智能工厂」：从原材料（数据与算力）进场，经过多道加工工序（预训练 → 微调 → 对齐 → 压缩），最终包装成面向用户的产品（API 服务、智能体、垂直应用）。学术界将这一生态定义为 <strong>LLM Supply Chain</strong>。以下将整条产业链拆解为 <strong>8 个细分层级</strong>，每层列出关键步骤、核心产品与代表公司。</p>
+
+  <div class="pipeline">
+    <div class="pipe-node" style="background: var(--grad1);">
+      <div>基础设施</div>
+      <div class="pipe-label">算力 · 数据 · 工具链</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-node" style="background: var(--grad2);">
+      <div>预训练</div>
+      <div class="pipe-label">基座模型诞生</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-node" style="background: var(--grad3);">
+      <div>微调与对齐</div>
+      <div class="pipe-label">SFT · RLHF · DPO</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-node" style="background: var(--grad4);">
+      <div>压缩与优化</div>
+      <div class="pipe-label">量化 · 蒸馏 · 剪枝</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-node" style="background: var(--grad5);">
+      <div>部署推理</div>
+      <div class="pipe-label">vLLM · PagedAttention</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-node" style="background: var(--grad6);">
+      <div>应用层</div>
+      <div class="pipe-label">RAG · Agent · 垂直SaaS</div>
+    </div>
+  </div>
+
+  <!-- Detailed industry layer breakdown -->
+  <div class="card">
+    <h3>第 1 层：算力硬件与芯片</h3>
+    <p>大模型产业的物理地基，决定了「谁能训、训多大」。</p>
+    <table>
+      <tr><th>子领域</th><th>关键产品 / 技术</th><th>代表公司</th><th>说明</th></tr>
+      <tr><td>GPU（通用训练芯片）</td><td>A100、H100、H200、B200</td><td>NVIDIA（全球垄断 ~90%）</td><td>大模型训练和推理的绝对主力。NVIDIA 凭借 CUDA 生态和 NVLink 高速互联建立了难以撼动的护城河</td></tr>
+      <tr><td>TPU（专用训练芯片）</td><td>TPU v4 / v5p / v6</td><td>Google</td><td>Google 自研，仅供内部和 Google Cloud 使用，训练 Gemini 系列模型</td></tr>
+      <tr><td>国产 AI 芯片</td><td>昇腾 910B/910C、寒武纪 MLU370</td><td>华为、寒武纪、海光信息</td><td>在美国芯片禁令下的国产替代方案。华为昇腾已支撑多个国产大模型训练</td></tr>
+      <tr><td>云算力租赁</td><td>GPU 集群即服务</td><td>AWS、Azure、GCP、阿里云、火山引擎</td><td>大多数 AI 公司不自建机房，而是租用云厂商的 GPU 集群</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>第 2 层：数据工程与治理</h3>
+    <p>大模型的「燃料供应链」——从原始数据到可训练数据的全流程。</p>
+    <table>
+      <tr><th>子领域</th><th>关键步骤</th><th>代表公司 / 工具</th><th>说明</th></tr>
+      <tr><td>数据采集</td><td>网页爬取、书籍数字化、代码仓库聚合、论文收集</td><td>Common Crawl、RedPajama、The Pile</td><td>GPT-3 用了 ~45TB 文本，LLaMA 3 用了 15T token 的训练数据</td></tr>
+      <tr><td>数据清洗与去重</td><td>MinHash/SimHash 去重、毒性过滤、低质量过滤</td><td>Dolma、RedPajama pipeline</td><td>数据质量直接决定模型上限，高质量数据可让同等算力下效果提升 30%+</td></tr>
+      <tr><td>数据标注</td><td>SFT 问答对标注、RLHF 偏好排序标注</td><td>Scale AI、海天瑞声、整数智能、Surge AI</td><td>人工标注是对齐阶段的核心瓶颈，标注质量和数量直接影响模型对齐效果</td></tr>
+      <tr><td>合成数据</td><td>用强模型生成训练数据给弱模型</td><td>Self-Instruct、Evol-Instruct</td><td>降低人工标注成本的关键方法，但也面临「模型塌缩」风险</td></tr>
+      <tr><td>数据脱敏与合规</td><td>PII 去除、版权过滤、GDPR 合规</td><td>正则+NER 双重检测</td><td>法律红线——未脱敏数据训练可能导致隐私泄露和版权诉讼</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>第 3 层：开发工具链与框架</h3>
+    <p>大模型开发的「施工工具」——从模型定义到分布式训练的全套软件栈。</p>
+    <table>
+      <tr><th>子领域</th><th>关键工具</th><th>代表公司 / 项目</th><th>说明</th></tr>
+      <tr><td>深度学习框架</td><td>PyTorch、JAX、PaddlePaddle、MindSpore</td><td>Meta、Google、百度、华为</td><td>PyTorch 占据绝对主流（~95% 的大模型使用），JAX 是 Google 系主力</td></tr>
+      <tr><td>分布式训练框架</td><td>Megatron-LM、DeepSpeed、FSDP、ColossalAI</td><td>NVIDIA、Microsoft、Meta、新加坡 HPC-AI</td><td>支撑千卡级集群训练的核心工程。DeepSpeed ZeRO 是最广泛使用的显存优化方案</td></tr>
+      <tr><td>实验追踪与 MLOps</td><td>Weights & Biases、MLflow、TensorBoard</td><td>W&B、Databricks、Google</td><td>记录和对比训练实验，监控 loss 曲线和关键指标</td></tr>
+      <tr><td>模型仓库与分发</td><td>HuggingFace Hub、ModelScope（魔搭）</td><td>HuggingFace、阿里达摩院</td><td>模型版本管理、一键下载、社区评测，大模型生态的「GitHub」</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>第 4 层：基座模型研发（预训练 + 对齐）</h3>
+    <p>大模型的「制造商」——投入算力和数据，产出基座模型。</p>
+    <table>
+      <tr><th>类型</th><th>代表模型</th><th>代表公司</th><th>特点</th></tr>
+      <tr><td>闭源顶级模型</td><td>GPT-4/o/4.1、Claude 4、Gemini 2.0</td><td>OpenAI、Anthropic、Google</td><td>能力天花板，但只能通过 API 调用，数据不透明</td></tr>
+      <tr><td>开源旗舰模型</td><td>LLaMA 3.1 405B、Qwen3 235B、DeepSeek-V3</td><td>Meta、阿里、DeepSeek</td><td>可自由部署和微调，是中国企业和开发者的主力选择</td></tr>
+      <tr><td>中国闭源模型</td><td>文心一言、通义千问-Max、豆包</td><td>百度、阿里、字节跳动</td><td>中文能力差异化优势，配套 API 和应用生态</td></tr>
+      <tr><td>垂直领域模型</td><td>CodeLlama（代码）、StarCoder（代码）、BioMedGPT（生物医学）</td><td>Meta、BigCode、清华</td><td>在特定领域数据上训练，垂直任务效果优于通用模型</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>第 5 层：模型压缩与推理优化</h3>
+    <p>大模型的「降本增效器」——在尽量不损失效果的前提下，让推理更快更便宜。</p>
+    <table>
+      <tr><th>子领域</th><th>关键方法</th><th>代表工具</th><th>效果</th></tr>
+      <tr><td>量化</td><td>GPTQ、AWQ、SmoothQuant</td><td>AutoGPTQ、llama.cpp、vLLM</td><td>FP16→INT8 显存减半，效果损失＜1%；→INT4 显存减 75%，损失 2~5%</td></tr>
+      <tr><td>蒸馏</td><td>Logits 蒸馏、数据蒸馏</td><td>DistilBERT、Alpaca（数据蒸馏）</td><td>从 70B 教师蒸馏出 7B 学生，效果接近，成本降 10 倍</td></tr>
+      <tr><td>推理引擎优化</td><td>PagedAttention、连续批处理、投机解码</td><td>vLLM、TensorRT-LLM、SGLang</td><td>零效果损失，吞吐量提升 2~4 倍</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>第 6 层：部署与推理服务</h3>
+    <p>大模型的「交付渠道」——把模型变成用户可用的服务。</p>
+    <table>
+      <tr><th>部署形态</th><th>说明</th><th>代表服务</th><th>适用场景</th></tr>
+      <tr><td>云端 API</td><td>按 token 计费调用</td><td>OpenAI API、通义千问 API、百度千帆</td><td>大多数企业的首选，零运维</td></tr>
+      <tr><td>自建推理集群</td><td>企业自建 GPU 集群</td><td>vLLM + K8s、Triton Inference Server</td><td>数据敏感行业（金融/医疗/政企）、大流量场景</td></tr>
+      <tr><td>端侧部署</td><td>在终端设备上运行</td><td>llama.cpp、MLC LLM、Apple Core ML</td><td>隐私优先场景，如手机助手、车载 AI</td></tr>
+      <tr><td>Serverless 推理</td><td>按需弹性、按用量计费</td><td>Replicate、Modal、阿里云 PAI-EAS</td><td>流量波动大、不确定用量的场景</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>第 7 层：应用开发与中间件</h3>
+    <p>大模型的「应用工具箱」——让开发者快速构建 AI 应用。</p>
+    <table>
+      <tr><th>子领域</th><th>关键能力</th><th>代表产品</th><th>说明</th></tr>
+      <tr><td>LLM 编排框架</td><td>Prompt 模板、链式调用、输出解析</td><td>LangChain、LlamaIndex、Semantic Kernel</td><td>将大模型能力封装为可编程的组件和流程</td></tr>
+      <tr><td>RAG 基础设施</td><td>文档解析、向量检索、重排序</td><td>向量数据库（Milvus/Pinecone/FAISS）、Embedding 模型</td><td>让 AI 访问企业私有知识库的核心架构</td></tr>
+      <tr><td>Agent 平台</td><td>工具调用、任务编排、记忆管理</td><td>Dify、Coze、FastGPT、AutoGen</td><td>低代码/无代码构建 AI Agent 的平台</td></tr>
+      <tr><td>评测与安全</td><td>模型评测、幻觉检测、红队测试</td><td>OpenCompass、HELM、Guardrails AI</td><td>评估模型质量、防止有害输出的保障层</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>第 8 层：终端应用与垂直解决方案</h3>
+    <p>大模型产业的「最后一公里」——直接面向终端用户和企业客户。</p>
+    <table>
+      <tr><th>应用类型</th><th>代表产品</th><th>核心能力</th><th>商业模式</th></tr>
+      <tr><td>AI 对话助手</td><td>ChatGPT、Claude、通义千问、豆包、Kimi</td><td>通用对话、写作、分析、编程</td><td>免费增值 + 订阅（$20/月）</td></tr>
+      <tr><td>AI 编程工具</td><td>GitHub Copilot、Cursor、通义灵码、Qoder</td><td>代码补全、代码审查、自动修 Bug</td><td>订阅制（$10~20/月）</td></tr>
+      <tr><td>AI 搜索</td><td>Perplexity、秘塔搜索、Google AI Overview</td><td>带引用的智能搜索与摘要</td><td>广告 + 订阅</td></tr>
+      <tr><td>企业级 AI 平台</td><td>Microsoft 365 Copilot、钉钉 AI、飞书智能伙伴</td><td>嵌入办公套件的 AI 能力</td><td>企业订阅（按席位）</td></tr>
+      <tr><td>行业垂直 AI</td><td>法律 AI（Harvey）、医疗 AI（Med-PaLM）、金融 AI</td><td>领域知识 + 合规 + 专业工作流</td><td>企业 SaaS + 按效果付费</td></tr>
+    </table>
+  </div>
+
+  <div class="callout callout-why">
+    <strong>为什么要理解全链路？</strong> 大模型产业的 8 个层级环环相扣：上层的芯片供应直接影响中层的训练成本，中层的模型能力决定下层的应用可能性，下层的用户需求又反馈驱动中层的迭代方向。理解每个环节的能力边界和成本结构，能帮你更准确地评估 AI 项目可行性、识别供应商宣传中的水分、设计出合理的应用方案。
+  </div>
+</div>
+
+<!-- ===== Section 2: Infrastructure ===== -->
+<div class="section" id="infra">
+  <div class="section-header">
+    <div class="section-num" style="background: var(--grad1);">2</div>
+    <h2>第一层：基础设施 — 算力、数据与工具链</h2>
+  </div>
+
+  <p>基础设施是大模型产业的「地基」。这一层决定了谁能训得出大模型、训得起多大的模型。</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>算力基座</h3>
+      <p>大模型训练需要大规模 GPU/TPU 集群。以 GPT-4 级别模型为例，训练一次需要数千张 A100/H100 GPU 运行数月，算力成本达数亿美元。</p>
+      <h4>关键概念</h4>
+      <p><strong>GPU 集群</strong>：数千张 GPU 通过高速互联（如 NVLink、InfiniBand）组成训练集群，实现模型并行与数据并行。</p>
+      <p><strong>FLOPS</strong>：衡量算力的核心指标，即每秒浮点运算次数。训练 GPT-3 约需 3.6×10²³ FLOPS。</p>
+      <h4>存在意义</h4>
+      <p>算力是大模型产业的「入场券」。没有足够算力，就无法训练出有竞争力的基座模型。这也是为什么目前全球只有少数公司能独立训练顶级大模型。</p>
+    </div>
+
+    <div class="card">
+      <h3>数据资产</h3>
+      <p>大模型的「燃料」是海量高质量文本数据。GPT-3 使用了约 45TB 文本数据，包括网页、书籍、代码、学术论文等。</p>
+      <h4>数据处理流水线</h4>
+      <p><strong>采集</strong> → <strong>去重</strong>（MinHash/SimHash）→ <strong>清洗</strong>（去毒性/去偏/去低质量）→ <strong>配比</strong>（不同来源数据的混合比例）→ <strong>脱敏</strong>（PII 去除）</p>
+
+      <h4>关键概念：MinHash 与 SimHash</h4>
+      <p><strong>MinHash</strong>（最小哈希）：一种近似集合相似度估计算法。其原理是对每个文档生成多个哈希排列，取每轮排列中的最小值作为该文档的「指纹签名」，通过比较两个文档指纹的相同比例来估算 Jaccard 相似度。MinHash 的优势在于——无需逐对比较全部文档内容，就能在 O(n) 时间内从数十亿文档中找出近似重复项，是大规模语料去重的核心工具。Google 最早将其用于搜索引擎网页去重。</p>
+      <p><strong>SimHash</strong>（相似哈希）：一种局部敏感哈希算法，由 Charikar 提出。它将每篇文档映射为一个固定长度的二进制指纹（通常 64 bit），语义相近的文档生成的指纹在汉明距离上也相近（差异位少）。与 MinHash 相比，SimHash 更适合检测「近似重复」而非「完全重复」——例如两篇文章仅措辞略有不同，SimHash 仍能识别。工程实践中，两者经常配合使用：MinHash 做粗筛快速过滤，SimHash 做精筛确认近似度。</p>
+
+      <h4>关键概念：PII 去除</h4>
+      <p><strong>PII</strong>（Personally Identifiable Information，个人身份信息）去除是数据脱敏的核心步骤。PII 包括姓名、电话号码、身份证号、邮箱地址、银行卡号、住址等可直接或间接识别个人身份的信息。在大模型训练数据预处理中，PII 去除通常通过正则表达式匹配 + NER（命名实体识别）模型双重检测，将敏感信息替换为占位符（如 [NAME]、[PHONE]）或直接删除。这一步至关重要——如果训练数据中包含未脱敏的 PII，模型可能在生成文本中「泄露」真实个人信息，造成隐私安全事故。欧盟 GDPR 和中国《个人信息保护法》对此有严格的合规要求。</p>
+      <h4>存在意义</h4>
+      <p>数据质量直接决定模型能力上限。相同算力下，高质量数据训练的模型效果可以比低质量数据好 30% 以上。这也是为什么「数据飞轮」（用户反馈→数据改善→模型更好→更多用户）成为大模型公司的核心壁垒。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>工具链与框架</h3>
+    <p>训练大模型不是从零写代码，而是依赖一整套成熟的工具链：</p>
+    <table>
+      <tr><th>工具</th><th>用途</th><th>代表产品</th></tr>
+      <tr><td>深度学习框架</td><td>模型定义与训练</td><td>PyTorch、JAX、Megatron-LM</td></tr>
+      <tr><td>分布式训练框架</td><td>多GPU/多节点并行</td><td>DeepSpeed、FSDP、ColossalAI</td></tr>
+      <tr><td>混合精度训练</td><td>节省显存、加速计算</td><td>FP16/BF16 + 梯度缩放</td></tr>
+      <tr><td>实验追踪</td><td>记录训练过程</td><td>Weights & Biases、MLflow</td></tr>
+    </table>
+
+    <h4>三大核心框架的原理与定位</h4>
+    <p><strong>PyTorch</strong>（Meta/Facebook 开源，2016 年）：基于动态计算图（Define-by-Run）的深度学习框架。其核心原理是「即时执行」（Eager Execution）——每行代码定义的操作立即执行并返回结果，调试直观，像写普通 Python 代码一样自然。PyTorch 底层通过 Autograd 引擎自动计算梯度，配合 CUDA 后端调用 GPU。它之所以成为大模型时代的绝对主流，核心在于：动态图让复杂的模型结构（如 Transformer 中的变长序列、条件分支）编写和调试极为方便，研究迭代速度快。目前 GPT、LLaMA、Qwen、DeepSeek 等几乎所有主流大模型都用 PyTorch 训练。</p>
+    <p><strong>JAX</strong>（Google 开源，2018 年）：基于函数式编程和编译时优化（XLA 编译器）的深度学习框架。其核心原理是「纯函数 + 函数变换」——将计算定义为无副作用的纯函数，然后通过 <code>jit</code>（即时编译）、<code>grad</code>（自动微分）、<code>vmap</code>（自动向量化）、<code>pmap</code>（自动并行化）四种高阶函数变换组合出高效的训练代码。JAX 的优势在于编译时全局优化——XLA 编译器能对整个计算图做算子融合、内存优化，在大规模 TPU 集群上性能通常优于 PyTorch。Google 内部（Gemini 系列）和 DeepMind（AlphaFold）主要使用 JAX。劣势是学习曲线陡峭，函数式编程范式对习惯了 PyTorch 的开发者不太友好。</p>
+    <p><strong>Megatron-LM</strong>（NVIDIA 开源，2019 年）：专为超大规模语言模型训练设计的分布式训练框架。它本身不是一个独立的深度学习框架，而是建立在 PyTorch 之上的分布式训练工具包。核心原理是「张量模型并行」（Tensor Model Parallelism）——将 Transformer 层的矩阵运算切分到多张 GPU 上并行执行，配合流水线并行（不同层分配到不同 GPU）和数据并行，实现数百亿参数模型的训练。GPT-3、PaLM 等早期超大模型的训练都依赖 Megatron-LM。其后续的 Megatron-Core 进一步集成了 Expert Parallelism（专家并行），支撑 MoE 架构模型的训练。</p>
+
+    <h4>其他重要深度学习框架</h4>
+    <table>
+      <tr><th>框架</th><th>出品方</th><th>特点与定位</th></tr>
+      <tr><td><strong>TensorFlow</strong></td><td>Google（2015）</td><td>最早的工业级深度学习框架，静态计算图（Define-and-Run），部署生态完善（TF Serving、TF Lite、TF.js）。曾统治学术界多年，但因 API 复杂、调试困难，在大模型时代被 PyTorch 全面超越。目前仍广泛用于推荐系统、CV 等工业部署场景。</td></tr>
+      <tr><td><strong>PaddlePaddle（飞桨）</strong></td><td>百度（2016）</td><td>中国最早的深度学习开源框架，API 设计与 PyTorch 类似，生态覆盖 CV、NLP、推荐等。百度内部及国内中小企业使用较多，配套文心大模型的训练与推理。</td></tr>
+      <tr><td><strong>MindSpore（昇思）</strong></td><td>华为（2020）</td><td>面向华为昇腾（Ascend）NPU 生态的深度学习框架，支持自动并行。主要服务于华为云和昇腾芯片用户，是国产算力生态的关键一环。</td></tr>
+      <tr><td><strong>OneFlow</strong></td><td>一流科技/清华（2020）</td><td>国产分布式训练框架，以「静态调度 + 流式并行」著称，在多机多卡训练效率上有独特优势。已并入深度学习框架的国产竞争行列。</td></tr>
+      <tr><td><strong>MXNet</strong></td><td>Apache（2015）</td><td>曾是 AWS 的默认框架，支持多语言接口，但因社区活跃度下降已逐步边缘化，AWS 已转向支持 PyTorch。</td></tr>
+    </table>
+
+    <h4>深度学习框架的发展演进</h4>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-dot" style="background: var(--grad1);">1</div>
+        <div class="flow-content">
+          <h4>第一代：静态图时代（2012~2016）</h4>
+          <p>代表：Caffe、Theano、TensorFlow 1.x。特点是「先定义计算图，再编译执行」，性能好但调试困难，研究者需要反复修改图结构。这一阶段深度学习主要用于 CV（图像识别）和简单 NLP 任务。</p>
+        </div>
+      </div>
+      <div class="flow-line"></div>
+      <div class="flow-step">
+        <div class="flow-dot" style="background: var(--grad1);">2</div>
+        <div class="flow-content">
+          <h4>第二代：动态图革命（2016~2020）</h4>
+          <p>代表：PyTorch（2016）、TensorFlow 2.0（2019 转向动态图）。PyTorch 的「即时执行」范式让研究和调试效率大幅提升，迅速成为学术界首选。这一阶段 NLP 领域出现 BERT、GPT-1/2 等预训练模型，大模型雏形诞生。</p>
+        </div>
+      </div>
+      <div class="flow-line"></div>
+      <div class="flow-step">
+        <div class="flow-dot" style="background: var(--grad1);">3</div>
+        <div class="flow-content">
+          <h4>第三代：大模型规模化时代（2020~2023）</h4>
+          <p>代表：PyTorch + Megatron-LM + DeepSpeed 组合拳、JAX + XLA。核心需求从「单机训练」转向「千卡级分布式训练」，张量并行、流水线并行、ZeRO 优化成为标配。GPT-3、PaLM、LLaMA 等超大模型在此阶段诞生。</p>
+        </div>
+      </div>
+      <div class="flow-line"></div>
+      <div class="flow-step">
+        <div class="flow-dot" style="background: var(--grad1);">4</div>
+        <div class="flow-content">
+          <h4>第四代：编译优化 + 生态融合（2023~至今）</h4>
+          <p>代表：PyTorch 2.0（torch.compile 编译优化）、JAX 的 Pallas 内核编程、MoE 专用框架（Megatron-Core Expert Parallelism）。趋势是「动态图的易用性 + 静态图的性能」融合，编译器自动优化计算图，同时支撑 MoE、多模态等新型架构。国产框架（飞桨、昇思）加速追赶。</p>
+        </div>
+      </div>
+    </div>
+    <div class="callout callout-key">
+      <strong>为什么工具链重要？</strong> 训练大模型的工程复杂度极高——需要在数千张 GPU 上协调计算、处理故障恢复、优化显存利用率。成熟的工具链能将训练效率提升数倍，也是区分「能训」和「训得好」的关键。
+    </div>
+  </div>
+</div>
+
+<!-- ===== Section 3: Pre-training ===== -->
+<div class="section" id="pretrain">
+  <div class="section-header">
+    <div class="section-num" style="background: var(--grad2);">3</div>
+    <h2>第二层：预训练 — 从数据到基座模型</h2>
+  </div>
+
+  <p>预训练是大模型「出生」的核心环节。模型通过自监督学习在海量文本上学习语言规律，获得广泛的世界知识和语言理解能力。</p>
+
+  <div class="card">
+    <h3>核心原理：自监督学习</h3>
+    <p>与传统 AI 需要人工标注数据不同，大模型利用文本本身作为「答案」。核心训练任务是 <strong>Next Token Prediction</strong>（预测下一个词）：给模型一段文字，让它预测下一个词，然后对比实际的下个词计算误差并更新参数。</p>
+
+    <div class="callout callout-why">
+      <strong>为什么用自监督？</strong> 互联网上有无穷无尽的文本，但不可能全部人工标注。自监督学习让模型能从无标注数据中学习，这是大模型能扩展到数千亿参数的根本原因——数据瓶颈被打破了。
+    </div>
+
+    <h4>Transformer 架构</h4>
+    <p>当前所有主流大模型都基于 Transformer 架构，其核心是 <strong>自注意力机制（Self-Attention）</strong>：让模型在处理每个词时，能「看到」并加权关注上下文中的所有其他词，从而理解长距离依赖关系。</p>
+
+    <h4>关键超参数</h4>
+    <table>
+      <tr><th>参数</th><th>含义</th><th>典型值（70B 模型）</th></tr>
+      <tr><td>参数量</td><td>模型内部可学习的数值总量</td><td>700 亿</td></tr>
+      <tr><td>层数</td><td>Transformer 堆叠层数</td><td>80 层</td></tr>
+      <tr><td>隐藏维度</td><td>每层内部的向量宽度</td><td>8192</td></tr>
+      <tr><td>注意力头数</td><td>并行注意力计算的组数</td><td>64</td></tr>
+      <tr><td>上下文长度</td><td>单次输入的最大 Token 数</td><td>4096 ~ 128K</td></tr>
+    </table>
+
+    <h4>参数量的现实含义与主流模型对比</h4>
+    <p><strong>参数量意味着什么？</strong> 每个参数可以理解为模型的「一个记忆单元」或「一个可调旋钮」。70B（700 亿）参数意味着模型有 700 亿个可学习的数值（通常是 32 位浮点数），这些数值在训练过程中不断调整，以捕获语言的统计规律和世界知识。参数量越大，模型理论上能记住和理解的「模式」越多。如果用显存衡量：70B 模型以 FP16 精度存储需要约 140GB 显存（70×10⁹ × 2 bytes），而 7B 模型仅需 14GB。</p>
+
+    <table>
+      <tr><th>模型</th><th>出品方</th><th>参数量</th><th>发布时间</th><th>说明</th></tr>
+      <tr><td>GPT-4</td><td>OpenAI</td><td>未公开（推测 1.7T，MoE 架构）</td><td>2023.03</td><td>据传采用 8×220B 的 MoE 结构，总参数约 1.76 万亿</td></tr>
+      <tr><td>GPT-4o</td><td>OpenAI</td><td>未公开</td><td>2024.05</td><td>多模态旗舰，推理速度大幅提升</td></tr>
+      <tr><td>Claude 3.5 Sonnet</td><td>Anthropic</td><td>未公开</td><td>2024.06</td><td>编程能力领先，安全性突出</td></tr>
+      <tr><td>Gemini 2.0 Ultra</td><td>Google</td><td>未公开（推测 1T+）</td><td>2025.02</td><td>原生多模态，200 万上下文</td></tr>
+      <tr><td>LLaMA 3.1 405B</td><td>Meta</td><td>405B（4050 亿）</td><td>2024.07</td><td>最大开源稠密模型</td></tr>
+      <tr><td>LLaMA 3.3 70B</td><td>Meta</td><td>70B（700 亿）</td><td>2024.12</td><td>70B 标杆，性价比之王</td></tr>
+      <tr><td>DeepSeek-V3</td><td>DeepSeek</td><td>671B（MoE，激活 37B）</td><td>2024.12</td><td>MoE 架构，训练成本仅 $5.6M，震惊业界</td></tr>
+      <tr><td>DeepSeek-R1</td><td>DeepSeek</td><td>671B（MoE）</td><td>2025.01</td><td>推理能力模型，强化学习驱动</td></tr>
+      <tr><td>Qwen3 235B</td><td>阿里通义</td><td>235B（MoE，激活 22B）</td><td>2025.04</td><td>MoE 架构，思考模式切换</td></tr>
+      <tr><td>Qwen2.5 72B</td><td>阿里通义</td><td>72B（720 亿）</td><td>2024.09</td><td>开源稠密模型旗舰</td></tr>
+    </table>
+
+    <div class="callout callout-why">
+      <strong>参数量越大越好吗？不是。</strong> 参数量是模型能力的必要条件，但远非充分条件。决定模型效果的因素有多个：第一，数据质量——Llama 2 用 2T token 训练，Llama 3 用 15T token 训练，相同参数量下效果差距巨大；第二，训练方法——DPO/RLHF 对齐技术能让 7B 模型在特定任务上超过 70B 基座模型；第三，架构创新——MoE（混合专家）架构让模型总参数很大但每次推理只激活一小部分（如 DeepSeek-V3 总参数 671B 但每次只激活 37B），实现了「大参数、小计算」；第四，推理优化——量化到 INT4 的 70B 模型，效果损失通常不到 2%，但推理成本降低 4 倍。因此，选型时应该看「在目标场景下的 benchmark 表现 + 推理成本」，而非单纯追求参数量。70B 模型是当前「性价比甜蜜点」——单卡可部署、能力全面、推理成本可控。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>训练工程的核心挑战</h3>
+    <div class="grid3">
+      <div>
+        <h4>数据并行</h4>
+        <p>将训练数据切分到多张 GPU 上，每张 GPU 处理一部分数据，定期同步梯度。<strong>适合</strong>：模型能放进单卡显存的场景。</p>
+      </div>
+      <div>
+        <h4>模型并行</h4>
+        <p>将模型本身切分到多张 GPU 上（张量并行 / 流水线并行）。<strong>必须</strong>：当模型参数太大，单卡放不下时。</p>
+      </div>
+      <div>
+        <h4>ZeRO 优化</h4>
+        <p>DeepSpeed 提出的零冗余优化器，将优化器状态、梯度、参数分片存储，可节省 4~8 倍显存。<strong>效果</strong>：让 70B 模型在 8 卡 A100 上也能训练。</p>
+      </div>
+    </div>
+
+    <h4>预训练的产出物</h4>
+    <p>预训练完成后得到的是 <strong>基座模型（Base Model）</strong>。它有很强的语言理解能力，但还不会「好好回答问题」——它会续写文本，而不是按照指令做事。就像一个人读了很多书，但还没学会怎么当客服。这就是为什么需要下一步：微调与对齐。</p>
+  </div>
+</div>
+
+<!-- ===== Section 4: Fine-tuning & Alignment ===== -->
+<div class="section" id="finetune">
+  <div class="section-header">
+    <div class="section-num" style="background: var(--grad3);">4</div>
+    <h2>第三层：微调与对齐 — 让模型「听话」</h2>
+  </div>
+
+  <p>基座模型像一本百科全书——知识丰富但不会按要求做事。微调与对齐的目标是把它变成一个「好用的助手」。</p>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-dot" style="background: var(--grad3);">1</div>
+      <div class="flow-content">
+        <h4>SFT — Supervised Fine-Tuning（监督微调）</h4>
+        <p>SFT 的全称是 <strong>Supervised Fine-Tuning</strong>，即「有监督微调」。其中 Supervised 指的是「有监督学习」——训练数据包含人工标注的正确答案（输入→期望输出），模型通过学习这些标注样本来改善表现。SFT 的具体做法是用人工标注的「问答对」继续训练基座模型。例如：给模型看大量「问题→优质回答」的范例，让它学会按照指令格式输出。<strong>成本</strong>：需要人工标注数万到数十万条高质量数据。<strong>存在意义</strong>：SFT 是微调的第一步，将基座模型的「续写文本」能力转化为「按指令回答问题」的能力，相当于给一个博学者培训了「客服话术」。</p>
+      </div>
+    </div>
+    <div class="flow-line"></div>
+    <div class="flow-step">
+      <div class="flow-dot" style="background: var(--grad3);">2</div>
+      <div class="flow-content">
+        <h4>RLHF — Reinforcement Learning from Human Feedback（基于人类反馈的强化学习）</h4>
+        <p>RLHF 的全称是 <strong>Reinforcement Learning from Human Feedback</strong>，拆解为三个关键词：Reinforcement Learning（强化学习，即通过奖励信号不断试错优化的机器学习范式）、Human Feedback（人类反馈，即人类标注员对模型输出的打分排序）。RLHF 的完整流程分两步：第一步，让人类对模型的多个回答打分排序，训练一个「奖励模型」（Reward Model）来学习人类偏好——什么回答更好、更安全、更有帮助；第二步，用强化学习算法（PPO，Proximal Policy Optimization）让模型在奖励模型的指导下优化生成策略。<strong>效果</strong>：让模型回答更安全、更有帮助、更符合人类期望。这是 ChatGPT 成功的核心技术——OpenAI 称其为「让 AI 与人类价值观对齐」的关键突破。<strong>缺点</strong>：需要训练额外的奖励模型，工程复杂度高；奖励模型本身可能存在偏差，导致 reward hacking（模型学会讨好奖励模型而非真正改善）。</p>
+      </div>
+    </div>
+    <div class="flow-line"></div>
+    <div class="flow-step">
+      <div class="flow-dot" style="background: var(--grad3);">3</div>
+      <div class="flow-content">
+        <h4>DPO — Direct Preference Optimization（直接偏好优化）</h4>
+        <p>DPO 的全称是 <strong>Direct Preference Optimization</strong>，由斯坦福大学 Rafailov 等人于 2023 年提出。Direct（直接）指的是——跳过 RLHF 中「先训奖励模型、再做强化学习」的两步流程，直接从人类偏好数据优化模型本身；Preference（偏好）指的是训练数据的形式——人类标注员对两个回答做 A/B 选择（偏好对比），而非打分。DPO 的数学本质是将 RLHF 中的奖励函数用模型自身的对数概率比重新参数化，从而将强化学习问题转化为一个简单的分类损失函数。<strong>优势</strong>：训练更稳定、超参数更少、工程实现更简单、无需维护额外的奖励模型。正在逐步取代 RLHF 成为主流方案。Meta 的 LLaMA 3、阿里的 Qwen 系列等新模型均已采用 DPO 或其变体。</p>
+      </div>
+    </div>
+    <div class="flow-line"></div>
+    <div class="flow-step">
+      <div class="flow-dot" style="background: var(--grad3);">4</div>
+      <div class="flow-content">
+        <h4>指令微调（Instruction Tuning）</h4>
+        <p>用多样化的任务指令（写邮件、翻译、总结、编程…）训练模型，让它能理解和执行各种任务类型。<strong>意义</strong>：大幅提升模型的泛化能力，使其在不曾见过的任务上也能表现良好。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>参数高效微调（PEFT）</h3>
+    <p>全量微调需要更新模型所有参数，成本极高。PEFT 技术只更新极少参数就能达到接近效果：</p>
+    <table>
+      <tr><th>方法</th><th>原理</th><th>参数量</th><th>适用场景</th></tr>
+      <tr><td><strong>LoRA</strong></td><td>在权重矩阵旁插入两个小矩阵，只训练这两个小矩阵</td><td>原模型的 0.1%~1%</td><td>最主流，适合大多数场景</td></tr>
+      <tr><td><strong>QLoRA</strong></td><td>LoRA + 4-bit 量化，进一步降低显存</td><td>与 LoRA 相近</td><td>消费级 GPU 微调大模型</td></tr>
+      <tr><td><strong>Adapter</strong></td><td>在 Transformer 层间插入小型适配层</td><td>原模型的 1%~3%</td><td>多任务切换</td></tr>
+      <tr><td><strong>Prompt Tuning</strong></td><td>只训练输入前的可学习「软提示」向量</td><td>极少量（数千参数）</td><td>超大规模模型的轻量适配</td></tr>
+    </table>
+    <div class="callout callout-key">
+      <strong>对业务的意义</strong>：PEFT 让中小企业也能用一张消费级 GPU（如 RTX 4090）微调出适配自身业务的模型，大幅降低了大模型应用的门槛。
+    </div>
+  </div>
+</div>
+
+<!-- ===== Section 5: Compression ===== -->
+<div class="section" id="compress">
+  <div class="section-header">
+    <div class="section-num" style="background: var(--grad4);">5</div>
+    <h2>第四层：模型压缩与推理优化 — 降本增效</h2>
+  </div>
+
+  <p>大模型训好了，但直接上线成本极高——一个 70B 模型用 FP16 精度需要 140GB 显存，至少需要两张 A100。模型压缩和推理优化的目标是：<strong>在尽量不损失效果的前提下，让模型跑得更快、更便宜</strong>。</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>量化（Quantization）</h3>
+      <p>将模型权重从高精度（FP16/FP32）转换为低精度（INT8/INT4），减少显存占用和计算量。</p>
+
+      <table>
+        <tr><th>精度</th><th>7B 模型显存</th><th>72B 模型显存</th><th>精度损失</th></tr>
+        <tr><td>FP16</td><td>14 GB</td><td>144 GB</td><td>基线</td></tr>
+        <tr><td>INT8</td><td>7 GB</td><td>72 GB</td><td>＜1%</td></tr>
+        <tr><td>INT4</td><td>4 GB</td><td>36 GB</td><td>2%~5%</td></tr>
+      </table>
+
+      <h4>主流算法</h4>
+      <p><strong>GPTQ</strong>：逐层量化，速度快。<strong>AWQ</strong>：识别重要权重通道保留高精度。<strong>SmoothQuant</strong>：将激活值的量化难度转移到权重上。实际部署时，INT8 是生产环境的首选（效果损失极小），INT4 适合成本敏感或消费级硬件场景。</p>
+    </div>
+
+    <div class="card">
+      <h3>知识蒸馏（Distillation）</h3>
+      <p>用大模型（教师）的输出分布指导小模型（学生）训练，让小模型获得接近大模型的效果。</p>
+
+      <h4>三种蒸馏方式</h4>
+      <p><strong>Logits 蒸馏</strong>：学生拟合教师的输出概率分布。</p>
+      <p><strong>特征蒸馏</strong>：学生中间层对齐教师的隐层特征。</p>
+      <p><strong>数据蒸馏</strong>（最易落地）：教师批量生成高质量训练样本，用常规方法训练学生。</p>
+
+      <div class="callout callout-why">
+        <strong>为什么蒸馏重要？</strong> 它可以从 70B 教师模型蒸馏出 7B 学生模型，效果接近但推理成本降低 10 倍。对于任务固定的场景（如客服、审核），蒸馏是性价比最高的方案。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>推理加速技术（零效果损失）</h3>
+    <p>这些技术不改变模型参数，纯粹在推理引擎层面优化，是<strong>应该最先采用</strong>的优化手段：</p>
+
+    <div class="grid3">
+      <div>
+        <h4>KV Cache + PagedAttention</h4>
+        <p>缓存历史 Token 的键值向量避免重复计算。PagedAttention 将缓存切分为固定块按需分配，显著减少显存碎片，同等显存下并发数成倍提升。</p>
+      </div>
+      <div>
+        <h4>连续批处理</h4>
+        <p>打破静态批处理「等一批全部完成」的限制，任意请求完成后立即插入新请求，大幅提升 GPU 利用率和吞吐量。</p>
+      </div>
+      <div>
+        <h4>投机解码</h4>
+        <p>用小模型快速草拟候选 Token，大模型并行验证。在输出确定的场景下，速度提升 1~2 倍且结果完全一致。</p>
+      </div>
+    </div>
+
+    <div class="callout callout-key">
+      <strong>优化策略优先级</strong>：推理加速（零损失，立竿见影）→ 量化（小幅损失换大幅降本，核心业务选 INT8）→ 蒸馏（任务固定时最后考虑训练专用小模型）
+    </div>
+  </div>
+</div>
+
+<!-- ===== Section 6: Deployment ===== -->
+<div class="section" id="deploy">
+  <div class="section-header">
+    <div class="section-num" style="background: var(--grad5);">6</div>
+    <h2>第五层：部署与推理 — 从实验室到生产环境</h2>
+  </div>
+
+  <p>模型训好、压缩好之后，需要部署到生产环境让用户能用。这一层关注的是<strong>如何高并发、低延迟、低成本地提供推理服务</strong>。</p>
+
+  <div class="card">
+    <h3>部署形态对比</h3>
+    <table>
+      <tr><th>形态</th><th>说明</th><th>优势</th><th>劣势</th></tr>
+      <tr><td><strong>云端 API</strong></td><td>通过 OpenAI/通义千问等 API 调用</td><td>零运维、弹性扩缩</td><td>数据外传、延迟受网络影响</td></tr>
+      <tr><td><strong>自建推理集群</strong></td><td>企业自建 GPU 集群部署</td><td>数据可控、可深度优化</td><td>前期投入大、需运维能力</td></tr>
+      <tr><td><strong>边缘/端侧部署</strong></td><td>在手机、PC、IoT 设备上运行</td><td>零延迟、完全隐私</td><td>模型大小受限、能力有限</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>主流推理框架</h3>
+    <div class="grid2">
+      <div>
+        <h4>vLLM 与 KV Cache 的关系</h4>
+        <p>目前最流行的开源推理引擎，由 UC Berkeley 的 Kwon 等人于 2023 年发布。理解 vLLM，需要先理解 <strong>KV Cache</strong> 的本质。</p>
+        <p><strong>KV Cache 是什么？</strong> 在 Transformer 生成文本时，每生成一个新词都需要对所有已有词做自注意力计算。但历史词的 Key（键向量）和 Value（值向量）在之前的步骤中已经计算过了——KV Cache 就是把这些中间结果缓存起来，生成新词时只计算新词的 K/V，历史的直接从缓存读取。这样将每步计算量从 O(n²) 降到 O(n)，是自回归生成的标配优化。但问题在于：KV Cache 占用大量显存且大小动态变化（不同请求的序列长度不同），传统方案要么预分配大块显存造成严重浪费（内部碎片），要么按需分配导致频繁碎片化。传统方案的显存利用率仅 20%~40%。</p>
+        <p><strong>vLLM 的核心贡献是 PagedAttention</strong>——受操作系统虚拟内存管理的启发，将 KV Cache 切分为固定大小的「页」（类似操作系统的内存页），以页为单位按需分配和回收。这彻底解决了显存碎片问题，将显存利用率提升至 95%+。同等显存下，vLLM 可服务的并发请求数比传统方案多 2~4 倍，吞吐量相应提升。vLLM 同时支持连续批处理（Continuous Batching）和张量并行（Tensor Parallelism），是目前自建推理服务的首选引擎。</p>
+      </div>
+      <div>
+        <h4>TensorRT-LLM</h4>
+        <p>NVIDIA 官方优化框架，深度利用 CUDA 和 Tensor Core。在 NVIDIA GPU 上通常比 vLLM 快 10%~30%，但仅支持 NVIDIA 硬件。</p>
+      </div>
+    </div>
+
+    <h4>关键指标</h4>
+    <table>
+      <tr><th>指标</th><th>含义</th><th>典型要求</th></tr>
+      <tr><td>首 Token 延迟（TTFT）</td><td>用户发出请求到收到第一个字的时间</td><td>＜500ms</td></tr>
+      <tr><td>生成速度（TPS）</td><td>每秒生成的 Token 数</td><td>＞30 tokens/s</td></tr>
+      <tr><td>并发吞吐</td><td>单位时间处理的请求数</td><td>视业务规模</td></tr>
+      <tr><td>单请求成本</td><td>每次推理的 GPU 时间成本</td><td>越低越好</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== Section 7: Application ===== -->
+<div class="section" id="app">
+  <div class="section-header">
+    <div class="section-num" style="background: var(--grad6);">7</div>
+    <h2>第六层：应用层 — RAG、Function Calling 与 Agent</h2>
+  </div>
+
+  <p>这是离用户最近的一层。大模型本身是一个「通用语言引擎」，但要真正解决业务问题，需要在上面叠加检索增强、工具调用、智能体编排等能力。</p>
+
+  <div class="card">
+    <h3>RAG（检索增强生成）</h3>
+    <p><span class="tag tag-app">应用核心</span> 解决大模型「幻觉」和「知识过时」两大问题的关键架构。</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-dot" style="background: var(--grad6);">1</div>
+        <div class="flow-content">
+          <h4>知识入库</h4>
+          <p>将企业文档、知识库切分为小块，通过 Embedding 模型转化为向量，存入向量数据库（如 Milvus、Pinecone、FAISS）。</p>
+        </div>
+      </div>
+      <div class="flow-line"></div>
+      <div class="flow-step">
+        <div class="flow-dot" style="background: var(--grad6);">2</div>
+        <div class="flow-content">
+          <h4>检索</h4>
+          <p>用户提问时，先将问题转为向量，在向量数据库中检索最相关的文档片段。常用方法：向量相似度（cosine）+ BM25 混合检索 + 交叉编码器重排序。</p>
+        </div>
+      </div>
+      <div class="flow-line"></div>
+      <div class="flow-step">
+        <div class="flow-dot" style="background: var(--grad6);">3</div>
+        <div class="flow-content">
+          <h4>增强生成</h4>
+          <p>将检索到的相关文档片段作为上下文，与用户问题一起喂给大模型，让模型基于真实资料生成回答，而非「凭空编造」。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-why">
+      <strong>RAG 的业务价值</strong>：让企业可以用自己的私有知识库驱动 AI，无需重新训练模型。例如：用公司制度文档做一个内部问答机器人、用产品手册做智能客服。这是目前企业 AI 应用落地最主流的方案。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Function Calling（工具调用）</h3>
+    <p><span class="tag tag-app">应用核心</span> 让大模型从「只能说」进化到「能做事」的关键技术。</p>
+
+    <p><strong>原理</strong>：大模型并不能真正执行外部代码，它的本质是像「写代码」一样输出被调用的函数名和参数。外部程序接收这些参数去真正执行，再把结果返回给模型生成最终回复。</p>
+
+    <h4>工作流程</h4>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-dot" style="background: var(--grad5);">1</div>
+        <div class="flow-content">
+          <h4>定义工具</h4>
+          <p>开发者用 JSON Schema 描述可用工具列表（如查天气、查库存、发邮件），每个工具包含名称、描述和参数定义。</p>
+        </div>
+      </div>
+      <div class="flow-line"></div>
+      <div class="flow-step">
+        <div class="flow-dot" style="background: var(--grad5);">2</div>
+        <div class="flow-content">
+          <h4>模型决策</h4>
+          <p>用户提问后，模型判断是否需要调用工具。如果需要，输出工具名和参数（如 <code>{"tool": "get_weather", "city": "杭州"}</code>）。</p>
+        </div>
+      </div>
+      <div class="flow-line"></div>
+      <div class="flow-step">
+        <div class="flow-dot" style="background: var(--grad5);">3</div>
+        <div class="flow-content">
+          <h4>执行与反馈</h4>
+          <p>外部程序执行工具调用，获取结果（如「杭州，晴，28°C」），将结果返回给模型，模型据此生成最终的自然语言回答。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Agent（智能体）</h3>
+    <p><span class="tag tag-app">前沿方向</span> Agent 是大模型应用的最高形态——让 AI 不仅能回答问题，还能<strong>自主规划、分步执行复杂任务</strong>。</p>
+
+    <h4>Agent 的核心能力</h4>
+    <div class="grid3">
+      <div>
+        <h4>规划（Planning）</h4>
+        <p>将复杂任务分解为多个子步骤。核心技术：思维链（CoT）、ReAct（推理+行动交替）、任务树分解。</p>
+      </div>
+      <div>
+        <h4>工具使用（Tool Use）</h4>
+        <p>通过 Function Calling 调用外部工具——搜索引擎、数据库、API、代码执行器等，突破纯文本限制。</p>
+      </div>
+      <div>
+        <h4>记忆（Memory）</h4>
+        <p>短期记忆（对话上下文）+ 长期记忆（向量存储历史交互），让 Agent 在长对话和多轮任务中保持一致。</p>
+      </div>
+    </div>
+
+    <h4>典型 Agent 应用</h4>
+    <table>
+      <tr><th>场景</th><th>Agent 做什么</th><th>调用的工具</th></tr>
+      <tr><td>数据分析 Agent</td><td>理解分析需求 → 写 SQL → 执行查询 → 生成报告</td><td>数据库、Python、可视化工具</td></tr>
+      <tr><td>客服 Agent</td><td>理解问题 → 查知识库 → 判断能否回答 → 转人工</td><td>RAG 检索、工单系统、CRM</td></tr>
+      <tr><td>编程 Agent</td><td>理解需求 → 写代码 → 运行测试 → 修复 Bug</td><td>代码编辑器、终端、Git</td></tr>
+      <tr><td>办公 Agent</td><td>理解指令 → 查日历 → 创建会议 → 发邮件通知</td><td>日历 API、邮件 API、IM</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>提示工程（Prompt Engineering）</h3>
+    <p><span class="tag tag-opt">基础技能</span> 不修改模型，通过设计输入提示来引导模型输出期望结果。这是使用大模型最低成本、最高频的优化手段。</p>
+
+    <table>
+      <tr><th>技巧</th><th>原理</th><th>适用场景</th></tr>
+      <tr><td><strong>Zero-shot</strong></td><td>直接提问，不给示例</td><td>简单分类、翻译</td></tr>
+      <tr><td><strong>Few-shot</strong></td><td>给 2~5 个示例，让模型学习模式</td><td>格式一致性要求高的任务</td></tr>
+      <tr><td><strong>思维链（CoT）</strong></td><td>要求模型「一步步思考」再给答案</td><td>数学、逻辑推理、复杂分析</td></tr>
+      <tr><td><strong>角色设定</strong></td><td>给模型指定角色身份和行为约束</td><td>客服、顾问、特定风格生成</td></tr>
+      <tr><td><strong>结构化输出</strong></td><td>要求模型输出 JSON/XML 等格式</td><td>数据提取、结构化信息生成</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== Section 8: Ecosystem ===== -->
+<div class="section" id="ecosystem">
+  <div class="section-header">
+    <div class="section-num" style="background: var(--grad1);">8</div>
+    <h2>产业生态与商业模式</h2>
+  </div>
+
+  <div class="card">
+    <h3>产业链角色图谱</h3>
+    <table>
+      <tr><th>层级</th><th>角色</th><th>代表公司</th><th>商业模式</th></tr>
+      <tr><td><strong>基础设施</strong></td><td>芯片/算力提供商</td><td>NVIDIA、AMD、华为昇腾</td><td>卖 GPU / 云算力租赁</td></tr>
+      <tr><td><strong>基座模型</strong></td><td>大模型研发者</td><td>OpenAI、Anthropic、阿里通义、DeepSeek</td><td>API 调用收费 + 企业定制</td></tr>
+      <tr><td><strong>中间层</strong></td><td>工具/平台服务商</td><td>LangChain、LlamaIndex、Dify、FastGPT</td><td>SaaS 订阅 / 开源增值</td></tr>
+      <tr><td><strong>应用层</strong></td><td>垂直应用开发者</td><td>各行业的 AI SaaS 公司</td><td>终端用户订阅 / 按效果付费</td></tr>
+      <tr><td><strong>数据层</strong></td><td>数据标注/治理</td><td>Scale AI、海天瑞声、整数智能</td><td>按标注量计费</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>成本结构（以一次 GPT-4 级别模型训练为例）</h3>
+    <table>
+      <tr><th>成本项</th><th>占比</th><th>估算金额</th></tr>
+      <tr><td>GPU 算力（训练）</td><td>~50%</td><td>$50M ~ $100M</td></tr>
+      <tr><td>数据采购与标注</td><td>~15%</td><td>$10M ~ $30M</td></tr>
+      <tr><td>人才（研究员+工程师）</td><td>~20%</td><td>$20M ~ $40M</td></tr>
+      <tr><td>GPU 算力（推理运营）</td><td>~10%</td><td>持续支出，按月计</td></tr>
+      <tr><td>其他（电力、网络、运维）</td><td>~5%</td><td>$5M ~ $10M</td></tr>
+    </table>
+
+    <div class="callout callout-warn">
+      <strong>注意</strong>：以上为前沿模型成本。对于应用层企业，使用 API 调用的成本远低于自训模型——一次 API 调用成本通常在 $0.001~$0.05 之间。绝大多数企业不需要自己训基座模型。
+    </div>
+  </div>
+</div>
+
+<!-- ===== Section 9: LLM Evolution Timeline ===== -->
+<div class="section" id="timeline">
+  <div class="section-header">
+    <div class="section-num" style="background: var(--grad2);">9</div>
+    <h2>全球大模型进化时间线（2020~2026）</h2>
+  </div>
+
+  <p>以下时间线回溯近 5 年全球主要大模型的关键发布节点，按时间排列。不同国家/地区用标签区分：<span class="tag tag-core">美国</span> <span class="tag tag-app">中国</span> <span class="tag tag-opt">欧洲</span> <span class="tag" style="background:rgba(240,136,62,0.15);color:var(--warn);">日韩</span></p>
+
+  <style>
+    .tl { position: relative; margin: 24px 0; padding-left: 32px; }
+    .tl::before { content: ''; position: absolute; left: 14px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+    .tl-item { position: relative; margin-bottom: 28px; }
+    .tl-dot { position: absolute; left: -25px; top: 6px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--accent); background: var(--bg); }
+    .tl-item.cn .tl-dot { border-color: var(--accent3); }
+    .tl-item.eu .tl-dot { border-color: var(--accent2); }
+    .tl-item.jk .tl-dot { border-color: var(--warn); }
+    .tl-date { font-size: 0.82em; color: var(--text2); font-weight: 600; }
+    .tl-title { font-size: 1.05em; font-weight: 700; margin: 4px 0; }
+    .tl-desc { font-size: 0.88em; color: var(--text2); line-height: 1.6; }
+    .tl-tag { display: inline-block; padding: 1px 8px; border-radius: 12px; font-size: 0.7em; font-weight: 600; margin-left: 6px; vertical-align: middle; }
+    .tl-tag-us { background: rgba(88,166,255,0.15); color: var(--accent); }
+    .tl-tag-cn { background: rgba(210,168,255,0.15); color: var(--accent3); }
+    .tl-tag-eu { background: rgba(126,231,135,0.15); color: var(--accent2); }
+    .tl-tag-jk { background: rgba(240,136,62,0.15); color: var(--warn); }
+  </style>
+
+  <div class="tl">
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2020 年 5 月</div>
+      <div class="tl-title">GPT-3 <span class="tl-tag tl-tag-us">美国 · OpenAI</span></div>
+      <div class="tl-desc">175B 参数，首次展示「大规模语言模型 + In-context Learning」的涌现能力。无需微调即可通过提示词完成翻译、问答、代码生成等任务。标志着大模型时代的真正开端。</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2021 年 1 月</div>
+      <div class="tl-title">DALL·E <span class="tl-tag tl-tag-us">美国 · OpenAI</span></div>
+      <div class="tl-desc">首个大规模文本到图像生成模型，基于 GPT 架构 + VQ-VAE，展示了多模态生成的可能性。</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2021 年 10 月</div>
+      <div class="tl-title">文心大模型 ERNIE 3.0 <span class="tl-tag tl-tag-cn">中国 · 百度</span></div>
+      <div class="tl-desc">百度发布千亿参数级中文大模型，融合知识图谱预训练，在中文 NLP 任务上达到领先水平。标志中国大厂全面入局大模型赛道。</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2022 年 3 月</div>
+      <div class="tl-title">PaLM <span class="tl-tag tl-tag-us">美国 · Google</span></div>
+      <div class="tl-desc">540B 参数，使用 JAX + TPU v4 训练。在推理、代码生成和常识问答上超越 GPT-3，展示 Google 在大规模训练工程上的实力。</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2022 年 11 月</div>
+      <div class="tl-title">ChatGPT（基于 GPT-3.5 + RLHF）<span class="tl-tag tl-tag-us">美国 · OpenAI</span></div>
+      <div class="tl-desc">大模型产业的「iPhone 时刻」。通过 RLHF 对齐技术让模型输出符合人类对话习惯，上线 5 天用户破百万，2 个月破亿，成为历史上增长最快的消费级应用。彻底引爆全球 AI 热潮。</div>
+    </div>
+
+    <div class="tl-item cn">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2023 年 3 月</div>
+      <div class="tl-title">通义千问 Qwen / 文心一言 / 天工 / 星火<span class="tl-tag tl-tag-cn">中国 · 阿里/百度/昆仑万维/科大讯飞</span></div>
+      <div class="tl-desc">中国「百模大战」序幕拉开。阿里发布通义千问、百度文心一言正式版、科大讯飞星火等相继开放。中国大模型在中文理解和文化知识上展现差异化优势。</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2023 年 3 月</div>
+      <div class="tl-title">GPT-4 <span class="tl-tag tl-tag-us">美国 · OpenAI</span></div>
+      <div class="tl-desc">多模态旗舰（文本+图像输入），推理能力大幅跃升。在律师资格考试中位列前 10%，SAT 数学满分。确立了大模型能力的「天花板标杆」。</div>
+    </div>
+
+    <div class="tl-item cn">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2023 年 7 月</div>
+      <div class="tl-title">LLaMA 2 开源 <span class="tl-tag tl-tag-us">美国 · Meta</span> / <span class="tl-tag tl-tag-cn">中国生态跟进</span></div>
+      <div class="tl-desc">Meta 开源 7B/13B/70B 三档模型并允许商用，引爆开源大模型生态。中国团队迅速在此基础上做中文增量训练，催生了 Chinese-LLaMA、Baichuan 等开源项目。</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2023 年 11 月</div>
+      <div class="tl-title">Qwen-72B 开源 / DeepSeek-Coder <span class="tl-tag tl-tag-cn">中国 · 阿里 / DeepSeek</span></div>
+      <div class="tl-desc">阿里开源 72B 稠密模型，多项 benchmark 超越 LLaMA 2。DeepSeek 发布代码专用模型，编程能力接近 GPT-3.5。中国开源模型开始进入全球第一梯队。</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2023 年 12 月</div>
+      <div class="tl-title">Gemini 1.0 <span class="tl-tag tl-tag-us">美国 · Google</span></div>
+      <div class="tl-desc">Google 发布原生多模态大模型（Ultra/Pro/Nano 三档），首次实现文本、图像、音频、视频的统一编码与理解，直接对标 GPT-4。</div>
+    </div>
+
+    <div class="tl-item eu">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2024 年 1 月</div>
+      <div class="tl-title">Mistral 7B / Mixtral 8x7B <span class="tl-tag tl-tag-eu">欧洲 · Mistral AI（法国）</span></div>
+      <div class="tl-desc">法国初创 Mistral AI 开源 7B 模型（超越 LLaMA 2 13B）和首个开源 MoE 模型 Mixtral 8x7B。以极少团队和资金做出顶级模型，震动业界。欧洲大模型的旗帜。</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2024 年 3 月</div>
+      <div class="tl-title">Claude 3（Opus/Sonnet/Haiku）<span class="tl-tag tl-tag-us">美国 · Anthropic</span></div>
+      <div class="tl-desc">Anthropic 发布 Claude 3 系列，Opus 在多项测试中超越 GPT-4。首创 Constitutional AI 安全对齐方法，安全性成为差异化竞争力。</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2024 年 5 月</div>
+      <div class="tl-title">GPT-4o <span class="tl-tag tl-tag-us">美国 · OpenAI</span></div>
+      <div class="tl-desc">「o」代表「omni」（全能）。原生多模态模型，支持文本、图像、音频实时交互。推理速度比 GPT-4 Turbo 快 2 倍，成本降低 50%。</div>
+    </div>
+
+    <div class="tl-item cn">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2024 年 6 月</div>
+      <div class="tl-title">Qwen2 系列 <span class="tl-tag tl-tag-cn">中国 · 阿里</span></div>
+      <div class="tl-desc">阿里发布 Qwen2 全尺寸系列（0.5B~72B），多语言能力和代码能力大幅提升。在 HuggingFace 开源榜单上多次登顶，成为中国开源大模型的标杆。</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2024 年 7 月</div>
+      <div class="tl-title">LLaMA 3.1 405B <span class="tl-tag tl-tag-us">美国 · Meta</span></div>
+      <div class="tl-desc">Meta 发布 405B 参数开源模型，首个开源模型在综合能力上接近 GPT-4 水平。128K 上下文，8/16 语种支持。开源社区的里程碑。</div>
+    </div>
+
+    <div class="tl-item cn">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2024 年 9 月</div>
+      <div class="tl-title">Qwen2.5 全系列 <span class="tl-tag tl-tag-cn">中国 · 阿里</span></div>
+      <div class="tl-desc">涵盖 0.5B 到 72B 的完整尺寸矩阵，配套代码模型 Qwen2.5-Coder 和数学模型 Qwen2.5-Math，在垂直领域达到开源最优。</div>
+    </div>
+
+    <div class="tl-item cn">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2024 年 12 月</div>
+      <div class="tl-title">DeepSeek-V3 <span class="tl-tag tl-tag-cn">中国 · DeepSeek</span></div>
+      <div class="tl-desc">671B MoE 架构（每次激活 37B），训练成本仅 $5.6M（2048 块 H800），效果比肩 GPT-4o 和 Claude 3.5 Sonnet。以极低成本实现顶级性能，震动全球 AI 产业，引发美股科技股大跌。</div>
+    </div>
+
+    <div class="tl-item cn">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2025 年 1 月</div>
+      <div class="tl-title">DeepSeek-R1 <span class="tl-tag tl-tag-cn">中国 · DeepSeek</span></div>
+      <div class="tl-desc">推理能力模型，通过强化学习（非 SFT）训练出「思考链」能力。在数学和编程推理上达到 o1 水平。开源发布，推动全球「推理模型」热潮。</div>
+    </div>
+
+    <div class="tl-item jk">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2025 年 2 月</div>
+      <div class="tl-title">Sakana AI / Preferred Networks <span class="tl-tag tl-tag-jk">日本</span> / <span class="tl-tag tl-tag-jk">韩国 · Naver</span></div>
+      <div class="tl-desc">日本 Sakana AI（由前 Google 研究员创办）发布「进化模型优化」方法，用 AI 自动优化 AI 模型架构。韩国 Naver 的 HyperCLOVA X 持续迭代，在韩语任务上保持领先。日韩在大模型赛道上更聚焦垂直场景和效率优化。</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2025 年 2 月</div>
+      <div class="tl-title">Gemini 2.0 / Claude 3.7 Sonnet <span class="tl-tag tl-tag-us">美国 · Google / Anthropic</span></div>
+      <div class="tl-desc">Google Gemini 2.0 支持 200 万 token 上下文、原生 Agent 能力。Anthropic Claude 3.7 Sonnet 首创「扩展思考」模式，用户可控制思考深度。推理模型成为主流方向。</div>
+    </div>
+
+    <div class="tl-item cn">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2025 年 4 月</div>
+      <div class="tl-title">Qwen3 / Kimi k1.5 <span class="tl-tag tl-tag-cn">中国 · 阿里 / 月之暗面</span></div>
+      <div class="tl-desc">Qwen3 235B（MoE，激活 22B）支持「思考/直答」双模式切换。月之暗面 Kimi k1.5 在长文本推理上取得突破。中国模型在推理能力上快速追赶。</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2025 年 4~5 月</div>
+      <div class="tl-title">o3 / GPT-4.1 / Claude 4 <span class="tl-tag tl-tag-us">美国 · OpenAI / Anthropic</span></div>
+      <div class="tl-desc">OpenAI 发布 o3 推理模型和 GPT-4.1（代码能力大幅提升）。Anthropic 发布 Claude 4（Opus/Sonnet），在编程和长任务执行上实现新突破。大模型能力持续攀升。</div>
+    </div>
+
+    <div class="tl-item cn">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2025 年 7~10 月</div>
+      <div class="tl-title">DeepSeek-V3.1 / Qwen3-Max / GLM-5 <span class="tl-tag tl-tag-cn">中国 · DeepSeek / 阿里 / 智谱</span></div>
+      <div class="tl-desc">DeepSeek 迭代 V3.1 版本，强化代码和工具调用能力。阿里发布 Qwen3-Max 闭源旗舰模型。智谱 GLM-5 在多模态和 Agent 能力上大幅升级。中国模型生态日趋成熟。</div>
+    </div>
+
+    <div class="tl-item eu">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2025~2026 年</div>
+      <div class="tl-title">Mistral Large / Aleph Alpha <span class="tl-tag tl-tag-eu">欧洲 · Mistral AI / Aleph Alpha（德国）</span></div>
+      <div class="tl-desc">Mistral 持续迭代闭源旗舰模型 Mistral Large，主攻欧洲企业市场。德国 Aleph Alpha 聚焦政企私有化部署。欧盟《AI 法案》生效，成为全球首个全面监管 AI 的法律框架。</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2026 年</div>
+      <div class="tl-title">Agent 生态爆发与多模态融合 <span class="tl-tag tl-tag-us">全球</span></div>
+      <div class="tl-desc">大模型竞争焦点从「参数规模」转向「Agent 能力」「工具调用精度」和「多模态融合」。主流模型均支持文本/图像/音频/视频统一理解和生成。端侧部署（Apple Intelligence、高通骁龙 NPU）成为新战场。开源与闭源生态并行发展。</div>
+    </div>
+
+  </div>
+
+  <div class="callout callout-key">
+    <strong>关键趋势总结</strong>：2020~2023 年是「参数军备赛」阶段，模型越来越大；2024 年起进入「效率革命」阶段，MoE 架构和训练优化让低成本训出顶级模型成为可能（DeepSeek 为代表）；2025~2026 年进入「推理+Agent」阶段，模型能力重心从「知识记忆」转向「深度推理」和「自主执行」。中国模型在开源生态中快速追赶，中美差距持续缩小。
+  </div>
+</div>
+
+<!-- Sources -->
+<div class="sources" id="references">
+  <h2>参考来源</h2>
+  <a href="https://arxiv.org/html/2404.12736v1" target="_blank">Large Language Model Supply Chain: A Research Agenda (ACM / arXiv, 2024)</a>
+  <a href="https://intl.cloud.baidu.com/zh/article/9107476" target="_blank">从理论到实践：大模型开发全流程指南 (百度智能云)</a>
+  <a href="https://developer.aliyun.com/article/1760533" target="_blank">大模型部署与推理优化全解析：量化、蒸馏与加速技术深度解读 (阿里云开发者社区)</a>
+  <a href="https://blog.ailemon.net/2025/04/09/function-call-introduction-ai-llm/" target="_blank">Function Call 讲解：AI 大模型走向实用化的关键一步</a>
+  <a href="https://aws.amazon.com/cn/what-is/reinforcement-learning-from-human-feedback/" target="_blank">什么是 RLHF？基于人类反馈的强化学习简介 (AWS)</a>
+  <a href="https://huggingface.co/blog/zh/rlhf" target="_blank">ChatGPT 背后的「功臣」—— RLHF 技术详解 (HuggingFace)</a>
+  <a href="https://www.nature.com/articles/s41598-025-98483-1" target="_blank">Industrial applications of large language models (Nature, 2025)</a>
+  <a href="https://www.fortunebusinessinsights.com/large-language-model-market-118113" target="_blank">Large Language Model Market Size, Share, Forecast 2034 (Fortune Business Insights)</a>
+  <a href="https://help.aliyun.com/zh/model-studio/qwen-function-calling" target="_blank">如何通过 Function Calling 实现工具调用 (阿里云文档)</a>
+  <a href="https://matt33.com/2026/07/09/llm-model-compression/" target="_blank">LLM 模型压缩：如何降低大模型推理成本</a>
+</div>
+
+<footer>
+  <p>小树dev · 综合多源研报与技术文献整理 · 2026 年 11 月</p>
+  <p style="margin-top:8px; font-size: 0.85em;">本报告旨在帮助非技术背景读者理解大模型产业链全貌，内容基于公开研报与技术文献综合整理，不构成投资建议。</p>
+</footer>
+
+</div>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+  });
+</script>
+</body>
+</html>
