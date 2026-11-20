@@ -13,6 +13,11 @@ const REPORT_CARDS = [
     title: '大模型从开发到应用 · 产业链全景研报',
     meta: '2026-11 · 8 层产业链 · 6 大章节',
   },
+  {
+    file: '/reports/llm-infra-kitchen-analogy.html',
+    title: '大模型 Infra：一座大型饭店厨房的完整运作指南',
+    meta: '2026-11 · 9 大系统 · 全景类比',
+  },
 ] as const;
 
 export default function BasicsPage() {
