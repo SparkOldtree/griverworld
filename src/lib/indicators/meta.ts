@@ -6,8 +6,8 @@ export type Direction = 'up_good' | 'down_good' | 'neutral';
 export type IndicatorStatus = 'active' | 'pending';
 
 export interface FetchConfig {
-  /** cn_report: 东方财富中国报表; cn_rate: 东方财富利率报表（如 LPR）; us_indicator: 东方财富美国指标库; fred: FRED CSV（日/月频，取月末值）; cn_kline: 东方财富行情 K 线（日频，取月末值）; icbc_deposit: 工行挂牌存款利率（阶梯序列，月度前向填充） */
-  kind: 'cn_report' | 'cn_rate' | 'us_indicator' | 'fred' | 'cn_kline' | 'icbc_deposit' | null;
+  /** cn_report: 东方财富中国报表; cn_rate: 东方财富利率报表（如 LPR）; us_indicator: 东方财富美国指标库; fred: FRED CSV（日/月频，取月末值）; cn_kline: 东方财富行情 K 线（日频，取月末值）; icbc_deposit: 工行挂牌存款利率（阶梯序列，月度前向填充）; mofcom_sf: 商务部数据中心社融接口 */
+  kind: 'cn_report' | 'cn_rate' | 'us_indicator' | 'fred' | 'cn_kline' | 'icbc_deposit' | 'mofcom_sf' | null;
   /** cn: 报表名; us: INDICATOR_ID; fred: FRED 序列号; kline: secid; icbc_deposit: 利率字段名（如 zczqOneYear） */
   ref: string;
   /** cn: 取值字段名 */
@@ -246,13 +246,13 @@ export const INDICATOR_META: IndicatorMeta[] = [
     unit: '亿元',
     direction: 'neutral',
     neutral: 0,
-    status: 'pending',
-    agency: '中国人民银行',
+    status: 'active',
+    agency: '中国人民银行（商务部数据中心转发）',
     frequency: '月度',
-    lag: '月后 10-15 日发布',
+    lag: '月后 10-15 日发布（商务部平台转发存在滞后）',
     definition: '实体经济从金融体系获得的资金总量，包括信贷、债券、股票、信托等，反映信用扩张力度。',
-    note: '数据源待接入（东方财富暂未提供该报表，央行无公开 API），后续可尝试接入 FRED 或官方爬取。',
-    fetch: { kind: null, ref: '' },
+    note: '数据经商务部数据中心接口获取（源头为中国人民银行），平台转发存在数月滞后；季节性极强（1/3/6 月为投放大月），宜看同比与多个月移动平均。',
+    fetch: { kind: 'mofcom_sf', ref: 'tiosfs' },
   },
   {
     code: 'CN_10Y',

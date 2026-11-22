@@ -259,6 +259,26 @@ async function fetchIcbcDeposit(meta) {
   return series;
 }
 
+/** 采集社融增量（商务部数据中心接口，源头为中国人民银行；JSON 数组，date=YYYYMM，tiosfs=社融增量亿元） */
+async function fetchMofcomSf(meta) {
+  const res = await fetch('https://data.mofcom.gov.cn/datamofcom/front/gnmy/shrzgmQuery', {
+    method: 'POST',
+    headers: { ...HEADERS, Referer: 'https://data.mofcom.gov.cn/gnmy/shrzgm.shtml' },
+  });
+  if (!res.ok) throw new Error(`MOFCOM HTTP ${res.status}`);
+  const rows = await res.json();
+  if (!Array.isArray(rows) || rows.length === 0) throw new Error('MOFCOM 社融列表为空');
+  const series = [];
+  for (const row of rows) {
+    const v = transform(row[meta.fetch.ref], meta);
+    if (v === null) continue;
+    const ym = String(row.date);
+    if (!/^\d{6}$/.test(ym)) continue;
+    series.push({ date: `${ym.slice(0, 4)}-${ym.slice(4)}`, value: v });
+  }
+  return applyExclude(series, meta);
+}
+
 async function main() {
   const summary = [];
   let okCount = 0;
@@ -287,7 +307,9 @@ async function main() {
                 ? await fetchKline(meta)
                 : meta.fetch.kind === 'icbc_deposit'
                   ? await fetchIcbcDeposit(meta)
-                  : await fetchCn(meta);
+                  : meta.fetch.kind === 'mofcom_sf'
+                    ? await fetchMofcomSf(meta)
+                    : await fetchCn(meta);
 
       if (series.length === 0) {
         logFetch(code, 'error', '未获取到数据');
