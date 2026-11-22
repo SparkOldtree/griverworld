@@ -6,9 +6,9 @@ export type Direction = 'up_good' | 'down_good' | 'neutral';
 export type IndicatorStatus = 'active' | 'pending';
 
 export interface FetchConfig {
-  /** cn_report: 东方财富中国报表; cn_rate: 东方财富利率报表（如 LPR）; us_indicator: 东方财富美国指标库; fred: FRED CSV（日/月频，取月末值）; cn_kline: 东方财富行情 K 线（日频，取月末值） */
-  kind: 'cn_report' | 'cn_rate' | 'us_indicator' | 'fred' | 'cn_kline' | null;
-  /** cn: 报表名; us: INDICATOR_ID; fred: FRED 序列号; kline: secid */
+  /** cn_report: 东方财富中国报表; cn_rate: 东方财富利率报表（如 LPR）; us_indicator: 东方财富美国指标库; fred: FRED CSV（日/月频，取月末值）; cn_kline: 东方财富行情 K 线（日频，取月末值）; icbc_deposit: 工行挂牌存款利率（阶梯序列，月度前向填充） */
+  kind: 'cn_report' | 'cn_rate' | 'us_indicator' | 'fred' | 'cn_kline' | 'icbc_deposit' | null;
+  /** cn: 报表名; us: INDICATOR_ID; fred: FRED 序列号; kline: secid; icbc_deposit: 利率字段名（如 zczqOneYear） */
   ref: string;
   /** cn: 取值字段名 */
   field?: string;
@@ -313,6 +313,46 @@ export const INDICATOR_META: IndicatorMeta[] = [
     definition: '贷款市场报价利率（LPR）5 年期以上品种，是房贷利率的主要定价基准，反映长期信贷成本。',
     note: '5 年期以上 LPR 调整频率低于 1 年期；房贷重定价周期多为 1 年，LPR 下调对存量房贷的影响存在时滞。',
     fetch: { kind: 'cn_rate', ref: 'RPTA_WEB_RATE', field: 'LPR5Y' },
+  },
+  {
+    code: 'CN_DEP1Y',
+    region: 'CN',
+    regionName: '中国',
+    name: '居民存款挂牌利率：1 年期整存整取',
+    shortName: '存款 1年',
+    theme: 'deposit',
+    themeName: '居民存款挂牌利率（整存整取）',
+    category: '利率',
+    unit: '%',
+    direction: 'neutral',
+    neutral: 0,
+    status: 'active',
+    agency: '中国工商银行（官网挂牌利率）',
+    frequency: '不定期（利率调整日）',
+    lag: '调整当日生效',
+    definition: '工商银行官网公布的人民币整存整取 1 年期挂牌利率，是居民定期存款实际执行的基准参考，与 LPR 贷款利率对照可观察银行净息差。',
+    note: '四大行挂牌利率同步调整，工行为代表口径；2022 年 10 月起存款利率由市场化调整机制决定，实际利率可上浮。2025-05-20 起为 0.95%。',
+    fetch: { kind: 'icbc_deposit', ref: 'zczqOneYear' },
+  },
+  {
+    code: 'CN_DEP5Y',
+    region: 'CN',
+    regionName: '中国',
+    name: '居民存款挂牌利率：5 年期整存整取',
+    shortName: '存款 5年',
+    theme: 'deposit',
+    themeName: '居民存款挂牌利率（整存整取）',
+    category: '利率',
+    unit: '%',
+    direction: 'neutral',
+    neutral: 0,
+    status: 'active',
+    agency: '中国工商银行（官网挂牌利率）',
+    frequency: '不定期（利率调整日）',
+    lag: '调整当日生效',
+    definition: '工商银行官网公布的人民币整存整取 5 年期挂牌利率，长期限居民存款的实际执行利率，与 5 年期以上 LPR 对照观察存贷两端长期利率。',
+    note: '四大行挂牌利率同步调整，工行为代表口径；2025-05-20 起为 1.30%，与 1 年期利差反映期限溢价。',
+    fetch: { kind: 'icbc_deposit', ref: 'zczqFiveYears' },
   },
 
   // ================= 美国（12 项） =================

@@ -192,6 +192,73 @@ async function fetchUs(meta) {
   return applyExclude(series, meta);
 }
 
+/** 采集工行挂牌存款利率（papi.icbc.com.cn 官方接口；阶梯序列 → 月度前向填充）
+ *  注意：工行服务器使用 legacy TLS 重协商，Node 内置 fetch（OpenSSL3 默认禁用）会报
+ *  ERR_SSL_UNSAFE_LEGACY_RENEGOTIATION_DISABLED，需用 https.Agent 开启
+ *  SSL_OP_LEGACY_SERVER_CONNECT 选项绕过。 */
+import https from 'node:https';
+import crypto from 'node:crypto';
+
+const ICBC_AGENT = new https.Agent({
+  secureOptions: crypto.constants.SSL_OP_LEGACY_SERVER_CONNECT,
+});
+
+/** GET JSON（工行接口专用 agent） */
+function icbcGetJson(url) {
+  return new Promise((resolve, reject) => {
+    https.get(
+      url,
+      { agent: ICBC_AGENT, headers: { 'User-Agent': HEADERS['User-Agent'], Referer: 'https://www.icbc.com.cn/' } },
+      (res) => {
+        if (res.statusCode !== 200) {
+          res.resume();
+          reject(new Error(`ICBC HTTP ${res.statusCode}`));
+          return;
+        }
+        let d = '';
+        res.setEncoding('utf8');
+        res.on('data', (c) => (d += c));
+        res.on('end', () => {
+          try { resolve(JSON.parse(d)); } catch (e) { reject(e); }
+        });
+      },
+    ).on('error', reject);
+  });
+}
+
+async function fetchIcbcDeposit(meta) {
+  const list = await icbcGetJson('https://papi.icbc.com.cn/interestRate/deposit/queryRMBDepositDateList?type=CH');
+  const dates = list?.data;
+  if (list?.code !== 0 || !Array.isArray(dates) || dates.length === 0) throw new Error('ICBC 日期列表为空');
+
+  // 逐版本取利率（dateList 即全部调整日，每个版本一次请求）
+  const versions = [];
+  for (const date of [...dates].sort()) {
+    try {
+      const j = await icbcGetJson(`https://papi.icbc.com.cn/interestRate/deposit/queryRMBDepositInfo?type=CH&date=${date}`);
+      const v = transform(j?.data?.[meta.fetch.ref], meta);
+      if (v !== null) versions.push({ date: date.slice(0, 7), value: v });
+    } catch {
+      // 单个版本失败跳过，不影响其余版本
+    }
+  }
+  if (versions.length === 0) return [];
+
+  // 阶梯序列 → 月度序列（每月取当月生效的最新版本利率，前向填充）
+  const start = versions[0].date;
+  const end = new Date().toISOString().slice(0, 7);
+  const series = [];
+  let idx = 0;
+  let m = start;
+  while (m <= end) {
+    while (idx + 1 < versions.length && versions[idx + 1].date <= m) idx++;
+    series.push({ date: m, value: versions[idx].value });
+    const [y, mm] = m.split('-').map(Number);
+    m = mm === 12 ? `${y + 1}-01` : `${y}-${String(mm + 1).padStart(2, '0')}`;
+  }
+  return series;
+}
+
 async function main() {
   const summary = [];
   let okCount = 0;
@@ -218,7 +285,9 @@ async function main() {
               ? await fetchFred(meta)
               : meta.fetch.kind === 'cn_kline'
                 ? await fetchKline(meta)
-                : await fetchCn(meta);
+                : meta.fetch.kind === 'icbc_deposit'
+                  ? await fetchIcbcDeposit(meta)
+                  : await fetchCn(meta);
 
       if (series.length === 0) {
         logFetch(code, 'error', '未获取到数据');
