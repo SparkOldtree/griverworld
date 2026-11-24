@@ -351,5 +351,11 @@
     "title": "167年的数学题，AI交卷了（AI夜读11.23）",
     "digest": "Lean 社区认证黎曼猜想 AI 证明；美股 AI 一周蒸发 4 万亿；DeepSeek 约千亿融资落定。",
     "pushedAt": "2026-11-23T02:35:26.691Z"
+  },
+  "2026-11-24": {
+    "media_id": "vLBQfF8DVid06M94PLZVZJdzNgQwsZPFTn8XSg2uqE7BgSVNsjjxtWVSKJu9NU_D",
+    "title": "智谱用7500亿参数跑出3T智能（AI夜读11.24）",
+    "digest": "智谱 GLM-5.4 用循环架构换深度；DeepMind 智能体把量子算法提速 290 倍；OpenAI 提议按困惑度设行业上限。",
+    "pushedAt": "2026-11-24T01:01:06.782Z"
   }
 }
