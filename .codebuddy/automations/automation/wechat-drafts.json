@@ -294,9 +294,9 @@
     "pushedAt": "2026-11-10T01:09:31.564Z"
   },
   "_cover": {
-    "hash": "8d560d2bf01dc37b94ff576f9105a9a0",
-    "media_id": "vLBQfF8DVid06M94PLZVZNiVqnHRhynBmcN_ZB3toflZckQB09mnePxNM4vQRgyJ",
-    "uploadedAt": "2026-11-11T01:02:29.026Z"
+    "hash": "c1a6be411737e85d09782346cb1aa48c",
+    "media_id": "vLBQfF8DVid06M94PLZVZHeKr97U7qZ6RViLIc4ZpVGlDoTgXTi1itWFoh86Ojg1",
+    "uploadedAt": "2026-11-25T13:58:47.175Z"
   },
   "2026-11-11": {
     "media_id": "vLBQfF8DVid06M94PLZVZFJL__CRpw0hycHZbbw8i4bmbSXVIGu35Bsv9Gnng0kY",
@@ -359,9 +359,9 @@
     "pushedAt": "2026-11-24T01:01:06.782Z"
   },
   "2026-11-25": {
-    "media_id": "vLBQfF8DVid06M94PLZVZLhUQr62Ln4cE-CSjtir5MiewV5VArAAfRPPkTtRl4wI",
+    "media_id": "vLBQfF8DVid06M94PLZVZCYBD7yeRIudJ_0XXvvOsCzOrsi8nRlktuE1p9nJdBZY",
     "title": "Claude证出P≠NP，作者栏只有它（AI夜读11.25）",
     "digest": "Claude 唯一作者身份证出代数版 P≠NP，7.3 万行 Lean 过机检；Sierra 300 亿美元估值改按结果收费；国产模型一日扎堆开源。",
-    "pushedAt": "2026-11-25T01:00:20.652Z"
+    "pushedAt": "2026-11-25T13:58:51.712Z"
   }
 }
