@@ -1,7 +1,8 @@
 # Automation 执行记录
 
-## 2026-11-25（每日AI资讯生成 + 公众号推送成功）
+## 2026-11-25（每日AI资讯生成 + 公众号推送成功 + 当日封面补做）
 - 周三正常运行，去重窗口 11-19~11-24
+- **封面补做（用户手动触发 ai-news-cover skill）**：用户要求生成当日封面并确认后推送。意象「小机器人触碰悬浮的嵌套发光几何证明结构」（对应头条 Claude 证出代数版 P≠NP），image_gen 一次成功，1792×768 无文字，保存 public/images/covers/daily-news-cover-2026-11-25.png；用户确认后 --force 重推（旧草稿删除重建），封面已上传新 media_id vLBQfF8DVid06M94PLZVZHeKr97U7qZ6RViLIc4ZpVGlDoTgXTi1itWFoh86Ojg1，新草稿 media_id vLBQfF8DVid06M94PLZVZCYBD7yeRIudJ_0XXvvOsCzOrsi8nRlktuE1p9nJdBZY；封面提交 09e6c86；线上同步：宿主机先 git pull 再 docker cp 进容器+docker restart，封面 URL 与文章页均 200（注意：docker cp 前必须确认宿主机已 pull 到封面提交，否则 no such file）
 - 产出：content/news/daily-news-2026-11-25.md（33795 字节），已提交并推送 GitHub main（2420b4d），frontmatter 自检通过（120 文件正常），4b 线上部署一次成功（HEAD=2420b4d、文件 33795 字节、curl 200），禁用词零命中一次通过
 - 公众号：简报 .codebuddy/wechat/briefs/2026-11-25.md，title「Claude证出P≠NP，作者栏只有它（AI夜读11.25）」（抓眼球类，11-24 为硬新闻类，隔天轮换合规），声明行已含，推送一次成功（封面复用已上传素材），media_id: vLBQfF8DVid06M94PLZVZLhUQr62Ln4cE-CSjtir5MiewV5VArAAfRPPkTtRl4wI；简报与状态提交 75948ee
 - **GitHub 推送故障**：首次 push 报 remote Internal Server Error（Request ID 59D0:9519F...），重试时 ssh 报 Permission denied (publickey)，再隔 8 秒第三次重试成功——确认是 GitHub 侧 500 与 ssh-agent 瞬时抖动叠加，非配置问题；教训：遇到 publickey denied 先等 5-8 秒重试，不要急着改配置
