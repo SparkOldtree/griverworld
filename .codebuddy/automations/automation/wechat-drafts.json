@@ -357,5 +357,11 @@
     "title": "智谱用7500亿参数跑出3T智能（AI夜读11.24）",
     "digest": "智谱 GLM-5.4 用循环架构换深度；DeepMind 智能体把量子算法提速 290 倍；OpenAI 提议按困惑度设行业上限。",
     "pushedAt": "2026-11-24T01:01:06.782Z"
+  },
+  "2026-11-25": {
+    "media_id": "vLBQfF8DVid06M94PLZVZLhUQr62Ln4cE-CSjtir5MiewV5VArAAfRPPkTtRl4wI",
+    "title": "Claude证出P≠NP，作者栏只有它（AI夜读11.25）",
+    "digest": "Claude 唯一作者身份证出代数版 P≠NP，7.3 万行 Lean 过机检；Sierra 300 亿美元估值改按结果收费；国产模型一日扎堆开源。",
+    "pushedAt": "2026-11-25T01:00:20.652Z"
   }
 }
