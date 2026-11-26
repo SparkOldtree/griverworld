@@ -294,9 +294,9 @@
     "pushedAt": "2026-11-10T01:09:31.564Z"
   },
   "_cover": {
-    "hash": "c1a6be411737e85d09782346cb1aa48c",
-    "media_id": "vLBQfF8DVid06M94PLZVZHeKr97U7qZ6RViLIc4ZpVGlDoTgXTi1itWFoh86Ojg1",
-    "uploadedAt": "2026-11-25T13:58:47.175Z"
+    "hash": "8d560d2bf01dc37b94ff576f9105a9a0",
+    "media_id": "vLBQfF8DVid06M94PLZVZMsrZ7i4hz6ra11m9Zj_dns0kC_0415oqiciQEfYVmaZ",
+    "uploadedAt": "2026-11-26T01:17:01.545Z"
   },
   "2026-11-11": {
     "media_id": "vLBQfF8DVid06M94PLZVZFJL__CRpw0hycHZbbw8i4bmbSXVIGu35Bsv9Gnng0kY",
@@ -363,5 +363,11 @@
     "title": "Claude证出P≠NP，作者栏只有它（AI夜读11.25）",
     "digest": "Claude 唯一作者身份证出代数版 P≠NP，7.3 万行 Lean 过机检；Sierra 300 亿美元估值改按结果收费；国产模型一日扎堆开源。",
     "pushedAt": "2026-11-25T13:58:51.712Z"
+  },
+  "2026-11-26": {
+    "media_id": "vLBQfF8DVid06M94PLZVZGpjgJ5k-CSJl8aB6Qs2OgrtIJFU58y6e8_wQyF1_sU_",
+    "title": "视频生成降到5毛1秒（AI夜读11.26）",
+    "digest": "前沿模型强到内部不敢发；MAGI-2 把 1080P 视频打到 0.5 元/秒；小鹏 IRON 定档 2027 年 1 月量产；混元 224B 塞进 Mac mini。",
+    "pushedAt": "2026-11-26T01:17:05.281Z"
   }
 }
