@@ -369,5 +369,11 @@
     "title": "视频生成降到5毛1秒（AI夜读11.26）",
     "digest": "前沿模型强到内部不敢发；MAGI-2 把 1080P 视频打到 0.5 元/秒；小鹏 IRON 定档 2027 年 1 月量产；混元 224B 塞进 Mac mini。",
     "pushedAt": "2026-11-26T01:17:05.281Z"
+  },
+  "2026-11-27": {
+    "media_id": "vLBQfF8DVid06M94PLZVZCYv_KiSfh9bnaNtpY8jF-Bs9KXSIoz25Xn4sdrQG1CZ",
+    "title": "AI一周连破四道数学题（AI夜读11.27）",
+    "digest": "OpenAI 把矩阵乘法指数钉死 9/4；谷歌一条 Prompt 产出 274 页论文；智谱与月之暗面双双推迟旗舰；达利欧警告别把伟大技术当成伟大投资。",
+    "pushedAt": "2026-11-27T10:01:42.076Z"
   }
 }
